@@ -1,8 +1,33 @@
 #include <SDL2/SDL.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char* argv[])
 {
+
+  // Get displayModes from screen 0
+  int modeNumber = SDL_GetNumDisplayModes(0);
+  // Check the modeNumber
+  if (modeNumber < 0)
+  {
+    fprintf(stderr, "SDL_GetNumDisplayModes failed: %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+  fprintf(stdout, "displayModes: %d\n", modeNumber);
+
+  int i;
+  SDL_DisplayMode displayMode;
+  // Print each displayMode
+  for ( i = 0 ; i < modeNumber ; i++ )
+  {
+    // Try to get the displayMode
+    if (SDL_GetDisplayMode(0, i, &displayMode))
+    {
+      fprintf(stderr,"SDL_GetDisplayMode failed: %s\n",SDL_GetError());
+      exit(EXIT_FAILURE);
+    }
+    fprintf(stdout, "displayMode %d : %dx%dx%d\n", i, displayMode.w, displayMode.h, displayMode.refresh_rate);
+  }
 
   SDL_Window *window; // Declare a pointer, main window
 
@@ -10,7 +35,7 @@ int main(int argc, char* argv[])
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
   {
     fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
-    return 1;
+    exit(EXIT_FAILURE);
   }
 
   // Create an application window with the following settings:
@@ -28,35 +53,12 @@ int main(int argc, char* argv[])
   {
     // In the case that the window could not be made...
     fprintf(stderr, "SDL_CreateWindow failed: %s\n", SDL_GetError());
-    return 1;
-  }
-
-  // Get displayModes from screen 0
-  int modeNumber = SDL_GetNumDisplayModes(0);
-  // Check the modeNumber
-  if (modeNumber < 0)
-  {
-    fprintf(stderr, "SDL_GetNumDisplayModes failed: %s\n", SDL_GetError());
-    return 1;
-  }
-  fprintf(stdout, "displayModes: %d\n", modeNumber);
-
-  int i;
-  SDL_DisplayMode displayMode;
-  // Print each displayMode
-  for ( i = 0 ; i < modeNumber ; i++ )
-  {
-    // Try to get the displayMode
-    if (SDL_GetDisplayMode(0, i, &displayMode))
-    {
-      fprintf(stderr,"SDL_GetDisplayMode failed: %s\n",SDL_GetError());
-      return 1;
-    }
-    fprintf(stdout, "displayMode %d : %dx%dx%d\n", i, displayMode.w, displayMode.h, displayMode.refresh_rate);
+    exit(EXIT_FAILURE);
   }
 
   fprintf(stdout, "Press the 'F' key to switch fullscreen.\n");
   fprintf(stdout, "Press the [x] button to close the window.\n");
+
   int fullscreen = 0;
   SDL_Event event;
   int quit = 0;
@@ -96,5 +98,6 @@ int main(int argc, char* argv[])
 
   // Clean up
   SDL_Quit();
-  return 0;
+
+  return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char* argv[])
@@ -10,7 +11,7 @@ int main(int argc, char* argv[])
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
   {
     fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
-    return 1;
+    exit(EXIT_FAILURE);
   }
 
   // Create an application window with the following settings:
@@ -28,7 +29,7 @@ int main(int argc, char* argv[])
   {
     // In the case that the window could not be made...
     fprintf(stderr, "SDL_CreateWindow failed: %s\n", SDL_GetError());
-    return 1;
+    exit(EXIT_FAILURE);
   }
 
   // The window is open: could enter program loop here (see SDL_PollEvent())
@@ -39,5 +40,6 @@ int main(int argc, char* argv[])
 
   // Clean up
   SDL_Quit();
-  return 0;
+
+  return EXIT_SUCCESS;
 }
