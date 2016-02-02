@@ -4,6 +4,15 @@
 
 int main(int argc, char* argv[])
 {
+  
+  SDL_Window *window; // Declare a pointer, main window
+
+  // Initialize SDL2
+  if (SDL_Init(SDL_INIT_VIDEO) != 0 )
+  {
+    fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
 
   // Get displayModes from screen 0
   int modeNumber = SDL_GetNumDisplayModes(0);
@@ -27,15 +36,6 @@ int main(int argc, char* argv[])
       exit(EXIT_FAILURE);
     }
     fprintf(stdout, "displayMode %d : %dx%dx%d\n", i, displayMode.w, displayMode.h, displayMode.refresh_rate);
-  }
-
-  SDL_Window *window; // Declare a pointer, main window
-
-  // Initialize SDL2
-  if (SDL_Init(SDL_INIT_VIDEO) != 0 )
-  {
-    fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
-    exit(EXIT_FAILURE);
   }
 
   // Create an application window with the following settings:
