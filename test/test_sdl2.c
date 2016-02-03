@@ -1,6 +1,17 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+
+void render(SDL_Renderer* renderer)
+{
+  // Set render color ( background will be rendered in this color )
+  SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+  // Clear window
+  SDL_RenderClear(renderer);
+  // Render
+  SDL_RenderPresent(renderer);
+}
 
 int main(int argc, char* argv[])
 {
@@ -61,19 +72,16 @@ int main(int argc, char* argv[])
 
   SDL_Renderer* renderer = NULL;
   renderer =  SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED);
-  // Set render color ( background will be rendered in this color )
-  SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
-  // Clear window
-  SDL_RenderClear(renderer);
-  // Render
-  SDL_RenderPresent(renderer);
 
   int fullscreen = 0;
   SDL_Event event;
   int quit = 0;
+  time_t t = time(NULL);
+  time_t ctime = time(NULL);
+  int frames = 0;
   while (!quit)
   {
-
+    render(renderer);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
@@ -82,7 +90,7 @@ int main(int argc, char* argv[])
         quit = 1;
         break;
         case SDL_KEYUP: // Key release
-        if ( event.key.keysym.sym == SDLK_f ) // F key
+        if (event.key.keysym.sym == SDLK_f) // F key
         {
           if (fullscreen == 0)
           {
@@ -97,6 +105,13 @@ int main(int argc, char* argv[])
         }
         break;
       }
+    }
+    frames++;
+    ctime = time(NULL);
+    if (t != ctime) {
+      t = ctime;
+      printf("%d fps\n", frames);
+      frames = 0;
     }
   }
 
