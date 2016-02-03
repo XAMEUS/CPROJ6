@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-  
+
   SDL_Window *window; // Declare a pointer, main window
 
   // Initialize SDL2
