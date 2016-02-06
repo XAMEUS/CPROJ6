@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall `sdl2-config --cflags`
 LDFLAGS= `sdl2-config --libs`
-EXEC = test_sdl0 test_sdl1 test_sdl2
+EXEC = test_sdl0 test_sdl1 test_sdl2 test_sdl4
 HEADERS = $(wildcard *.h)
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 
@@ -15,6 +15,9 @@ test_sdl1: test_sdl1.o
 
 test_sdl2: test_sdl2.o
 	$(CC) -o test_sdl2 $^ $(LDFLAGS)
+
+test_sdl4: test_sdl4.o
+	$(CC) -o test_sdl4 $^ -lGLU -lGL $(LDFLAGS)
 
 #$(EXEC) : $(OBJECTS)
 #	$(CC) -o $@ $^ $(LDFLAGS)
