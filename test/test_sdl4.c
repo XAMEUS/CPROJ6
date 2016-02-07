@@ -5,9 +5,16 @@
 #include <SDL2/SDL_opengl.h>
 #include <GL/glu.h>
 
+static float rotAngle = 0.0;
+
 void Display_InitGL()
 {
-  // TODO
+  // Antialiasing
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+  glLineWidth(1.5f);
 }
 
 void Display_Render(SDL_Renderer* renderer, int width, int height)
@@ -17,6 +24,24 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+   glColor3f (0.0, 1.0, 0.0);
+   glPushMatrix();
+   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
+   glBegin (GL_LINES);
+      glVertex2f (-0.5, 0.5);
+      glVertex2f (0.5, -0.5);
+   glEnd ();
+   glPopMatrix();
+
+   glColor3f (0.0, 0.0, 1.0);
+   glPushMatrix();
+   glRotatef(rotAngle, 0.0, 0.0, 0.1);
+   glBegin (GL_LINES);
+      glVertex2f (0.5, 0.5);
+      glVertex2f (-0.5, -0.5);
+   glEnd ();
+   glPopMatrix();
+
   // Render
   SDL_RenderPresent(renderer);
 }
@@ -24,7 +49,15 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
 // function to reset our viewport after a window resize
 void Display_SetViewport(int width, int height)
 {
-  // TODO
+  glViewport(0, 0, (GLint) width, (GLint) height);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  if (width <= height)
+    gluOrtho2D (-1.0, 1.0, -1.0*(GLfloat)height/(GLfloat)width, 1.0*(GLfloat)height/(GLfloat)width);
+  else
+    gluOrtho2D (-1.0*(GLfloat)width/(GLfloat)height, 1.0*(GLfloat)width/(GLfloat)height, -1.0, 1.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 }
 
 int main(int argc, char* argv[])
@@ -83,6 +116,7 @@ int main(int argc, char* argv[])
   int frames = 0;
   while (!quit)
   {
+    Display_SetViewport(width, height);
     Display_Render(displayRenderer, width, height);
     while (SDL_PollEvent(&event)) // User's actions
     {
@@ -105,16 +139,21 @@ int main(int argc, char* argv[])
               SDL_SetWindowFullscreen(window, 0);
             }
           }
+          if (event.key.keysym.sym == SDLK_r)
+          {
+            rotAngle += 20.0;
+            if (rotAngle >= 360.0) rotAngle = 0.0;
+          }
           break;
         case SDL_WINDOWEVENT:
           switch (event.window.event) {
             case SDL_WINDOWEVENT_RESIZED:
               width = event.window.data1;
               height = event.window.data2;
-              printf("Window %d resized to %dx%d\n", event.window.windowID, event.window.data1, event.window.data2);
               break;
             case SDL_WINDOWEVENT_SIZE_CHANGED:
-              printf("Window %d size changed to %dx%d\n", event.window.windowID, event.window.data1, event.window.data2);
+              width = event.window.data1;
+              height = event.window.data2;
               break;
             default:
               // printf("Window %d got unknown event %d\n", event.window.windowID, event.window.event);
