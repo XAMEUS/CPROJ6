@@ -13,6 +13,18 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+void parseNode( xmlDocPtr doc, xmlNodePtr cur){
+  xmlAttr* attribute = cur->properties;
+  xmlChar *val;
+  while(attribute){
+    val = xmlNodeListGetString(doc,attribute->children,1);
+    printf("%s=%s\n",attribute->name,val);
+    xmlFree(val);
+    attribute = attribute->next;
+  }
+  xmlFree(attribute);
+  return;
+}
 
 int main(int argc, char **argv) {
     if (argc != 2)
@@ -40,8 +52,19 @@ int main(int argc, char **argv) {
       fprintf(stderr,"Erreur tree\n");
       return 2;
     }
+    printf("root %s\n",cur->name);
+    cur = cur->xmlChildrenNode;
+    while(cur != NULL){
+      if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
+        printf("=====> %s\n", cur->name);
+        parseNode(doc,cur);
+      }
+      cur=cur->next;
+    }
 
-    printf("root = %s\n",cur->name);
+
+
+    xmlFreeDoc(doc);
 
     /*
      * Cleanup function for the XML library.
