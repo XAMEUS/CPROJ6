@@ -13,22 +13,6 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-/**
- * example1Func:
- * @filename: a filename or an URL
- *
- * Parse the resource and free the resulting tree
- */
-static void example1Func(const char *filename) {
-    xmlDocPtr doc; /* the resulting document tree */
-
-    doc = xmlReadFile(filename, NULL, 0);
-    if (doc == NULL) {
-        fprintf(stderr, "Failed to parse %s\n", filename);
-	return;
-    }
-    xmlFreeDoc(doc);
-}
 
 int main(int argc, char **argv) {
     if (argc != 2)
@@ -41,7 +25,23 @@ int main(int argc, char **argv) {
      */
     LIBXML_TEST_VERSION
 
-    example1Func(argv[1]);
+    xmlDocPtr doc;
+    xmlNodePtr cur;
+
+    doc = xmlParseFile(argv[1]);
+    if(doc==NULL){
+      fprintf(stderr,"Erreur parse\n");
+      return 1;
+    }
+
+    cur = xmlDocGetRootElement(doc);
+
+    if(cur == NULL){
+      fprintf(stderr,"Erreur tree\n");
+      return 2;
+    }
+
+    printf("root = %s\n",cur->name);
 
     /*
      * Cleanup function for the XML library.
