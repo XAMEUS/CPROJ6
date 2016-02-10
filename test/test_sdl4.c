@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <SDL2/SDL_opengl.h>
-#include <GL/glu.h>
 
 static float rotAngle = 0.0;
 
@@ -24,16 +23,16 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   glColor3f (0.0, 1.0, 0.0);
+   glColor3f(0.0, 1.0, 0.0);
    glPushMatrix();
    glRotatef(-rotAngle, 0.0, 0.0, 0.1);
-   glBegin (GL_LINES);
+   glBegin(GL_LINES);
       glVertex2f (-0.5, 0.5);
       glVertex2f (0.5, -0.5);
-   glEnd ();
+   glEnd();
    glPopMatrix();
 
-   glColor3f (0.0, 0.0, 1.0);
+   glColor3f(0.0, 0.0, 1.0);
    glPushMatrix();
    glRotatef(rotAngle, 0.0, 0.0, 0.1);
    glBegin (GL_LINES);
@@ -53,9 +52,9 @@ void Display_SetViewport(int width, int height)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   if (width <= height)
-    gluOrtho2D (-1.0, 1.0, -1.0*(GLfloat)height/(GLfloat)width, 1.0*(GLfloat)height/(GLfloat)width);
+    glOrtho(-1.0, 1.0, -1.0*(GLfloat)height/(GLfloat)width, 1.0*(GLfloat)height/(GLfloat)width, 1.0, -1.0);
   else
-    gluOrtho2D (-1.0*(GLfloat)width/(GLfloat)height, 1.0*(GLfloat)width/(GLfloat)height, -1.0, 1.0);
+    glOrtho(-1.0*(GLfloat)width/(GLfloat)height, 1.0*(GLfloat)width/(GLfloat)height, -1.0, 1.0, 1.0, -1.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -79,8 +78,8 @@ int main(int argc, char* argv[])
     "SDL2 - OpenGL",            // window title
     SDL_WINDOWPOS_UNDEFINED,    // initial x position
     SDL_WINDOWPOS_UNDEFINED,    // initial y position
-    width,                        // width, in pixels
-    height,                        // height, in pixels
+    width,                      // width, in pixels
+    height,                     // height, in pixels
     SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE        // flags
   );
 
