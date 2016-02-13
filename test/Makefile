@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags`
 LDFLAGS= `sdl2-config --libs` `xml2-config --libs`
-EXEC = test_sdl0 test_sdl1 test_sdl2 test_sdl4
+EXEC = test_sdl0 test_sdl1 test_sdl2 test_sdl4 test_sdl5
 HEADERS = $(wildcard *.h)
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 
@@ -18,6 +18,9 @@ test_sdl2: test_sdl2.o
 
 test_sdl4: test_sdl4.o
 	$(CC) -o test_sdl4 $^ -lGLU -lGL $(LDFLAGS)
+
+test_sdl5: test_sdl5.o
+	$(CC) -o test_sdl5 $^ -lGLU -lGL $(LDFLAGS)
 
 parse: parse.o
 	$(CC) -o parse $^ $(LDFLAGS)
