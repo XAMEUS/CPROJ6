@@ -64,7 +64,6 @@ int main(int argc, char* argv[])
   SDL_Window *window; // Declare a pointer, main window
   int width = 640;
   int height = 480;
-  int w; int h;
   float zoom = 1.0;
 
   // Initialize SDL2
