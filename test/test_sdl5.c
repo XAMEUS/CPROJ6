@@ -23,12 +23,12 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   glColor3f(0.0, 1.0, 0.0);
+   glColor3f(1.0, 0.0, 0.0);
    glPushMatrix();
    glRotatef(-rotAngle, 0.0, 0.0, 0.1);
    glBegin(GL_LINES);
-      glVertex2f (-100, 100);
-      glVertex2f (100, -100);
+      glVertex2f (-100, 0);
+      glVertex2f (100, 0);
    glEnd();
    glPopMatrix();
 
@@ -36,8 +36,8 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
    glPushMatrix();
    glRotatef(rotAngle, 0.0, 0.0, 0.1);
    glBegin (GL_LINES);
-      glVertex2f (100, 100);
-      glVertex2f (-100, -100);
+      glVertex2f (0, -100);
+      glVertex2f (0, 100);
    glEnd ();
    glPopMatrix();
 
@@ -46,14 +46,14 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
 }
 
 // function to reset our viewport after a window resize
-void Display_SetViewport(int width, int height, float minlat, float minlon, float maxlat, float maxlon, float zoom)
+void Display_SetViewport(int width, int height, float dx, float dy, float minlat, float minlon, float maxlat, float maxlon, float zoom)
 {
   glViewport(0, 0, (GLint) width, (GLint) height);
   glMatrixMode(GL_PROJECTION);
   //GLfloat ratio = (GLint) width / (GLint) height;
   glLoadIdentity();
 
-  glOrtho(-width/2*zoom, width/2*zoom, -height/2*zoom, height/2*zoom, -1.0, 1.0);
+  glOrtho(-width/2*zoom+dx, width/2*zoom+dx, -height/2*zoom+dy, height/2*zoom+dy, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -64,6 +64,8 @@ int main(int argc, char* argv[])
   SDL_Window *window; // Declare a pointer, main window
   int width = 640;
   int height = 480;
+  float dx = 0;
+  float dy = 0;
   float zoom = 1.0;
 
   // Initialize SDL2
@@ -105,9 +107,10 @@ int main(int argc, char* argv[])
 
   Display_InitGL();
 
-  Display_SetViewport(width, height, -1.0, -1.0, 1.0, 1.0, zoom);
+  Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
 
   int fullscreen = 0;
+  int drag = 0;
   SDL_Event event;
   int quit = 0;
   time_t t = time(NULL);
@@ -116,7 +119,7 @@ int main(int argc, char* argv[])
   while (!quit)
   {
     Display_Render(displayRenderer, width, height);
-      Display_SetViewport(width, height, -1.0, -1.0, 1.0, 1.0, zoom);
+    Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
@@ -157,6 +160,23 @@ int main(int argc, char* argv[])
             default:
               // printf("Window %d got unknown event %d\n", event.window.windowID, event.window.event);
               break;
+          }
+          break;
+        case SDL_MOUSEBUTTONDOWN:
+          if (event.button.button == SDL_BUTTON_LEFT) {
+            drag = 1;
+            printf("MOUSEDOWN\n");
+          }
+          break;
+        case SDL_MOUSEBUTTONUP:
+          printf("MOUSEUP\n");
+          if (event.button.button == SDL_BUTTON_LEFT)
+            drag = 0;
+          break;
+        case SDL_MOUSEMOTION:
+          if (drag != 0) {
+            dx -= event.motion.xrel * zoom;
+            dy += event.motion.yrel * zoom;
           }
           break;
         case SDL_MOUSEWHEEL:
