@@ -111,6 +111,8 @@ int main(int argc, char* argv[])
 
   int fullscreen = 0;
   int drag = 0;
+  int xcursor = 0;
+  int ycursor = 0;
   SDL_Event event;
   int quit = 0;
   time_t t = time(NULL);
@@ -174,12 +176,18 @@ int main(int argc, char* argv[])
             drag = 0;
           break;
         case SDL_MOUSEMOTION:
+          xcursor = event.motion.x;
+          ycursor = event.motion.y;
           if (drag != 0) {
             dx -= event.motion.xrel * zoom;
             dy += event.motion.yrel * zoom;
           }
           break;
         case SDL_MOUSEWHEEL:
+          if (zoom > 0.1) {
+            dx = dx + 0.1 * event.wheel.y * (xcursor - width / 2);
+            dy = dy - 0.1 * event.wheel.y * (ycursor - height / 2);
+          }
           if (event.wheel.y > 0 && zoom > 0.1)
             zoom -= 0.1;
           else
