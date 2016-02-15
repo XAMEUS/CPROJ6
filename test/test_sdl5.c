@@ -13,33 +13,39 @@ void Display_InitGL()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-  glLineWidth(1.5f);
+  glLineWidth(1.6f);
 }
 
-void Display_Render(SDL_Renderer* renderer, int width, int height)
+void Display_Frame() {
+
+  glColor3f(1.0, 0.0, 0.0);
+  glPushMatrix();
+  glRotatef(-rotAngle, 0.0, 0.0, 0.1);
+  glBegin(GL_LINES);
+    glVertex2f (-100, 0);
+    glVertex2f (100, 0);
+  glEnd();
+  glPopMatrix();
+
+  glColor3f(0.0, 0.0, 1.0);
+  glPushMatrix();
+  glRotatef(rotAngle, 0.0, 0.0, 0.1);
+  glBegin (GL_LINES);
+    glVertex2f (0, -100);
+    glVertex2f (0, 100);
+  glEnd();
+  glPopMatrix();
+
+}
+
+void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom)
 {
   // Set the background
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   glColor3f(1.0, 0.0, 0.0);
-   glPushMatrix();
-   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
-   glBegin(GL_LINES);
-      glVertex2f (-100, 0);
-      glVertex2f (100, 0);
-   glEnd();
-   glPopMatrix();
-
-   glColor3f(0.0, 0.0, 1.0);
-   glPushMatrix();
-   glRotatef(rotAngle, 0.0, 0.0, 0.1);
-   glBegin (GL_LINES);
-      glVertex2f (0, -100);
-      glVertex2f (0, 100);
-   glEnd ();
-   glPopMatrix();
+  Display_Frame();
 
   // Render
   SDL_RenderPresent(renderer);
@@ -120,8 +126,8 @@ int main(int argc, char* argv[])
   int frames = 0;
   while (!quit)
   {
-    Display_Render(displayRenderer, width, height);
     Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
+    Display_Render(displayRenderer, width, height, dx, dy, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
@@ -165,13 +171,10 @@ int main(int argc, char* argv[])
           }
           break;
         case SDL_MOUSEBUTTONDOWN:
-          if (event.button.button == SDL_BUTTON_LEFT) {
+          if (event.button.button == SDL_BUTTON_LEFT)
             drag = 1;
-            printf("MOUSEDOWN\n");
-          }
           break;
         case SDL_MOUSEBUTTONUP:
-          printf("MOUSEUP\n");
           if (event.button.button == SDL_BUTTON_LEFT)
             drag = 0;
           break;
@@ -184,13 +187,15 @@ int main(int argc, char* argv[])
           }
           break;
         case SDL_MOUSEWHEEL:
+          printf("%d\n", event.wheel.y);
           if (zoom > 0.1) {
             dx = dx + 0.1 * event.wheel.y * (xcursor - width / 2);
             dy = dy - 0.1 * event.wheel.y * (ycursor - height / 2);
           }
+          printf("%f\n", zoom);
           if (event.wheel.y > 0 && zoom > 0.1)
             zoom -= 0.1;
-          else
+          else if (event.wheel.y < 0)
             zoom += 0.1;
           break;
         default:
