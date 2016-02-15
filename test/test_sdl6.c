@@ -24,23 +24,26 @@ void Display_Render(SDL_Renderer* renderer, int width, int height)
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   glColor3f(1.0, 0.0, 0.0);
-   glPushMatrix();
-   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
-   glBegin(GL_LINES);
-      glVertex2f (-100, 0);
-      glVertex2f (100, 0);
-   glEnd();
-   glPopMatrix();
 
-   glColor3f(0.0, 0.0, 1.0);
-   glPushMatrix();
-   glRotatef(rotAngle, 0.0, 0.0, 0.1);
-   glBegin (GL_LINES);
-      glVertex2f (0, -100);
-      glVertex2f (0, 100);
-   glEnd ();
-   glPopMatrix();
+  glColor3f(1.0, 0.0, 0.0);
+  glPushMatrix();
+  glRotatef(-rotAngle, 0.0, 0.0, 0.1);
+  glBegin(GL_POINTS);
+  int i;
+  for(i=0;i<sizeNodes;i++){
+    glVertex2f(nodes[i].lon,nodes[i].lat);
+  }
+  glEnd();
+  glPopMatrix();
+/*
+  glColor3f(0.0, 0.0, 1.0);
+  glPushMatrix();
+  glRotatef(rotAngle, 0.0, 0.0, 0.1);
+  glBegin (GL_LINES);
+    glVertex2f (0, -100);
+    glVertex2f (0, 100);
+  glEnd();
+  glPopMatrix();*/
 
   // Render
   SDL_RenderPresent(renderer);
@@ -53,8 +56,7 @@ void Display_SetViewport(int width, int height, float dx, float dy, float minlat
   glMatrixMode(GL_PROJECTION);
   //GLfloat ratio = (GLint) width / (GLint) height;
   glLoadIdentity();
-
-  glOrtho(-width/2*zoom+dx, width/2*zoom+dx, -height/2*zoom+dy, height/2*zoom+dy, -1.0, 1.0);
+  glOrtho(minlon, maxlon, minlat, maxlat, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -77,11 +79,12 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  xmlNodePtr bounds = getNode(doc, cur, "bounds");
+  xmlNodePtr bounds = getNode(cur->xmlChildrenNode, "bounds");
   if(bounds == NULL){
     fprintf(stderr,"Erreur bounds\n");
     return 2;
   }
+  cur = xmlDocGetRootElement(doc);
 
   SDL_Window *window; // Declare a pointer, main window
   int width = 640;
@@ -89,11 +92,12 @@ int main(int argc, char* argv[])
   float dx = 0;
   float dy = 0;
   float zoom = 1.0;
-  float minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
+  float minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlat"));
   float maxlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
   float minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
   float maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
 
+  getNodes(cur);
 
   // Initialize SDL2
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
@@ -134,7 +138,7 @@ int main(int argc, char* argv[])
 
   Display_InitGL();
 
-  Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
+  Display_SetViewport(width, height, dx, dy, minlat, minlon, maxlat, maxlon, zoom);
 
   int fullscreen = 0;
   int drag = 0;
@@ -148,7 +152,7 @@ int main(int argc, char* argv[])
   while (!quit)
   {
     Display_Render(displayRenderer, width, height);
-    Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
+    Display_SetViewport(width, height, dx, dy, minlat, minlon, maxlat, maxlon, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
@@ -210,19 +214,21 @@ int main(int argc, char* argv[])
             dy += event.motion.yrel * zoom;
           }
           break;
-        case SDL_MOUSEWHEEL:
-          if (zoom > 0.1) {
-            dx = dx + 0.1 * event.wheel.y * (xcursor - width / 2);
-            dy = dy - 0.1 * event.wheel.y * (ycursor - height / 2);
-          }
-          if (event.wheel.y > 0 && zoom > 0.1)
-            zoom -= 0.1;
-          else
-            zoom += 0.1;
-          break;
-        default:
-          //printf("unknown event");
-          break;
+          case SDL_MOUSEWHEEL:
+            printf("%d\n", event.wheel.y);
+            if (zoom > 0.1) {
+              dx = dx + 0.1 * event.wheel.y * (xcursor - width / 2);
+              dy = dy - 0.1 * event.wheel.y * (ycursor - height / 2);
+            }
+            printf("%f\n", zoom);
+            if (event.wheel.y > 0)
+              zoom -= 0.1;
+            else if (event.wheel.y < 0)
+              zoom += 0.1;
+            break;
+          default:
+            //printf("unknown event");
+            break;
       }
     }
     frames++;

@@ -1,20 +1,9 @@
 #include "parse.h"
 
-void parseNode( xmlDocPtr doc, xmlNodePtr cur){
-  xmlAttr* attribute = cur->properties;
-  xmlChar *val;
-  while(attribute){
-    val = xmlNodeListGetString(doc,attribute->children,1);
-    printf("%s=%s\n",attribute->name,val);
-    xmlFree(val);
-    attribute = attribute->next;
-  }
-  xmlFree(attribute);
-  return;
-}
+node* nodes = 0;
+int sizeNodes = 100;
 
-xmlNodePtr getNode(xmlDocPtr doc, xmlNodePtr cur, char* name){
-  cur = cur->xmlChildrenNode;
+xmlNodePtr getNode(xmlNodePtr cur, char* name){
   while(cur != NULL){
     printf("%s",cur->name);
     if(xmlStrcmp(cur->name,(const xmlChar *)name)==0){
@@ -23,6 +12,27 @@ xmlNodePtr getNode(xmlDocPtr doc, xmlNodePtr cur, char* name){
     cur=cur->next;
   }
   return cur;
+}
+
+void getNodes(xmlNodePtr cur){
+  nodes = malloc(sizeof(node)*100);
+  cur = cur->xmlChildrenNode;
+  int i = 0;
+  node n;
+  while(cur != NULL){
+    if(i==sizeNodes){
+      sizeNodes*=2;
+      nodes = realloc(nodes,sizeof(node)*sizeNodes);
+    }
+    if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
+      n.lat = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lat"));
+      n.lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
+      nodes[i]=n;
+      i++;
+    }
+    cur=cur->next;
+  }
+  sizeNodes=i;
 }
 
 /*int main(int argc, char **argv) {
