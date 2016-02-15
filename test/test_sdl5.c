@@ -6,6 +6,11 @@
 
 static float rotAngle = 0.0;
 
+static float minlat = 39.7492900;
+static float maxlat = 39.7525610;
+static float minlon = -104.9737800;
+static float maxlon = -104.9693810;
+
 void Display_InitGL()
 {
   // Antialiasing
@@ -22,17 +27,17 @@ void Display_Frame() {
   glPushMatrix();
   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
   glBegin(GL_LINES);
-    glVertex2f (-100, 0);
-    glVertex2f (100, 0);
+    glVertex2f(minlon, (maxlat-minlat)/2 + minlat);
+    glVertex2f(maxlon, (maxlat-minlat)/2 + minlat);
   glEnd();
   glPopMatrix();
 
   glColor3f(0.0, 0.0, 1.0);
   glPushMatrix();
   glRotatef(rotAngle, 0.0, 0.0, 0.1);
-  glBegin (GL_LINES);
-    glVertex2f (0, -100);
-    glVertex2f (0, 100);
+  glBegin(GL_LINES);
+    glVertex2f((maxlon-minlon)/2 + minlon, minlat);
+    glVertex2f((maxlon-minlon)/2 + minlon, maxlat);
   glEnd();
   glPopMatrix();
 
@@ -59,7 +64,26 @@ void Display_SetViewport(int width, int height, float dx, float dy, float minlat
   //GLfloat ratio = (GLint) width / (GLint) height;
   glLoadIdentity();
 
-  glOrtho(-width/2*zoom+dx, width/2*zoom+dx, -height/2*zoom+dy, height/2*zoom+dy, -1.0, 1.0);
+  glOrtho(-104.9737800, -104.9693810, 39.7492900, 39.7525610, -1.0, 1.0);
+  /*if (width <= height)
+    glOrtho(
+      minlon*zoom+dx,
+      maxlon*zoom+dx,
+      minlat*((GLfloat)height/(GLfloat)width)*zoom+dy,
+      maxlat*((GLfloat)height/(GLfloat)width)*zoom+dy,
+      -1.0,
+      1.0
+    );
+  else
+    glOrtho(
+      minlon*((GLfloat)width/(GLfloat)height)*zoom+dx,
+      maxlon*((GLfloat)width/(GLfloat)height)*zoom+dx,
+      minlat*zoom+dy,
+      maxlat*zoom+dy,
+      -1.0,
+      1.0
+    );*/
+
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -72,6 +96,7 @@ int main(int argc, char* argv[])
   int height = 480;
   float dx = 0;
   float dy = 0;
+
   float zoom = 1.0;
 
   // Initialize SDL2
@@ -113,7 +138,16 @@ int main(int argc, char* argv[])
 
   Display_InitGL();
 
-  Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
+  Display_SetViewport(
+    width, height,
+    dx,
+    dy,
+    minlat,
+    minlon,
+    maxlat,
+    maxlon,
+    zoom
+  );
 
   int fullscreen = 0;
   int drag = 0;
@@ -126,7 +160,16 @@ int main(int argc, char* argv[])
   int frames = 0;
   while (!quit)
   {
-    Display_SetViewport(width, height, dx, dy, -1.0, -1.0, 1.0, 1.0, zoom);
+    Display_SetViewport(
+      width, height,
+      dx,
+      dy,
+      minlat,
+      minlon,
+      maxlat,
+      maxlon,
+      zoom
+    );
     Display_Render(displayRenderer, width, height, dx, dy, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
