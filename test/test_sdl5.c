@@ -64,25 +64,28 @@ void Display_SetViewport(int width, int height, float dx, float dy, float minlat
   //GLfloat ratio = (GLint) width / (GLint) height;
   glLoadIdentity();
 
-  glOrtho(-104.9737800, -104.9693810, 39.7492900, 39.7525610, -1.0, 1.0);
-  /*if (width <= height)
+  //glOrtho(minlon*zoom,maxlon*zoom,minlat*zoom,maxlat*zoom, -1.0, 1.0);
+  if (width <= height){
+    float midlat = (maxlat-minlat)/2;
     glOrtho(
       minlon*zoom+dx,
       maxlon*zoom+dx,
-      minlat*((GLfloat)height/(GLfloat)width)*zoom+dy,
-      maxlat*((GLfloat)height/(GLfloat)width)*zoom+dy,
+      (-midlat*((GLfloat)height/(GLfloat)width))+minlat*zoom+dy,
+      (midlat*((GLfloat)height/(GLfloat)width))+maxlat*zoom+dy,
       -1.0,
       1.0
     );
-  else
+  }else{
+    float midlon = (maxlon-minlon)/2;
     glOrtho(
-      minlon*((GLfloat)width/(GLfloat)height)*zoom+dx,
-      maxlon*((GLfloat)width/(GLfloat)height)*zoom+dx,
+      (-midlon*((GLfloat)height/(GLfloat)width))+minlon*zoom+dx,
+      (midlon*((GLfloat)height/(GLfloat)width))+maxlon*zoom+dx,
       minlat*zoom+dy,
       maxlat*zoom+dy,
       -1.0,
       1.0
-    );*/
+    );
+  }
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
