@@ -22,6 +22,10 @@ test_sdl4: test_sdl4.o
 test_sdl5: test_sdl5.o
 	$(CC) -o test_sdl5 $^ -lGLU -lGL $(LDFLAGS)
 
+test_sdl6: test_sdl6.o parse.o
+	$(CC) -o test_sdl6 $^ -lGLU -lGL $(LDFLAGS)
+
+
 parse: parse.o
 	$(CC) -o parse $^ $(LDFLAGS)
 

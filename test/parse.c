@@ -1,17 +1,4 @@
-/**
- * section: Parsing
- * synopsis: Parse an XML file to a tree and free it
- * purpose: Demonstrate the use of xmlReadFile() to read an XML file
- *          into a tree and and xmlFreeDoc() to free the resulting tree
- * usage: parse1 test1.xml
- * test: parse1 test1.xml
- * author: Daniel Veillard
- * copy: see Copyright for the status of this software.
- */
-
-#include <stdio.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
+#include "parse.h"
 
 void parseNode( xmlDocPtr doc, xmlNodePtr cur){
   xmlAttr* attribute = cur->properties;
@@ -26,15 +13,22 @@ void parseNode( xmlDocPtr doc, xmlNodePtr cur){
   return;
 }
 
-int main(int argc, char **argv) {
+xmlNodePtr getNode(xmlDocPtr doc, xmlNodePtr cur, char* name){
+  cur = cur->xmlChildrenNode;
+  while(cur != NULL){
+    printf("%s",cur->name);
+    if(xmlStrcmp(cur->name,(const xmlChar *)name)==0){
+        return cur;
+    }
+    cur=cur->next;
+  }
+  return cur;
+}
+
+/*int main(int argc, char **argv) {
     if (argc != 2)
         return(1);
 
-    /*
-     * this initialize the library and check potential ABI mismatches
-     * between the version it was compiled for and the actual shared
-     * library used.
-     */
     LIBXML_TEST_VERSION
 
     xmlDocPtr doc;
@@ -55,7 +49,7 @@ int main(int argc, char **argv) {
     printf("root %s\n",cur->name);
     cur = cur->xmlChildrenNode;
     while(cur != NULL){
-      if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
+      if(xmlStrcmp(cur->name,(const xmlChar *)"bounds")==0){
         printf("=====> %s\n", cur->name);
         parseNode(doc,cur);
       }
@@ -65,14 +59,7 @@ int main(int argc, char **argv) {
 
 
     xmlFreeDoc(doc);
-
-    /*
-     * Cleanup function for the XML library.
-     */
     xmlCleanupParser();
-    /*
-     * this is to debug memory for regression tests
-     */
     xmlMemoryDump();
     return(0);
-}
+}*/
