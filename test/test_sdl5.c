@@ -11,6 +11,8 @@ static float maxlat = 39.7525610;
 static float minlon = -104.9737800;
 static float maxlon = -104.9693810;
 
+static float pixelsize = 1;
+
 void Display_InitGL()
 {
   // Antialiasing
@@ -46,7 +48,7 @@ void Display_Frame() {
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom)
 {
   // Set the background
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+  glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -61,32 +63,30 @@ void Display_SetViewport(int width, int height, float dx, float dy, float minlat
 {
   glViewport(0, 0, (GLint) width, (GLint) height);
   glMatrixMode(GL_PROJECTION);
-  //GLfloat ratio = (GLint) width / (GLint) height;
   glLoadIdentity();
 
-  //glOrtho(minlon*zoom,maxlon*zoom,minlat*zoom,maxlat*zoom, -1.0, 1.0);
-  if (width <= height){
-    float tmp = ((maxlon-minlon)/width)*((height-width)/2);
+  if (width <= height) {
+    pixelsize = (maxlon-minlon)/width;
     glOrtho(
-      minlon*zoom+dx,
-      maxlon*zoom+dx,
-      minlat-tmp*zoom+dy,
-      maxlat+tmp*zoom+dy,
-      -1.0,
-      1.0
-    );
-  }else{
-    float tmp = ((maxlat-minlat)/height)*((width-height)/2);
-    glOrtho(
-      minlon-tmp*zoom+dx,
-      maxlon+tmp*zoom+dx,
-      minlat*zoom+dy,
-      maxlat*zoom+dy,
+      (minlon + maxlon) / 2 + dx - zoom * (maxlon - minlon) / 2,
+      (minlon + maxlon) / 2 + dx + zoom * (maxlon - minlon) / 2,
+      (minlat + maxlat) / 2 + dy - zoom * (pixelsize * height / 2),
+      (minlat + maxlat) / 2 + dy + zoom * (pixelsize * height / 2),
       -1.0,
       1.0
     );
   }
-
+  else {
+    pixelsize = (maxlat-minlat)/height;
+    glOrtho(
+      (minlon + maxlon) / 2 + dx - zoom * (pixelsize * width / 2),
+      (minlon + maxlon) / 2 + dx + zoom * (pixelsize * width / 2),
+      (minlat + maxlat) / 2 + dy - zoom * (maxlat - minlat) / 2,
+      (minlat + maxlat) / 2 + dy + zoom * (maxlat - minlat) / 2,
+      -1.0,
+      1.0
+    );
+  }
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -129,6 +129,7 @@ int main(int argc, char* argv[])
   }
 
   fprintf(stdout, "Press the 'F' key to switch fullscreen.\n");
+  fprintf(stdout, "Press the 'R' key to reset the view.\n");
   fprintf(stdout, "Press the [x] button to close the window.\n");
 
   SDL_Renderer* displayRenderer = NULL;
@@ -198,8 +199,9 @@ int main(int argc, char* argv[])
           }
           if (event.key.keysym.sym == SDLK_r)
           {
-            rotAngle += 20.0;
-            if (rotAngle >= 360.0) rotAngle = 0.0;
+            zoom = 1.0;
+            dx = 0.0;
+            dy = 0.0;
           }
           break;
         case SDL_WINDOWEVENT:
@@ -229,21 +231,19 @@ int main(int argc, char* argv[])
           xcursor = event.motion.x;
           ycursor = event.motion.y;
           if (drag != 0) {
-            dx -= event.motion.xrel * zoom;
-            dy += event.motion.yrel * zoom;
+            dx -= pixelsize * event.motion.xrel * zoom;
+            dy += pixelsize * event.motion.yrel * zoom;
           }
           break;
         case SDL_MOUSEWHEEL:
-          printf("%d\n", event.wheel.y);
-          if (zoom > 0.1) {
-            dx = dx + 0.1 * event.wheel.y * (xcursor - width / 2);
-            dy = dy - 0.1 * event.wheel.y * (ycursor - height / 2);
+          if (zoom > 0.01) {
+            dx = dx + 0.01 * pixelsize * event.wheel.y * (xcursor - width / 2);
+            dy = dy - 0.01 * pixelsize * event.wheel.y * (ycursor - height / 2);
           }
-          printf("%f\n", zoom);
-          if (event.wheel.y > 0 && zoom > 0.1)
-            zoom -= 0.1;
+          if (event.wheel.y > 0 && zoom > 0.01)
+            zoom -= 0.01;
           else if (event.wheel.y < 0)
-            zoom += 0.1;
+            zoom += 0.01;
           break;
         default:
           //printf("unknown event");
