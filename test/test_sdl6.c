@@ -7,67 +7,18 @@
 
 static float rotAngle = 0.0;
 
-void Display_InitGL()
-{
-  // Antialiasing
-  glEnable(GL_LINE_SMOOTH);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-  glLineWidth(1.5f);
-}
+static float minlat = 39.7492900;
+static float maxlat = 39.7525610;
+static float minlon = -104.9737800;
+static float maxlon = -104.9693810;
 
-void Display_Render(SDL_Renderer* renderer, int width, int height)
-{
-  // Set the background
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-  // Clear The Screen And The Depth Buffer
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+static float pixelsize = 1;
 
-
-  glColor3f(1.0, 0.0, 0.0);
-  glPushMatrix();
-  glRotatef(-rotAngle, 0.0, 0.0, 0.1);
-  glBegin(GL_POINTS);
-  int i;
-  for(i=0;i<sizeNodes;i++){
-    glVertex2f(nodes[i].lon,nodes[i].lat);
-  }
-  glEnd();
-  glPopMatrix();
-/*
-  glColor3f(0.0, 0.0, 1.0);
-  glPushMatrix();
-  glRotatef(rotAngle, 0.0, 0.0, 0.1);
-  glBegin (GL_LINES);
-    glVertex2f (0, -100);
-    glVertex2f (0, 100);
-  glEnd();
-  glPopMatrix();*/
-
-  // Render
-  SDL_RenderPresent(renderer);
-}
-
-// function to reset our viewport after a window resize
-void Display_SetViewport(int width, int height, float dx, float dy, float minlat, float minlon, float maxlat, float maxlon, float zoom)
-{
-  glViewport(0, 0, (GLint) width, (GLint) height);
-  glMatrixMode(GL_PROJECTION);
-  //GLfloat ratio = (GLint) width / (GLint) height;
-  glLoadIdentity();
-  glOrtho(minlon, maxlon, minlat, maxlat, -1.0, 1.0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-}
-
-int main(int argc, char* argv[])
-{
-
+void initNodesBounds(char *filename){
   xmlDocPtr doc;
   xmlNodePtr cur;
 
-  doc = xmlParseFile(argv[1]);
+  doc = xmlParseFile(filename);
   if(doc==NULL){
     fprintf(stderr,"Erreur parse\n");
     return 1;
@@ -92,12 +43,98 @@ int main(int argc, char* argv[])
   float dx = 0;
   float dy = 0;
   float zoom = 1.0;
-  float minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlat"));
-  float maxlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
-  float minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
-  float maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
+  minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlat"));
+  maxlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
+  minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
+  maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
 
   getNodes(cur);
+}
+
+void Display_InitGL()
+{
+  // Antialiasing
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+  glLineWidth(1.6f);
+}
+
+void Display_Frame() {
+
+  glColor3f(1.0, 0.0, 0.0);
+  glPushMatrix();
+  glRotatef(-rotAngle, 0.0, 0.0, 0.1);
+  glBegin(GL_POINTS);
+    int i;
+    for(i=0;i<sizeNodes;i++){
+      glVertex2f(nodes[i].lon,nodes[i].lat);
+    }
+  glEnd();
+  glPopMatrix();
+
+}
+
+void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom)
+{
+  // Set the background
+  glClearColor(0.f, 0.f, 0.f, 0.0f);
+  // Clear The Screen And The Depth Buffer
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  Display_Frame();
+
+  // Render
+  SDL_RenderPresent(renderer);
+}
+
+// function to reset our viewport after a window resize
+void Display_SetViewport(int width, int height, float dx, float dy, float minlat, float minlon, float maxlat, float maxlon, float zoom)
+{
+  glViewport(0, 0, (GLint) width, (GLint) height);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  if (width <= height) {
+    pixelsize = (maxlon-minlon)/width;
+    glOrtho(
+      (minlon + maxlon) / 2 + dx - zoom * (maxlon - minlon) / 2,
+      (minlon + maxlon) / 2 + dx + zoom * (maxlon - minlon) / 2,
+      (minlat + maxlat) / 2 + dy - zoom * (pixelsize * height / 2),
+      (minlat + maxlat) / 2 + dy + zoom * (pixelsize * height / 2),
+      -1.0,
+      1.0
+    );
+  }
+  else {
+    pixelsize = (maxlat-minlat)/height;
+    glOrtho(
+      (minlon + maxlon) / 2 + dx - zoom * (pixelsize * width / 2),
+      (minlon + maxlon) / 2 + dx + zoom * (pixelsize * width / 2),
+      (minlat + maxlat) / 2 + dy - zoom * (maxlat - minlat) / 2,
+      (minlat + maxlat) / 2 + dy + zoom * (maxlat - minlat) / 2,
+      -1.0,
+      1.0
+    );
+  }
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+}
+
+int main(int argc, char* argv[])
+{
+
+  SDL_Window *window; // Declare a pointer, main window
+  int width = 640;
+  int height = 480;
+  float dx = 0;
+  float dy = 0;
+
+  float zoom = 1.0;
+
+  initNodesBounds(argv[1]);
 
   // Initialize SDL2
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
@@ -125,6 +162,7 @@ int main(int argc, char* argv[])
   }
 
   fprintf(stdout, "Press the 'F' key to switch fullscreen.\n");
+  fprintf(stdout, "Press the 'R' key to reset the view.\n");
   fprintf(stdout, "Press the [x] button to close the window.\n");
 
   SDL_Renderer* displayRenderer = NULL;
@@ -138,7 +176,16 @@ int main(int argc, char* argv[])
 
   Display_InitGL();
 
-  Display_SetViewport(width, height, dx, dy, minlat, minlon, maxlat, maxlon, zoom);
+  Display_SetViewport(
+    width, height,
+    dx,
+    dy,
+    minlat,
+    minlon,
+    maxlat,
+    maxlon,
+    zoom
+  );
 
   int fullscreen = 0;
   int drag = 0;
@@ -151,8 +198,17 @@ int main(int argc, char* argv[])
   int frames = 0;
   while (!quit)
   {
-    Display_Render(displayRenderer, width, height);
-    Display_SetViewport(width, height, dx, dy, minlat, minlon, maxlat, maxlon, zoom);
+    Display_SetViewport(
+      width, height,
+      dx,
+      dy,
+      minlat,
+      minlon,
+      maxlat,
+      maxlon,
+      zoom
+    );
+    Display_Render(displayRenderer, width, height, dx, dy, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
@@ -176,8 +232,9 @@ int main(int argc, char* argv[])
           }
           if (event.key.keysym.sym == SDLK_r)
           {
-            rotAngle += 20.0;
-            if (rotAngle >= 360.0) rotAngle = 0.0;
+            zoom = 1.0;
+            dx = 0.0;
+            dy = 0.0;
           }
           break;
         case SDL_WINDOWEVENT:
@@ -196,13 +253,10 @@ int main(int argc, char* argv[])
           }
           break;
         case SDL_MOUSEBUTTONDOWN:
-          if (event.button.button == SDL_BUTTON_LEFT) {
+          if (event.button.button == SDL_BUTTON_LEFT)
             drag = 1;
-            printf("MOUSEDOWN\n");
-          }
           break;
         case SDL_MOUSEBUTTONUP:
-          printf("MOUSEUP\n");
           if (event.button.button == SDL_BUTTON_LEFT)
             drag = 0;
           break;
@@ -210,25 +264,23 @@ int main(int argc, char* argv[])
           xcursor = event.motion.x;
           ycursor = event.motion.y;
           if (drag != 0) {
-            dx -= event.motion.xrel * zoom;
-            dy += event.motion.yrel * zoom;
+            dx -= pixelsize * event.motion.xrel * zoom;
+            dy += pixelsize * event.motion.yrel * zoom;
           }
           break;
-          case SDL_MOUSEWHEEL:
-            printf("%d\n", event.wheel.y);
-            if (zoom > 0.1) {
-              dx = dx + 0.1 * event.wheel.y * (xcursor - width / 2);
-              dy = dy - 0.1 * event.wheel.y * (ycursor - height / 2);
-            }
-            printf("%f\n", zoom);
-            if (event.wheel.y > 0)
-              zoom -= 0.1;
-            else if (event.wheel.y < 0)
-              zoom += 0.1;
-            break;
-          default:
-            //printf("unknown event");
-            break;
+        case SDL_MOUSEWHEEL:
+          if (zoom > 0.01) {
+            dx = dx + 0.01 * pixelsize * event.wheel.y * (xcursor - width / 2);
+            dy = dy - 0.01 * pixelsize * event.wheel.y * (ycursor - height / 2);
+          }
+          if (event.wheel.y > 0 && zoom > 0.01)
+            zoom -= 0.01;
+          else if (event.wheel.y < 0)
+            zoom += 0.01;
+          break;
+        default:
+          //printf("unknown event");
+          break;
       }
     }
     frames++;
