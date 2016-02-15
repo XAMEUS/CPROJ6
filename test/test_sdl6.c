@@ -14,7 +14,7 @@ static float maxlon = -104.9693810;
 
 static float pixelsize = 1;
 
-void initNodesBounds(char *filename){
+int initNodesBounds(char *filename){
   xmlDocPtr doc;
   xmlNodePtr cur;
 
@@ -37,18 +37,13 @@ void initNodesBounds(char *filename){
   }
   cur = xmlDocGetRootElement(doc);
 
-  SDL_Window *window; // Declare a pointer, main window
-  int width = 640;
-  int height = 480;
-  float dx = 0;
-  float dy = 0;
-  float zoom = 1.0;
   minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlat"));
   maxlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
   minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
   maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
 
   getNodes(cur);
+  return 0;
 }
 
 void Display_InitGL()
