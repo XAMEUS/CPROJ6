@@ -54,11 +54,12 @@ void Display_InitGL()
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
   glLineWidth(1.6f);
+  glPointSize(3.0f);
 }
 
 void Display_Frame() {
 
-  glColor3f(1.0, 0.0, 0.0);
+  glColor3f(0.0, 0.0, 0.0);
   glPushMatrix();
   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
   glBegin(GL_POINTS);
@@ -74,7 +75,7 @@ void Display_Frame() {
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom)
 {
   // Set the background
-  glClearColor(0.f, 0.f, 0.f, 0.0f);
+  glClearColor(0.9f, 0.9f, 0.9f, 0.0f);
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
