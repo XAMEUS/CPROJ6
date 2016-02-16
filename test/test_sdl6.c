@@ -14,6 +14,8 @@ static float maxlon = -104.9693810;
 
 static float pixelsize = 1;
 
+static int showFrame = 0;
+
 int initNodesBounds(char *filename){
   xmlDocPtr doc;
   xmlNodePtr cur;
@@ -59,14 +61,21 @@ void Display_InitGL()
 
 void Display_Frame() {
 
-  glColor3f(0.0, 0.0, 0.0);
+  glColor3f(1.0, 0.0, 0.0);
   glPushMatrix();
   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
-  glBegin(GL_POINTS);
-    int i;
-    for(i=0;i<sizeNodes;i++){
-      glVertex2f(nodes[i].lon,nodes[i].lat);
-    }
+  glBegin(GL_LINES);
+    glVertex2f(minlon, (maxlat-minlat)/2 + minlat);
+    glVertex2f(maxlon, (maxlat-minlat)/2 + minlat);
+  glEnd();
+  glPopMatrix();
+
+  glColor3f(0.0, 0.0, 1.0);
+  glPushMatrix();
+  glRotatef(rotAngle, 0.0, 0.0, 0.1);
+  glBegin(GL_LINES);
+    glVertex2f((maxlon-minlon)/2 + minlon, minlat);
+    glVertex2f((maxlon-minlon)/2 + minlon, maxlat);
   glEnd();
   glPopMatrix();
 
@@ -79,7 +88,19 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  Display_Frame();
+  if (showFrame) Display_Frame();
+
+  // Draw points
+  glColor3f(0.0, 0.0, 0.0);
+  glPushMatrix();
+  glRotatef(-rotAngle, 0.0, 0.0, 0.1);
+  glBegin(GL_POINTS);
+    int i;
+    for(i=0;i<sizeNodes;i++){
+      glVertex2f(nodes[i].lon,nodes[i].lat);
+    }
+  glEnd();
+  glPopMatrix();
 
   // Render
   SDL_RenderPresent(renderer);
@@ -231,6 +252,11 @@ int main(int argc, char* argv[])
             zoom = 1.0;
             dx = 0.0;
             dy = 0.0;
+          }
+          if (event.key.keysym.sym == SDLK_s)
+          {
+            if (showFrame) showFrame = 0;
+            else showFrame = 1;
           }
           break;
         case SDL_WINDOWEVENT:
