@@ -91,7 +91,6 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     int i;
     if(projection){
       for(i=0;i<sizeNodes;i++){
-        //printf("node=> %f %f\n",nodes[i].y,nodes[i].x);
         glVertex2f(nodes[i].x,nodes[i].y);
       }
     }
@@ -127,7 +126,6 @@ void Display_SetViewport(int width, int height, float dx, float dy, float zoom)
     min_y = minlat;
     max_y = maxlat;
   }
-  printf("bounds => %f %f %f %f\n",min_x,max_x,min_y,max_y);
   if (width <= height) {
     pixelsize = (max_x-min_x)/width;
     glOrtho(
