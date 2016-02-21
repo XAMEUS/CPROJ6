@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags`
-LDFLAGS= `sdl2-config --libs` `xml2-config --libs`
+CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags` -lm
+LDFLAGS= `sdl2-config --libs` `xml2-config --libs` -lm
 EXEC = test_sdl0 test_sdl1 test_sdl2 test_sdl4 test_sdl5
 HEADERS = $(wildcard *.h)
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))

@@ -7,14 +7,10 @@
 
 static float rotAngle = 0.0;
 
-static float minlat = 39.7492900;
-static float maxlat = 39.7525610;
-static float minlon = -104.9737800;
-static float maxlon = -104.9693810;
-
 static float pixelsize = 1;
 
 static int showFrame = 0;
+static int projection = 1;
 
 int initNodesBounds(char *filename){
   xmlDocPtr doc;
@@ -39,10 +35,7 @@ int initNodesBounds(char *filename){
   }
   cur = xmlDocGetRootElement(doc);
 
-  minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlat"));
-  maxlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
-  minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
-  maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
+  initBounds(bounds);
 
   getNodes(cur);
   return 0;
@@ -96,8 +89,16 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
   glBegin(GL_POINTS);
     int i;
-    for(i=0;i<sizeNodes;i++){
-      glVertex2f(nodes[i].lon,nodes[i].lat);
+    if(projection){
+      for(i=0;i<sizeNodes;i++){
+        //printf("node=> %f %f\n",nodes[i].y,nodes[i].x);
+        glVertex2f(nodes[i].x,nodes[i].y);
+      }
+    }
+    else{
+      for(i=0;i<sizeNodes;i++){
+        glVertex2f(nodes[i].lon,nodes[i].lat);
+      }
     }
   glEnd();
   glPopMatrix();
@@ -107,30 +108,44 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 }
 
 // function to reset our viewport after a window resize
-void Display_SetViewport(int width, int height, float dx, float dy, float minlat, float minlon, float maxlat, float maxlon, float zoom)
+void Display_SetViewport(int width, int height, float dx, float dy, float zoom)
 {
   glViewport(0, 0, (GLint) width, (GLint) height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
+  float min_x,max_x, min_y, max_y;
+
+  if(projection){
+    min_x = minx;
+    max_x = maxx;
+    min_y = miny;
+    max_y = maxy;
+  }else{
+    min_x = minlon;
+    max_x = maxlon;
+    min_y = minlat;
+    max_y = maxlat;
+  }
+  printf("bounds => %f %f %f %f\n",min_x,max_x,min_y,max_y);
   if (width <= height) {
-    pixelsize = (maxlon-minlon)/width;
+    pixelsize = (max_x-min_x)/width;
     glOrtho(
-      (minlon + maxlon) / 2 + dx - zoom * (maxlon - minlon) / 2,
-      (minlon + maxlon) / 2 + dx + zoom * (maxlon - minlon) / 2,
-      (minlat + maxlat) / 2 + dy - zoom * (pixelsize * height / 2),
-      (minlat + maxlat) / 2 + dy + zoom * (pixelsize * height / 2),
+      (min_x + max_x) / 2 + dx - zoom * (max_x - min_x) / 2,
+      (min_x + max_x) / 2 + dx + zoom * (max_x - min_x) / 2,
+      (min_y + max_y) / 2 + dy - zoom * (pixelsize * height / 2),
+      (min_y + max_y) / 2 + dy + zoom * (pixelsize * height / 2),
       -1.0,
       1.0
     );
   }
   else {
-    pixelsize = (maxlat-minlat)/height;
+    pixelsize = (max_y-min_y)/height;
     glOrtho(
-      (minlon + maxlon) / 2 + dx - zoom * (pixelsize * width / 2),
-      (minlon + maxlon) / 2 + dx + zoom * (pixelsize * width / 2),
-      (minlat + maxlat) / 2 + dy - zoom * (maxlat - minlat) / 2,
-      (minlat + maxlat) / 2 + dy + zoom * (maxlat - minlat) / 2,
+      (min_x + max_x) / 2 + dx - zoom * (pixelsize * width / 2),
+      (min_x + max_x) / 2 + dx + zoom * (pixelsize * width / 2),
+      (min_y + max_y) / 2 + dy - zoom * (max_y - min_y) / 2,
+      (min_y + max_y) / 2 + dy + zoom * (max_y - min_y) / 2,
       -1.0,
       1.0
     );
@@ -197,10 +212,6 @@ int main(int argc, char* argv[])
     width, height,
     dx,
     dy,
-    minlat,
-    minlon,
-    maxlat,
-    maxlon,
     zoom
   );
 
@@ -219,10 +230,6 @@ int main(int argc, char* argv[])
       width, height,
       dx,
       dy,
-      minlat,
-      minlon,
-      maxlat,
-      maxlon,
       zoom
     );
     Display_Render(displayRenderer, width, height, dx, dy, zoom);
@@ -257,6 +264,10 @@ int main(int argc, char* argv[])
           {
             if (showFrame) showFrame = 0;
             else showFrame = 1;
+          }
+          if (event.key.keysym.sym == SDLK_p)
+          {
+            projection = !projection;
           }
           break;
         case SDL_WINDOWEVENT:

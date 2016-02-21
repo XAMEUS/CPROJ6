@@ -1,7 +1,19 @@
 #include "parse.h"
 
+
 node* nodes = 0;
 int sizeNodes = 100;
+
+float minlat = 39.7492900;
+float maxlat = 39.7525610;
+float minlon = -104.9737800;
+float maxlon = -104.9693810;
+float midlon = 0;
+
+float minx = -1;
+float maxx = 1;
+float miny = -1;
+float maxy = 1;
 
 xmlNodePtr getNode(xmlNodePtr cur, char* name){
   while(cur != NULL){
@@ -12,6 +24,18 @@ xmlNodePtr getNode(xmlNodePtr cur, char* name){
     cur=cur->next;
   }
   return cur;
+}
+
+void initBounds(xmlNodePtr bounds){
+    minlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlat"));
+    maxlat = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlat"));
+    minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
+    maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
+    midlon = ((maxlon-minlon)/2)+minlon;
+    minx = minlon;
+    maxx = maxlon;
+    miny = (((log(tan(M_PI/4+((((minlat)/2)*M_PI)/180))))*180)/M_PI);
+    maxy = (((log(tan(M_PI/4+((((maxlat)/2)*M_PI)/180))))*180)/M_PI);
 }
 
 void getNodes(xmlNodePtr cur){
@@ -27,6 +51,8 @@ void getNodes(xmlNodePtr cur){
     if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
       n.lat = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lat"));
       n.lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
+      n.x = n.lon;
+      n.y = (((log(tan(M_PI/4+((((n.lat)/2)*M_PI)/180))))*180)/M_PI);
       nodes[i]=n;
       i++;
     }
