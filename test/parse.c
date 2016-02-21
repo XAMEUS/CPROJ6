@@ -61,6 +61,35 @@ void getNodes(xmlNodePtr cur){
   sizeNodes=i;
 }
 
+int initNodesBounds(char *filename){
+  xmlDocPtr doc;
+  xmlNodePtr cur;
+
+  doc = xmlParseFile(filename);
+  if(doc==NULL){
+    fprintf(stderr,"Erreur parse\n");
+    return 1;
+  }
+
+  cur = xmlDocGetRootElement(doc);
+  if(cur == NULL){
+    fprintf(stderr,"Erreur tree\n");
+    return 2;
+  }
+
+  xmlNodePtr bounds = getNode(cur->xmlChildrenNode, "bounds");
+  if(bounds == NULL){
+    fprintf(stderr,"Erreur bounds\n");
+    return 2;
+  }
+  cur = xmlDocGetRootElement(doc);
+
+  initBounds(bounds);
+
+  getNodes(cur);
+  return 0;
+}
+
 /*int main(int argc, char **argv) {
     if (argc != 2)
         return(1);

@@ -9,37 +9,13 @@ static float rotAngle = 0.0;
 
 static float pixelsize = 1;
 
+static float min_x = -1;
+static float max_x = 1;
+static float min_y = -1;
+static float max_y = 1;
+
 static int showFrame = 0;
 static int projection = 1;
-
-int initNodesBounds(char *filename){
-  xmlDocPtr doc;
-  xmlNodePtr cur;
-
-  doc = xmlParseFile(filename);
-  if(doc==NULL){
-    fprintf(stderr,"Erreur parse\n");
-    return 1;
-  }
-
-  cur = xmlDocGetRootElement(doc);
-  if(cur == NULL){
-    fprintf(stderr,"Erreur tree\n");
-    return 2;
-  }
-
-  xmlNodePtr bounds = getNode(cur->xmlChildrenNode, "bounds");
-  if(bounds == NULL){
-    fprintf(stderr,"Erreur bounds\n");
-    return 2;
-  }
-  cur = xmlDocGetRootElement(doc);
-
-  initBounds(bounds);
-
-  getNodes(cur);
-  return 0;
-}
 
 void Display_InitGL()
 {
@@ -58,8 +34,8 @@ void Display_Frame() {
   glPushMatrix();
   glRotatef(-rotAngle, 0.0, 0.0, 0.1);
   glBegin(GL_LINES);
-    glVertex2f(minlon, (maxlat-minlat)/2 + minlat);
-    glVertex2f(maxlon, (maxlat-minlat)/2 + minlat);
+    glVertex2f(min_x, (max_y-min_y)/2 + min_y);
+    glVertex2f(max_x, (max_y-min_y)/2 + min_y);
   glEnd();
   glPopMatrix();
 
@@ -67,8 +43,8 @@ void Display_Frame() {
   glPushMatrix();
   glRotatef(rotAngle, 0.0, 0.0, 0.1);
   glBegin(GL_LINES);
-    glVertex2f((maxlon-minlon)/2 + minlon, minlat);
-    glVertex2f((maxlon-minlon)/2 + minlon, maxlat);
+    glVertex2f((max_x-min_x)/2 + min_x, min_y);
+    glVertex2f((max_x-min_x)/2 + min_x, max_y);
   glEnd();
   glPopMatrix();
 
@@ -113,19 +89,6 @@ void Display_SetViewport(int width, int height, float dx, float dy, float zoom)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  float min_x,max_x, min_y, max_y;
-
-  if(projection){
-    min_x = minx;
-    max_x = maxx;
-    min_y = miny;
-    max_y = maxy;
-  }else{
-    min_x = minlon;
-    max_x = maxlon;
-    min_y = minlat;
-    max_y = maxlat;
-  }
   if (width <= height) {
     pixelsize = (max_x-min_x)/width;
     glOrtho(
@@ -161,10 +124,14 @@ int main(int argc, char* argv[])
   int height = 480;
   float dx = 0;
   float dy = 0;
-
   float zoom = 1.0;
 
   initNodesBounds(argv[1]);
+
+  min_x = minx;
+  max_x = maxx;
+  min_y = miny;
+  max_y = maxy;
 
   // Initialize SDL2
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
@@ -266,6 +233,17 @@ int main(int argc, char* argv[])
           if (event.key.keysym.sym == SDLK_p)
           {
             projection = !projection;
+            if(projection){
+              min_x = minx;
+              max_x = maxx;
+              min_y = miny;
+              max_y = maxy;
+            }else{
+              min_x = minlon;
+              max_x = maxlon;
+              min_y = minlat;
+              max_y = maxlat;
+            }
           }
           break;
         case SDL_WINDOWEVENT:

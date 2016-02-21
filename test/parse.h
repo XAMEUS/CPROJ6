@@ -18,7 +18,6 @@ extern float minlat;
 extern float maxlat;
 extern float minlon;
 extern float maxlon;
-extern float midlon;
 
 extern float minx;
 extern float maxx;
@@ -32,3 +31,5 @@ xmlNodePtr getNode(xmlNodePtr cur, char* name);
 void getNodes(xmlNodePtr cur);
 
 void initBounds(xmlNodePtr bounds);
+
+int initNodesBounds(char *filename);
