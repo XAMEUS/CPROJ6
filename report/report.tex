@@ -1,0 +1,152 @@
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[DIV=calc, paper=a4, fontsize=11pt, french]{scrartcl}	 % A4 paper and 11pt font size
+
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  total={170mm,257mm},
+  left=20mm,
+  top=20mm,
+}
+
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[svgnames]{xcolor} % Enabling colors by their 'svgnames'
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{fix-cm}	 % Custom font sizes - used for the initial letter in the document
+
+\usepackage{sectsty} % Enables custom section titles
+\allsectionsfont{\usefont{OT1}{phv}{b}{n}} % Change the font of all section commands
+
+\usepackage{fancyhdr} % Needed to define custom headers/footers
+\pagestyle{fancy} % Enables the custom headers/footers
+\usepackage{lastpage} % Used to determine the number of pages in the document (for "Page X of Total")
+
+\definecolor{c1}{RGB}{198, 48, 52}
+\definecolor{c2}{RGB}{155, 155, 155}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks,
+  linkcolor={c1},
+  citecolor={c1},
+  urlcolor={c1}
+}
+\usepackage{tikz}
+\usepackage{tkz-graph}
+\usepackage{listings}
+\usepackage{courier}
+\definecolor{theWhite}{gray}{1}
+\definecolor{theBlack}{gray}{0.2}
+%\lstset{% setup listings
+%	basicstyle=\footnotesize\ttfamily\color{c1},
+%    framexleftmargin=16pt,
+%    framextopmargin=6pt,
+%    framexbottommargin=6pt,
+%    frame=tb, framerule=0pt,
+%	xleftmargin=20pt,xrightmargin=10pt
+%}
+\lstset{
+  language=C,                % choose the language of the code
+  basicstyle=\footnotesize\ttfamily\color{c1},
+  framexleftmargin=16pt,
+  framextopmargin=6pt,
+  framexbottommargin=6pt,
+  frame=tb, framerule=0pt,
+  xleftmargin=20pt,xrightmargin=10pt
+}
+
+% Headers - all currently empty
+\lhead{}
+\chead{}
+\rhead{}
+
+% Footers
+\lfoot{}
+\cfoot{}
+\rfoot{\footnotesize Page \thepage\ sur \pageref{LastPage}} % "Page 1 of 2"
+
+\renewcommand{\headrulewidth}{0.0pt} % No header rule
+\renewcommand{\footrulewidth}{0.4pt} % Thin footer rule
+
+\usepackage{lettrine} % Package to accentuate the first letter of the text
+\newcommand{\initial}[1]{ % Defines the command and style for the first letter
+\lettrine[lines=3,lhang=0.3,nindent=0em]{
+\color{c1}
+{\textsf{#1}}}{}}
+
+%\renewcommand{\familydefault}{\sfdefault}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\usepackage{titling} % Allows custom title configuration
+
+\newcommand{\HorRule}{\color{c2} \rule{\linewidth}{1pt}} % Defines the gold horizontal rule around the title
+
+\pretitle{\vspace{-30pt} \begin{flushleft} \HorRule \fontsize{33}{33} \usefont{OT1}{phv}{b}{n} \color{c1} \selectfont} % Horizontal rule before the title
+
+\title{Conduite de projet - CPROJ6\\ OpenStreeMap Viewer} % Your article title
+
+\posttitle{\par\end{flushleft}\vskip 0.5em} % Whitespace under the title
+
+\preauthor{\begin{flushleft}\large \lineskip 0.5em \usefont{OT1}{phv}{b}{sl} \color{c1}} % Author font configuration
+
+\author{Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem, } % Your name
+
+\postauthor{\footnotesize \usefont{OT1}{phv}{m}{sl} \color{Black} % Configuration for the institution name
+Université Paris Diderot % Your institution
+
+\par\end{flushleft}\HorRule} % Horizontal rule after the title
+
+\date{} % Add a date here if you would like one to appear underneath the title block
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title
+
+\thispagestyle{fancy} % Enabling the custom headers/footers for the first page
+
+%----------------------------------------------------------------------------------------
+%	INTRO
+%----------------------------------------------------------------------------------------
+
+% The first character should be within \initial{}
+\initial{C}\textbf{e document est un rapport pour un projet de programmation,
+mené en janvier-mai 2016 par Perrachon Quentin, Gourgoulhon Maxime et Boufedji Belkacem,
+dans le cadre des études en licence d'Informatique à l'Université Paris Diderot.}
+
+\vspace{\fill}
+\tableofcontents
+
+\vspace{1cm}
+sources : \url{https://github.com/XAMEUS/CPROJ6}
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	CONTENT
+%----------------------------------------------------------------------------------------
+
+\include{introduction}
+
+\include{techniques}
+
+\include{compilation}
+
+\include{utilisation}
+
+\include{liens}
+
+\end{document}

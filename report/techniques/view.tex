@@ -1,0 +1,131 @@
+\subsection{Affichage : vue, déplacements et agrandissement}
+
+En OpenGL, \texttt{glOrtho}\footnote{\url{https://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml}}
+permet de définir la vue de la caméra :
+
+\begin{lstlisting}
+void glOrtho(GLdouble left,
+             GLdouble right,
+             GLdouble bottom,
+             GLdouble top,
+             GLdouble nearVal,
+             GLdouble farVal);
+\end{lstlisting}
+
+Où \texttt{left} représente la coordonée à en abscisse minimale (donc à gauche) de la fenêtre,
+\texttt{right} la maximale (à droite) ; de même \texttt{bottom} et \texttt{top} permettent de
+définir les valeurs respectivement minimale et maximale en ordonnée ; \texttt{nearVal} et
+\texttt{farVal} définissent une notion de profondeur (pour permettre de superposer des plans).
+
+\vspace{5mm}
+
+La map au format \texttt{.osm} précise quels sont les longitudes latitudes observées :
+
+\begin{lstlisting}
+<bounds minlat="39.7492900"
+        minlon="-104.9737800"
+        maxlat="39.7525610"
+        maxlon="-104.9693810"/>
+\end{lstlisting}
+
+\subsubsection{Vue}
+
+Peut-on associer:
+\begin{lstlisting}
+void glOrtho(GLdouble minlon,
+             GLdouble maxlon,
+             GLdouble minlat,
+             GLdouble maxlat,
+             -1.0f,
+             1.0f);
+\end{lstlisting}
+
+Si les dimensions de la fenêtre n'ont pas le même ratio $\frac{width}{height}$ que celles de la map donnée $\frac{maxlon-minlon}{maxlat-minlat}$,
+l'image sera alors écrasée ou étirée.
+
+\vspace{10mm}
+
+Une solution est de définir la hauteur comme limitante $bottom-top = maxlat-minlat$,
+autrement dit on s'assure que la map prenne toujours toute hauteur possible.
+Il reste ensuite à trouver quel doit être la largeur correspondante.
+
+Il est possible maintenant de calculer la taille d'un pixel avec $pixelsize=\frac{maxlat-minlat}{height}$ ;
+la largeur de la fenêtre doit conserver ce ratio, donc $right-left = width \times pixelsize$.
+
+Il faut aussi implémenter les déplacements et un système pour pouvoir zoomer ; ça va compliquer un peu les choses.
+
+\subsubsection{Zoom}
+
+Un facteur global $zoom$, par défaut à $1$, précise quel est le niveau de zoom ; si $zoom > 1$ c'est un agrandissement,
+sinon c'est un dézoom.
+
+Gérer le zoom, c'est modifier les valeurs \texttt{glOrtho} ; si c'est un agrandissement, il faut les rapprocher, sinon
+les espacer.
+
+\vspace{5mm}
+
+Si vue était simple :
+\begin{lstlisting}
+void glOrtho(
+             -1.0f,
+             1.0f,
+             -1.0f,
+             1.0f,
+             -1.0f,
+             1.0f);
+\end{lstlisting}
+
+Le facteur zoom peut alors facilement être introduit (car les bornes sont symétriques, l'une est l'inverse de l'autre):
+
+\begin{lstlisting}
+void glOrtho(
+             -1.0f*zoom,
+             1.0f*zoom,
+             -1.0f*zoom,
+             1.0f*zoom,
+             -1.0f,
+             1.0f);
+\end{lstlisting}
+
+Mais dans le cas présent, les bornes ne sont pas symétriques ; il faut recentrer le repère à 0, ensuite appliquer le zoom,
+puis déplacer le repère obtenu vers sa position d'origine.
+
+$\frac{minlon + maxlon}{2}$ calcule le centre du repère en $x$ et $\frac{minlat + maxlat}{2}$, le centre du repère en $y$.
+
+$\frac{pixelsize \times width}{2}$ calcule la distance entre le centre du repère et le bord gauche ou droit de la fenêtre.
+
+$\frac{maxlat + minlat}{2}$ calcule la distance entre le centre du repère et le bord haut ou bas de la fenêtre.
+
+\begin{lstlisting}
+  glOrtho(
+          (minlon + maxlon) / 2 - zoom * (pixelsize * width / 2),
+          (minlon + maxlon) / 2 + zoom * (pixelsize * width / 2),
+          (minlat + maxlat) / 2 - zoom * (maxlat - minlat) / 2,
+          (minlat + maxlat) / 2 + zoom * (maxlat - minlat) / 2,
+          -1.0,
+          1.0
+      );
+\end{lstlisting}
+
+
+\subsubsection{Déplacements}
+
+Il suffit simplement d'ajouter $2$ variables $dx$ et $dy$ (respectivement le décalage en $x$ et en $y$).
+
+\begin{lstlisting}
+  glOrtho(
+          (minlon + maxlon) / 2 + dx - zoom * (pixelsize * width / 2),
+          (minlon + maxlon) / 2 + dx + zoom * (pixelsize * width / 2),
+          (minlat + maxlat) / 2 + dy - zoom * (maxlat - minlat) / 2,
+          (minlat + maxlat) / 2 + dy + zoom * (maxlat - minlat) / 2,
+          -1.0,
+          1.0
+      );
+\end{lstlisting}
+
+Il faudra faire attention à bien calculer le déplacement en fonction du zoom.
+
+\begin{lstlisting}
+  dx -= pixelsize * event.motion.xrel * zoom;
+  dy += pixelsize * event.motion.yrel * zoom;
+\end{lstlisting}
