@@ -88,29 +88,15 @@ void Display_SetViewport(int width, int height, float dx, float dy, float zoom)
   glViewport(0, 0, (GLint) width, (GLint) height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-
-  if (width <= height) {
-    pixelsize = (max_x-min_x)/width;
-    glOrtho(
-      (min_x + max_x) / 2 + dx - zoom * (max_x - min_x) / 2,
-      (min_x + max_x) / 2 + dx + zoom * (max_x - min_x) / 2,
-      (min_y + max_y) / 2 + dy - zoom * (pixelsize * height / 2),
-      (min_y + max_y) / 2 + dy + zoom * (pixelsize * height / 2),
-      -1.0,
-      1.0
-    );
-  }
-  else {
-    pixelsize = (max_y-min_y)/height;
-    glOrtho(
-      (min_x + max_x) / 2 + dx - zoom * (pixelsize * width / 2),
-      (min_x + max_x) / 2 + dx + zoom * (pixelsize * width / 2),
-      (min_y + max_y) / 2 + dy - zoom * (max_y - min_y) / 2,
-      (min_y + max_y) / 2 + dy + zoom * (max_y - min_y) / 2,
-      -1.0,
-      1.0
-    );
-  }
+  pixelsize = (max_y-min_y)/height;
+  glOrtho(
+    (min_x + max_x) / 2 + dx - zoom * (pixelsize * width / 2),
+    (min_x + max_x) / 2 + dx + zoom * (pixelsize * width / 2),
+    (min_y + max_y) / 2 + dy - zoom * (max_y - min_y) / 2,
+    (min_y + max_y) / 2 + dy + zoom * (max_y - min_y) / 2,
+    -1.0,
+    1.0
+  );
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
