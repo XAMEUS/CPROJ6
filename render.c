@@ -42,25 +42,15 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       listref *list = ways[i].nodesref;
       while(list){
         n = getNode(list->ref);
-        glVertex2f(n->x,n->y);
+        if(projection){
+          glVertex2f(n->x,n->y);
+        }else{
+          glVertex2f(n->lon,n->lat)
+        }
         list = list->next;
       }
       glEnd();
   }
-  /*
-  glBegin(GL_POINTS);
-    if(projection){
-      for(i=0;i<sizeNodes;i++){
-        glVertex2f(nodes[i].x,nodes[i].y);
-      }
-    }
-    else{
-      for(i=0;i<sizeNodes;i++){
-        glVertex2f(nodes[i].lon,nodes[i].lat);
-      }
-    }
-  glEnd();
-  */
   //Draw_Line(min_x, min_y, max_x, max_y, 10); BIG PINK DIAGONAL LINE
 
   glPopMatrix();
