@@ -35,8 +35,20 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   // Draw points
   glColor3f(0.0, 0.0, 0.0);
   glPushMatrix();
+  int i;
+  node *n = malloc(sizeof(node));
+  for(i=0;i<sizeWays;i++){
+    glBegin(GL_LINES);
+      listref *list = ways[i].nodesref;
+      while(list){
+        n = getNode(list->ref);
+        glVertex2f(n->x,n->y);
+        list = list->next;
+      }
+      glEnd();
+  }
+  /*
   glBegin(GL_POINTS);
-    int i;
     if(projection){
       for(i=0;i<sizeNodes;i++){
         glVertex2f(nodes[i].x,nodes[i].y);
@@ -48,8 +60,8 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       }
     }
   glEnd();
-
-  Draw_Line(min_x, min_y, max_x, max_y, 10);
+  */
+  //Draw_Line(min_x, min_y, max_x, max_y, 10); BIG PINK DIAGONAL LINE
 
   glPopMatrix();
 

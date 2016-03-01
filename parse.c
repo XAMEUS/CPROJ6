@@ -18,6 +18,15 @@ float maxx = 1;
 float miny = -1;
 float maxy = 1;
 
+node *getNode(int ref){
+  int i;
+  for(i=0;i<sizeNodes;i++){
+    if(nodes[i].id==ref)
+      return &nodes[i];
+  }
+  return NULL;
+}
+
 xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name){
   while(cur != NULL){
     printf("%s",cur->name);
@@ -56,7 +65,7 @@ void xmlGetNodes(xmlNodePtr cur){
       n.lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
       n.x = n.lon;
       n.y = (((log(tan(M_PI/4+((((n.lat)/2)*M_PI)/180))))*180)/M_PI);
-      n.id = atoi((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
+      n.id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
       nodes[i]=n;
       i++;
     }
@@ -68,21 +77,24 @@ void xmlGetNodes(xmlNodePtr cur){
 way xmlGetWay(xmlNodePtr cur){
   way w;
   cur = cur->xmlChildrenNode;
+  w.nodesref = malloc(sizeof(listref));
+  w.nodesref = NULL;
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
-      w.nodesref = listref_append(w.nodesref,atoi((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
+      w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
     }
+    cur=cur->next;
   }
   return w;
 
 }
 
 void xmlGetWays(xmlNodePtr cur){
-  ways = malloc(sizeof(node)*100);
+  ways = malloc(sizeof(way)*100);
   cur = cur->xmlChildrenNode;
   int i = 0;
   while(cur != NULL){
-    if(i==sizeNodes){
+    if(i==sizeWays){
       sizeWays*=2;
       ways = realloc(ways,sizeof(way)*sizeWays);
     }
@@ -92,7 +104,7 @@ void xmlGetWays(xmlNodePtr cur){
     }
     cur=cur->next;
   }
-  sizeNodes=i;
+  sizeWays=i;
 }
 
 
@@ -123,5 +135,8 @@ int initNodesBounds(char *filename){
   initBounds(bounds);
 
   xmlGetNodes(cur);
+
+  xmlGetWays(cur);
+
   return 0;
 }

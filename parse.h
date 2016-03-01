@@ -9,7 +9,7 @@ struct st_node{
   float lon;
   float x;
   float y;
-  int id;
+  long id;
 };
 
 typedef struct st_node node;
@@ -36,6 +36,8 @@ extern float minx;
 extern float maxx;
 extern float miny;
 extern float maxy;
+
+node *getNode(int ref);
 
 xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name);
 
