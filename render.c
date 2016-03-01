@@ -38,14 +38,14 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   int i;
   node *n = malloc(sizeof(node));
   for(i=0;i<sizeWays;i++){
-    glBegin(GL_LINES);
+    glBegin(GL_LINE_STRIP);
       listref *list = ways[i].nodesref;
       while(list){
         n = getNode(list->ref);
         if(projection){
           glVertex2f(n->x,n->y);
         }else{
-          glVertex2f(n->lon,n->lat)
+          glVertex2f(n->lon,n->lat);
         }
         list = list->next;
       }
