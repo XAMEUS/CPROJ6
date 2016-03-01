@@ -10,7 +10,7 @@ all: $(EXEC)
 %.o: %.c $(HEADERS)
 	$(CC) -c $< '-lm' $(CFLAGS)
 
-main: display.o parse.o draw.o render.o ui.o main.o
+main: display.o listref.o parse.o draw.o render.o ui.o main.o
 	$(CC) $^ -lGLU -lGL $(LDFLAGS)
 
 clean:

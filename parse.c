@@ -1,8 +1,11 @@
 #include "parse.h"
 
 
-node* nodes = 0;
+node* nodes = NULL;
+way* ways = NULL;
+
 int sizeNodes = 100;
+int sizeWays = 100;
 
 float minlat = 39.7492900;
 float maxlat = 39.7525610;
@@ -15,7 +18,7 @@ float maxx = 1;
 float miny = -1;
 float maxy = 1;
 
-xmlNodePtr getNode(xmlNodePtr cur, char* name){
+xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name){
   while(cur != NULL){
     printf("%s",cur->name);
     if(xmlStrcmp(cur->name,(const xmlChar *)name)==0){
@@ -38,7 +41,7 @@ void initBounds(xmlNodePtr bounds){
     maxy = (((log(tan(M_PI/4+((((maxlat)/2)*M_PI)/180))))*180)/M_PI);
 }
 
-void getNodes(xmlNodePtr cur){
+void xmlGetNodes(xmlNodePtr cur){
   nodes = malloc(sizeof(node)*100);
   cur = cur->xmlChildrenNode;
   int i = 0;
@@ -53,6 +56,7 @@ void getNodes(xmlNodePtr cur){
       n.lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
       n.x = n.lon;
       n.y = (((log(tan(M_PI/4+((((n.lat)/2)*M_PI)/180))))*180)/M_PI);
+      n.id = atoi((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
       nodes[i]=n;
       i++;
     }
@@ -60,6 +64,38 @@ void getNodes(xmlNodePtr cur){
   }
   sizeNodes=i;
 }
+
+way xmlGetWay(xmlNodePtr cur){
+  way w;
+  cur = cur->xmlChildrenNode;
+  while(cur!=NULL){
+    if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
+      w.nodesref = listref_append(w.nodesref,atoi((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
+    }
+  }
+  return w;
+
+}
+
+void xmlGetWays(xmlNodePtr cur){
+  ways = malloc(sizeof(node)*100);
+  cur = cur->xmlChildrenNode;
+  int i = 0;
+  while(cur != NULL){
+    if(i==sizeNodes){
+      sizeWays*=2;
+      ways = realloc(ways,sizeof(way)*sizeWays);
+    }
+    if(xmlStrcmp(cur->name,(const xmlChar *)"way")==0){
+      ways[i]=xmlGetWay(cur);
+      i++;
+    }
+    cur=cur->next;
+  }
+  sizeNodes=i;
+}
+
+
 
 int initNodesBounds(char *filename){
   xmlDocPtr doc;
@@ -77,7 +113,7 @@ int initNodesBounds(char *filename){
     return 2;
   }
 
-  xmlNodePtr bounds = getNode(cur->xmlChildrenNode, "bounds");
+  xmlNodePtr bounds = xmlGetNode(cur->xmlChildrenNode, "bounds");
   if(bounds == NULL){
     fprintf(stderr,"Erreur bounds\n");
     return 2;
@@ -86,45 +122,6 @@ int initNodesBounds(char *filename){
 
   initBounds(bounds);
 
-  getNodes(cur);
+  xmlGetNodes(cur);
   return 0;
 }
-
-/*int main(int argc, char **argv) {
-    if (argc != 2)
-        return(1);
-
-    LIBXML_TEST_VERSION
-
-    xmlDocPtr doc;
-    xmlNodePtr cur;
-
-    doc = xmlParseFile(argv[1]);
-    if(doc==NULL){
-      fprintf(stderr,"Erreur parse\n");
-      return 1;
-    }
-
-    cur = xmlDocGetRootElement(doc);
-
-    if(cur == NULL){
-      fprintf(stderr,"Erreur tree\n");
-      return 2;
-    }
-    printf("root %s\n",cur->name);
-    cur = cur->xmlChildrenNode;
-    while(cur != NULL){
-      if(xmlStrcmp(cur->name,(const xmlChar *)"bounds")==0){
-        printf("=====> %s\n", cur->name);
-        parseNode(doc,cur);
-      }
-      cur=cur->next;
-    }
-
-
-
-    xmlFreeDoc(doc);
-    xmlCleanupParser();
-    xmlMemoryDump();
-    return(0);
-}*/
