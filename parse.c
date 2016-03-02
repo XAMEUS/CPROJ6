@@ -1,3 +1,4 @@
+#include <string.h>
 #include "parse.h"
 
 
@@ -79,9 +80,35 @@ way xmlGetWay(xmlNodePtr cur){
   cur = cur->xmlChildrenNode;
   w.nodesref = malloc(sizeof(listref));
   w.nodesref = NULL;
+  w.highway = 0;
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
       w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
+    }
+    if(xmlStrcmp(cur->name,(const xmlChar *)"tag")==0){
+      char *k = (char*)xmlGetProp(cur,(const xmlChar*)"k");
+      char *v = (char*)xmlGetProp(cur,(const xmlChar*)"v");
+      if(strcmp(k,"highway")==0){
+        if(strcmp(v,"motorway")==0){
+          w.highway=HIGHWAY_MOTORWAY;
+        }else if(strcmp(v,"trunk")==0){
+          w.highway=HIGHWAY_TRUNK;
+        }else if(strcmp(v,"primary")==0){
+          w.highway=HIGHWAY_PRIMARY;
+        }else if(strcmp(v,"secondary")==0){
+          w.highway=HIGHWAY_SECONDARY;
+        }else if(strcmp(v,"tertiary")==0){
+          w.highway=HIGHWAY_TERTIARY;
+        }else if(strcmp(v,"unclassified")==0){
+          w.highway=HIGHWAY_UNCLASSIFIED;
+        }else if(strcmp(v,"residential")==0){
+          w.highway=HIGHWAY_RESIDENTIAL;
+        }else if(strcmp(v,"service")==0){
+          w.highway=HIGHWAY_SERVICE;
+        }
+      }else{
+
+      }
     }
     cur=cur->next;
   }

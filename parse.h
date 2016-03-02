@@ -2,24 +2,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <math.h>
-#include "listref.h"
-
-struct st_node{
-  float lat;
-  float lon;
-  float x;
-  float y;
-  long id;
-};
-
-typedef struct st_node node;
-
-
-struct st_way{
-  listref *nodesref;
-};
-
-typedef struct st_way way;
+#include "osm.h"
 
 extern node* nodes;
 extern int sizeNodes;

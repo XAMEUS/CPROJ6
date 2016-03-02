@@ -36,20 +36,13 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glColor3f(0.0, 0.0, 0.0);
   glPushMatrix();
   int i;
-  node *n = malloc(sizeof(node));
   for(i=0;i<sizeWays;i++){
-    glBegin(GL_LINE_STRIP);
-      listref *list = ways[i].nodesref;
-      while(list){
-        n = getNode(list->ref);
-        if(projection){
-          glVertex2f(n->x,n->y);
-        }else{
-          glVertex2f(n->lon,n->lat);
-        }
-        list = list->next;
-      }
-      glEnd();
+    way w = ways[i];
+    if(w.highway!=0){
+      Render_Highway(w);
+    }else{
+      Render_Default(w);
+    }
   }
   //Draw_Line(min_x, min_y, max_x, max_y, 10); BIG PINK DIAGONAL LINE
 
@@ -57,4 +50,68 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 
   // Render
   SDL_RenderPresent(renderer);
+}
+
+void Render_Default(way w){
+  glColor3f(0.0f,0.0f,0.0f);
+  glBegin(GL_LINE_STRIP);
+    node *current = malloc(sizeof(node));
+    node *next = malloc(sizeof(node));
+    listref *list = w.nodesref;
+    if(list){
+      current = getNode(list->ref);
+      list = list->next;
+    }
+    while(list){
+      next = getNode(list->ref);
+      glVertex2f(current->x,current->y);
+      current = next;
+      list = list->next;
+    }
+    glVertex2f(current->x,current->y);
+  glEnd();
+}
+
+void Render_Highway(way w){
+  GLfloat size = 1.0f;
+  glColor3f(1.0f,0.0f,1.0f);
+  switch(w.highway){
+    case HIGHWAY_MOTORWAY:
+      size = HIGHWAY_MOTORWAY_SIZE;
+      break;
+    case HIGHWAY_TRUNK:
+      size = HIGHWAY_TRUNK_SIZE;
+      break;
+    case HIGHWAY_PRIMARY:
+      size = HIGHWAY_PRIMARY_SIZE;
+      break;
+    case HIGHWAY_SECONDARY:
+      size = HIGHWAY_SECONDARY_SIZE;
+      break;
+    case HIGHWAY_TERTIARY:
+      size = HIGHWAY_TERTIARY_SIZE;
+      break;
+    case HIGHWAY_UNCLASSIFIED:
+      size = HIGHWAY_UNCLASSIFIED_SIZE;
+      break;
+    case HIGHWAY_RESIDENTIAL:
+      size = HIGHWAY_RESIDENTIAL_SIZE;
+      break;
+    case HIGHWAY_SERVICE:
+      size = HIGHWAY_SERVICE_SIZE;
+      break;
+  }
+    node *current = malloc(sizeof(node));
+    node *next = malloc(sizeof(node));
+    listref *list = w.nodesref;
+    if(list){
+      current = getNode(list->ref);
+      list = list->next;
+    }
+    while(list){
+      next = getNode(list->ref);
+      Draw_Line(current->x,current->y,next->x,next->y,size);
+      current = next;
+      list = list->next;
+    }
 }
