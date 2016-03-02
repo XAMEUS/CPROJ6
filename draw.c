@@ -10,7 +10,6 @@ void Draw_Line(GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat size)
   wx = wx / length * size * pixelsize;
   wy = wy / length * size * pixelsize;
   glBegin(GL_QUADS);
-    glColor3f(1.0f, 0.0f, 1.0f);
     glVertex3f(x0 + wx, y0 + wy, 0);
     glVertex3f(x0 - wx, y0 - wy, 0);
     glVertex3f(x0 - wx + vx, y0 - wy + vy, 0);

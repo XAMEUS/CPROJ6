@@ -64,40 +64,49 @@ void Render_Default(way w){
     }
     while(list){
       next = getNode(list->ref);
-      glVertex2f(current->x,current->y);
+      if(current)
+        glVertex2f(current->x,current->y);
       current = next;
       list = list->next;
     }
-    glVertex2f(current->x,current->y);
+    if(current)
+      glVertex2f(current->x,current->y);
   glEnd();
 }
 
 void Render_Highway(way w){
   GLfloat size = 1.0f;
-  glColor3f(1.0f,0.0f,1.0f);
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
+      glColor3f(1.0f,0.0f,0.0f);
       size = HIGHWAY_MOTORWAY_SIZE;
       break;
     case HIGHWAY_TRUNK:
+      glColor3f(1.0f,0.5f,0.5f);
       size = HIGHWAY_TRUNK_SIZE;
       break;
     case HIGHWAY_PRIMARY:
+      glColor3f(1.0f,1.0f,0.0f);
       size = HIGHWAY_PRIMARY_SIZE;
       break;
     case HIGHWAY_SECONDARY:
+      glColor3f(1.0f,0.0f,1.0f);
       size = HIGHWAY_SECONDARY_SIZE;
       break;
     case HIGHWAY_TERTIARY:
+      glColor3f(0.0f,1.0f,0.0f);
       size = HIGHWAY_TERTIARY_SIZE;
       break;
     case HIGHWAY_UNCLASSIFIED:
+      glColor3f(0.0f,1.0f,1.0f);
       size = HIGHWAY_UNCLASSIFIED_SIZE;
       break;
     case HIGHWAY_RESIDENTIAL:
+      glColor3f(0.0f,0.5f,0.5f);
       size = HIGHWAY_RESIDENTIAL_SIZE;
       break;
     case HIGHWAY_SERVICE:
+      glColor3f(0.5f,0.5f,0.5f);
       size = HIGHWAY_SERVICE_SIZE;
       break;
   }
@@ -110,6 +119,7 @@ void Render_Highway(way w){
     }
     while(list){
       next = getNode(list->ref);
+      if(current && next)
       Draw_Line(current->x,current->y,next->x,next->y,size);
       current = next;
       list = list->next;

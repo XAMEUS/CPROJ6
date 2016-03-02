@@ -19,12 +19,13 @@ float maxx = 1;
 float miny = -1;
 float maxy = 1;
 
-node *getNode(int ref){
+node *getNode(long ref){
   int i;
   for(i=0;i<sizeNodes;i++){
     if(nodes[i].id==ref)
       return &nodes[i];
   }
+  printf("%ld\n",ref);
   return NULL;
 }
 

@@ -20,7 +20,7 @@ extern float maxx;
 extern float miny;
 extern float maxy;
 
-node *getNode(int ref);
+node *getNode(long ref);
 
 xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name);
 
