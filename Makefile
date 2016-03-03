@@ -13,6 +13,9 @@ all: $(EXEC)
 main: display.o listref.o parse.o draw.o render.o ui.o main.o
 	$(CC) $^ -lGLU -lGL $(LDFLAGS)
 
+drawing: display.o draw.o drawing.o
+	$(CC) -o drawing $^ -lGLU -lGL $(LDFLAGS)
+
 clean:
 	rm -f $(OBJECTS)
 
