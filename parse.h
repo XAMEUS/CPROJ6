@@ -2,12 +2,13 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <math.h>
+#include <glib.h>
 #include "osm.h"
 
-extern node* nodes;
-extern int sizeNodes;
+extern GHashTable* nodes_hashtable;
 
 extern way* ways;
+extern GHashTable* ways_hashtable;
 extern int sizeWays;
 
 extern float minlat;

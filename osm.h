@@ -25,6 +25,7 @@ struct st_way{
   listref *nodesref;
   int highway;
   int building;
+  long id;
 };
 
 typedef struct st_way way;

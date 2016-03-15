@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags` -lm
-LDFLAGS= `sdl2-config --libs` `xml2-config --libs` -lm
+CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags` `pkg-config --cflags glib-2.0` -lm
+LDFLAGS= `sdl2-config --libs` `xml2-config --libs` `pkg-config --libs glib-2.0` -lm
 EXEC = main
 HEADERS = $(wildcard *.h)
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
@@ -8,7 +8,7 @@ OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 all: $(EXEC)
 
 %.o: %.c $(HEADERS)
-	$(CC) -c $< '-lm' $(CFLAGS)
+	$(CC) -c $< $(CFLAGS)
 
 main: display.o listref.o parse.o draw.o render.o ui.o main.o
 	$(CC) $^ -lGLU -lGL $(LDFLAGS)

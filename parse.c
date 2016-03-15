@@ -2,10 +2,10 @@
 #include "parse.h"
 
 
-node* nodes = NULL;
+GHashTable* nodes_hashtable = NULL;
 way* ways = NULL;
 
-int sizeNodes = 100;
+
 int sizeWays = 100;
 
 float minlat = 39.7492900;
@@ -19,6 +19,7 @@ float maxx = 1;
 float miny = -1;
 float maxy = 1;
 
+/*
 node *getNode(long ref){
   int i;
   for(i=0;i<sizeNodes;i++){
@@ -27,6 +28,12 @@ node *getNode(long ref){
   }
   printf("%ld\n",ref);
   return NULL;
+}*/
+
+node *getNode(long ref){
+  node *n = malloc(sizeof(node));
+  n = g_hash_table_lookup(nodes_hashtable, &ref);
+  return n;
 }
 
 xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name){
@@ -51,7 +58,7 @@ void initBounds(xmlNodePtr bounds){
     miny = (((log(tan(M_PI/4+((((minlat)/2)*M_PI)/180))))*180)/M_PI);
     maxy = (((log(tan(M_PI/4+((((maxlat)/2)*M_PI)/180))))*180)/M_PI);
 }
-
+/*
 void xmlGetNodes(xmlNodePtr cur){
   nodes = malloc(sizeof(node)*100);
   cur = cur->xmlChildrenNode;
@@ -74,10 +81,30 @@ void xmlGetNodes(xmlNodePtr cur){
     cur=cur->next;
   }
   sizeNodes=i;
+}*/
+
+void xmlGetNodes(xmlNodePtr cur){
+  nodes_hashtable = g_hash_table_new(g_int64_hash,g_int64_equal);
+  cur = cur->xmlChildrenNode;
+  int i = 0;
+  while(cur != NULL){
+    node *n = malloc(sizeof(node));
+    if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
+      n->lat = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lat"));
+      n->lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
+      n->x = n->lon;
+      n->y = (((log(tan(M_PI/4+((((n->lat)/2)*M_PI)/180))))*180)/M_PI);
+      n->id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
+      printf("%li\n", n->id);
+      g_hash_table_insert(nodes_hashtable, &n->id, n);
+    }
+    cur=cur->next;
+  }
 }
 
 way xmlGetWay(xmlNodePtr cur){
   way w;
+  w.id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
   cur = cur->xmlChildrenNode;
   w.nodesref = malloc(sizeof(listref));
   w.nodesref = NULL;
