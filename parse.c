@@ -31,7 +31,7 @@ node *getNode(long ref){
 }*/
 
 node *getNode(long ref){
-  node *n = malloc(sizeof(node));
+  node *n = NULL;
   n = g_hash_table_lookup(nodes_hashtable, &ref);
   return n;
 }
@@ -86,9 +86,9 @@ void xmlGetNodes(xmlNodePtr cur){
 void xmlGetNodes(xmlNodePtr cur){
   nodes_hashtable = g_hash_table_new(g_int64_hash,g_int64_equal);
   cur = cur->xmlChildrenNode;
-  int i = 0;
+  node *n = NULL;
   while(cur != NULL){
-    node *n = malloc(sizeof(node));
+    n = g_new(node,1);
     if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
       n->lat = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lat"));
       n->lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));

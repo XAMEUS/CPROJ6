@@ -35,6 +35,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   // Draw points
   glColor3f(0.0, 0.0, 0.0);
   glPushMatrix();
+
   int i;
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
@@ -55,8 +56,8 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 void Render_Default(way w){
   glColor3f(0.0f,0.0f,0.0f);
   glBegin(GL_LINE_STRIP);
-    node *current = malloc(sizeof(node));
-    node *next = malloc(sizeof(node));
+    node *current = NULL;
+    node *next = NULL;
     listref *list = w.nodesref;
     if(list){
       current = getNode(list->ref);
@@ -110,8 +111,8 @@ void Render_Highway(way w){
       size = HIGHWAY_SERVICE_SIZE;
       break;
   }
-    node *current = malloc(sizeof(node));
-    node *next = malloc(sizeof(node));
+    node *current = NULL;
+    node *next = NULL;
     listref *list = w.nodesref;
     if(list){
       current = getNode(list->ref);
