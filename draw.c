@@ -71,7 +71,7 @@ void Draw_Lines(int n, GLfloat* points, GLfloat size)
         points++;
         GLfloat y2 = *points;
         points++;
-        
+
         vx = x2 - x1;
         vy = y2 - y1;
         wx = -vy;

@@ -33,3 +33,4 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 void Render_Default(way w);
 
 void Render_Highway(way w);
+void Render_Highway_test(way w);

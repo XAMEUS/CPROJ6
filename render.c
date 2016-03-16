@@ -40,7 +40,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.highway!=0){
-      Render_Highway(w);
+      Render_Highway_test(w);
     }else{
       Render_Default(w);
     }
@@ -125,4 +125,57 @@ void Render_Highway(way w){
       current = next;
       list = list->next;
     }
+}
+
+void Render_Highway_test(way w){
+  GLfloat size = 1.0f;
+  switch(w.highway){
+    case HIGHWAY_MOTORWAY:
+      HIGHWAY_MOTORWAY_COLOR;
+      size = HIGHWAY_MOTORWAY_SIZE;
+      break;
+    case HIGHWAY_TRUNK:
+      HIGHWAY_TRUNK_COLOR;
+      size = HIGHWAY_TRUNK_SIZE;
+      break;
+    case HIGHWAY_PRIMARY:
+      HIGHWAY_PRIMARY_COLOR;
+      size = HIGHWAY_PRIMARY_SIZE;
+      break;
+    case HIGHWAY_SECONDARY:
+      HIGHWAY_SECONDARY_COLOR;
+      size = HIGHWAY_SECONDARY_SIZE;
+      break;
+    case HIGHWAY_TERTIARY:
+      HIGHWAY_TERTIARY_COLOR;
+      size = HIGHWAY_TERTIARY_SIZE;
+      break;
+    case HIGHWAY_UNCLASSIFIED:
+      HIGHWAY_UNCLASSIFIED_COLOR;
+      size = HIGHWAY_UNCLASSIFIED_SIZE;
+      break;
+    case HIGHWAY_RESIDENTIAL:
+      HIGHWAY_RESIDENTIAL_COLOR;
+      size = HIGHWAY_RESIDENTIAL_SIZE;
+      break;
+    case HIGHWAY_SERVICE:
+      HIGHWAY_SERVICE_COLOR;
+      size = HIGHWAY_SERVICE_SIZE;
+      break;
+  }
+    listref *list = w.nodesref;
+    node **nodes = malloc(w.size*sizeof(node*));
+    GLfloat *points = malloc(w.size*2*sizeof(GLfloat));
+    int i=0;
+    while(i<w.size){
+      nodes[i]=getNode(list->ref);
+      points[i*2]=nodes[i]->x;
+      points[(i*2)+1]=nodes[i]->y;
+      list = list->next;
+      i = i+1;
+    }
+    Draw_Lines(w.size,points,size);
+    free(nodes);
+    free(points);
+
 }
