@@ -95,7 +95,6 @@ void xmlGetNodes(xmlNodePtr cur){
       n->x = n->lon;
       n->y = (((log(tan(M_PI/4+((((n->lat)/2)*M_PI)/180))))*180)/M_PI);
       n->id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
-      printf("%li\n", n->id);
       g_hash_table_insert(nodes_hashtable, &n->id, n);
     }
     cur=cur->next;
@@ -104,6 +103,7 @@ void xmlGetNodes(xmlNodePtr cur){
 
 way xmlGetWay(xmlNodePtr cur){
   way w;
+  int n = 0;
   w.id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
   cur = cur->xmlChildrenNode;
   w.nodesref = malloc(sizeof(listref));
@@ -112,6 +112,7 @@ way xmlGetWay(xmlNodePtr cur){
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
       w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
+      n++;
     }
     if(xmlStrcmp(cur->name,(const xmlChar *)"tag")==0){
       char *k = (char*)xmlGetProp(cur,(const xmlChar*)"k");
@@ -140,6 +141,7 @@ way xmlGetWay(xmlNodePtr cur){
     }
     cur=cur->next;
   }
+  w.size=n;
   return w;
 
 }

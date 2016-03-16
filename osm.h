@@ -26,6 +26,7 @@ struct st_way{
   int highway;
   int building;
   long id;
+  int size;
 };
 
 typedef struct st_way way;
