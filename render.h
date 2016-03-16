@@ -15,6 +15,15 @@
 #define HIGHWAY_RESIDENTIAL_SIZE 2.0f
 #define HIGHWAY_SERVICE_SIZE 1.0f
 
+#define HIGHWAY_MOTORWAY_COLOR glColor3f(1.0f,0.0f,0.0f)
+#define HIGHWAY_TRUNK_COLOR glColor3f(1.0f,0.5f,0.5f)
+#define HIGHWAY_PRIMARY_COLOR glColor3f(1.0f,1.0f,0.0f)
+#define HIGHWAY_SECONDARY_COLOR glColor3f(1.0f,0.0f,1.0f)
+#define HIGHWAY_TERTIARY_COLOR glColor3f(0.0f,1.0f,0.0f)
+#define HIGHWAY_UNCLASSIFIED_COLOR glColor3f(0.0f,1.0f,1.0f)
+#define HIGHWAY_RESIDENTIAL_COLOR glColor3f(0.0f,0.5f,0.5f)
+#define HIGHWAY_SERVICE_COLOR glColor3f(0.5f,0.5f,0.5f)
+
 extern int showFrame;
 extern int projection;
 

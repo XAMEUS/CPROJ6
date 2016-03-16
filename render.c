@@ -79,35 +79,35 @@ void Render_Highway(way w){
   GLfloat size = 1.0f;
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
-      glColor3f(1.0f,0.0f,0.0f);
+      HIGHWAY_MOTORWAY_COLOR;
       size = HIGHWAY_MOTORWAY_SIZE;
       break;
     case HIGHWAY_TRUNK:
-      glColor3f(1.0f,0.5f,0.5f);
+      HIGHWAY_TRUNK_COLOR;
       size = HIGHWAY_TRUNK_SIZE;
       break;
     case HIGHWAY_PRIMARY:
-      glColor3f(1.0f,1.0f,0.0f);
+      HIGHWAY_PRIMARY_COLOR;
       size = HIGHWAY_PRIMARY_SIZE;
       break;
     case HIGHWAY_SECONDARY:
-      glColor3f(1.0f,0.0f,1.0f);
+      HIGHWAY_SECONDARY_COLOR;
       size = HIGHWAY_SECONDARY_SIZE;
       break;
     case HIGHWAY_TERTIARY:
-      glColor3f(0.0f,1.0f,0.0f);
+      HIGHWAY_TERTIARY_COLOR;
       size = HIGHWAY_TERTIARY_SIZE;
       break;
     case HIGHWAY_UNCLASSIFIED:
-      glColor3f(0.0f,1.0f,1.0f);
+      HIGHWAY_UNCLASSIFIED_COLOR;
       size = HIGHWAY_UNCLASSIFIED_SIZE;
       break;
     case HIGHWAY_RESIDENTIAL:
-      glColor3f(0.0f,0.5f,0.5f);
+      HIGHWAY_RESIDENTIAL_COLOR;
       size = HIGHWAY_RESIDENTIAL_SIZE;
       break;
     case HIGHWAY_SERVICE:
-      glColor3f(0.5f,0.5f,0.5f);
+      HIGHWAY_SERVICE_COLOR;
       size = HIGHWAY_SERVICE_SIZE;
       break;
   }
