@@ -1,4 +1,5 @@
 #include "draw.h"
+#include "tessellation.h"
 
 int width = 640;
 int height = 480;
@@ -60,7 +61,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   t[35] = 180.0f;
   t[36] = 430.0f;
   t[37] = 286.0f;
-
+  /*
   if ((status % 3 == 2) || (status == 3)) {
     glLineWidth(3.6f);
     glColor3f(0.9f, 0.9f, 0.2f);
@@ -83,6 +84,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     }
   }
   glColor3f(0.2f, 0.9f, 0.2f);
+
   glBegin(GL_POINTS);
   for (i = 0; i <= 2 * size - 2; i += 2) {
     glVertex3f(t[i], t[i + 1], 1.0);
@@ -95,7 +97,8 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   for (i = 0; i <= 2 * size - 2; i += 2) {
     glVertex3f(t[i], t[i + 1], 1.0);
   }
-  glEnd();
+  glEnd();*/
+  testdrawing();
 
   glPopMatrix();
 
