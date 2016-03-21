@@ -44,7 +44,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     if(w.highway!=0){
       Render_Highway(w);
     }else if(w.building!=0){
-      Render_Building(w);
+      //Render_Building(w);
       Render_Default(w);
     }else{
       Render_Default(w);
@@ -79,58 +79,6 @@ void Render_Default(way w){
       glVertex2f(current->x,current->y);
   glEnd();
 }
-/*
-void Render_Highway(way w){
-  GLfloat size = 1.0f;
-  switch(w.highway){
-    case HIGHWAY_MOTORWAY:
-      HIGHWAY_MOTORWAY_COLOR;
-      size = HIGHWAY_MOTORWAY_SIZE;
-      break;
-    case HIGHWAY_TRUNK:
-      HIGHWAY_TRUNK_COLOR;
-      size = HIGHWAY_TRUNK_SIZE;
-      break;
-    case HIGHWAY_PRIMARY:
-      HIGHWAY_PRIMARY_COLOR;
-      size = HIGHWAY_PRIMARY_SIZE;
-      break;
-    case HIGHWAY_SECONDARY:
-      HIGHWAY_SECONDARY_COLOR;
-      size = HIGHWAY_SECONDARY_SIZE;
-      break;
-    case HIGHWAY_TERTIARY:
-      HIGHWAY_TERTIARY_COLOR;
-      size = HIGHWAY_TERTIARY_SIZE;
-      break;
-    case HIGHWAY_UNCLASSIFIED:
-      HIGHWAY_UNCLASSIFIED_COLOR;
-      size = HIGHWAY_UNCLASSIFIED_SIZE;
-      break;
-    case HIGHWAY_RESIDENTIAL:
-      HIGHWAY_RESIDENTIAL_COLOR;
-      size = HIGHWAY_RESIDENTIAL_SIZE;
-      break;
-    case HIGHWAY_SERVICE:
-      HIGHWAY_SERVICE_COLOR;
-      size = HIGHWAY_SERVICE_SIZE;
-      break;
-  }
-    node *current = NULL;
-    node *next = NULL;
-    listref *list = w.nodesref;
-    if(list){
-      current = getNode(list->ref);
-      list = list->next;
-    }
-    while(list){
-      next = getNode(list->ref);
-      if(current && next)
-      Draw_Line(current->x,current->y,next->x,next->y,size);
-      current = next;
-      list = list->next;
-    }
-}*/
 
 void Render_Highway(way w){
   GLfloat size = 1.0f;
@@ -201,29 +149,8 @@ void Render_Building(way w){
     i = i+1;
   }
 
-
   glClearColor(0.0, 0.0, 0.0, 0.0);
   glColor3f(0.5f,0.5f,0.5f);
-
-
-  GLUtesselator *tesselator;
-  tesselator = gluNewTess();
-  gluTessCallback(tesselator, GLU_TESS_VERTEX,(GLvoid (CALLBACK*) ()) &glVertex3dv);
-  gluTessCallback(tesselator, GLU_TESS_BEGIN,(GLvoid (CALLBACK*) ()) &beginCallback);
-  gluTessCallback(tesselator, GLU_TESS_END,(GLvoid (CALLBACK*) ()) &endCallback);
-  gluTessCallback(tesselator, GLU_TESS_ERROR,(GLvoid (CALLBACK*) ()) &errorCallback);
-
-  glShadeModel(GL_FLAT);
-  gluTessBeginPolygon(tesselator, NULL);
-     gluTessBeginContour(tesselator);
-      for(i=0;i<w.size;i++){
-        gluTessVertex(tesselator, points[i],points[i]);
-      }
-     gluTessEndContour(tesselator);
-  gluTessEndPolygon(tesselator);
-  glEndList();
-
-  gluDeleteTess(tesselator);
 
   free(nodes);
   for(i=0;i<w.size;i++){
