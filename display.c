@@ -15,6 +15,7 @@ void Display_InitGL()
   glEnable(GL_POLYGON_SMOOTH);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+  glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
   glLineWidth(1.6f);
   glPointSize(3.0f);
 }

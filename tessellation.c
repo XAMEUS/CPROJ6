@@ -1,123 +1,155 @@
 #include "tessellation.h"
 
-void CALLBACK beginCallback(GLenum which)
+// store newly created vertices (x, y, z, r, g, b)  by combine callback
+GLdouble vertices[64][6];
+// array index, incremented inside combine callback
+int vertexIndex = 0;
+
+//================================================================================
+// GLU_TESS CALLBACKS
+//================================================================================
+
+void tessBeginCB(GLenum which)
 {
-   glBegin(which);
+  glBegin(which);
 }
 
-void CALLBACK errorCallback(GLenum errorCode)
+void tessEndCB()
 {
-   const GLubyte *estring;
-
-   estring = gluErrorString(errorCode);
-   fprintf(stderr, "Tessellation Error: %s\n", (char *) estring);
-   exit(0);
+  glEnd();
 }
 
-void CALLBACK endCallback(void)
+/**
+* \fn void tessVertexCB(const GLvoid *data)
+* \brief draw a vertex.
+*/
+void tessVertexCB(const GLvoid *data)
 {
-   glEnd();
+  const GLdouble *ptr = (const GLdouble*) data;
+  glVertex3dv(ptr);
 }
 
-void CALLBACK vertexCallback(GLvoid *vertex)
+/**
+* \fn void tessVertexCB2(const GLvoid *data)
+* \brief draw a vertex with color.
+*/
+void tessVertexCB2(const GLvoid *data)
 {
-   const GLdouble *pointer;
-
-   pointer = (GLdouble *) vertex;
-   glColor3dv(pointer+3);
-   glVertex3dv(pointer);
+  const GLdouble *ptr = (const GLdouble*) data;
+  glColor3dv(ptr+3);
+  glVertex3dv(ptr);
 }
 
-void CALLBACK combineCallback(GLdouble coords[3],
-                     GLdouble *vertex_data[4],
-                     GLfloat weight[4], GLdouble **dataOut )
+/**
+* \fn void tessCombineCB(const GLdouble newVertex[3], const GLdouble *neighborVertex[4],
+                            const GLfloat neighborWeight[4], GLdouble **outData)
+* \brief Combine callback is used to create a new vertex where edges intersect.
+         In this function, copy the vertex data into local array and compute the
+         color of the vertex. And send it back to tessellator, so tessellator pass it
+         to vertex callback function.
+  \param newVertex the intersect point which tessellator creates for us.
+  \param neighborVertex[4] 4 neighbor vertices to cause intersection (given from 3rd param of gluTessVertex()
+  \param neighborWeight[4] 4 interpolation weights of 4 neighbor vertices
+  \param outData the vertex data to return to tessellator
+*/
+void tessCombineCB(const GLdouble newVertex[3], const GLdouble *neighborVertex[4],
+                            const GLfloat neighborWeight[4], GLdouble **outData)
 {
-   GLdouble *vertex;
-   int i;
+  // copy new intersect vertex to local array
+  // Because newVertex is temporal and cannot be hold by tessellator until next
+  // vertex callback called, it must be copied to the safe place in the app.
+  // Once gluTessEndPolygon() called, then you can safly deallocate the array.
+  vertices[vertexIndex][0] = newVertex[0];
+  vertices[vertexIndex][1] = newVertex[1];
+  vertices[vertexIndex][2] = newVertex[2];
 
-   vertex = (GLdouble *) malloc(6 * sizeof(GLdouble));
+  // compute vertex color with given weights and colors of 4 neighbors
+  // the neighborVertex[4] must hold required info, in this case, color.
+  // neighborVertex was actually the third param of gluTessVertex() and is
+  // passed into here to compute the color of the intersect vertex.
+  vertices[vertexIndex][3] = neighborWeight[0] * neighborVertex[0][3] +   // red
+                             neighborWeight[1] * neighborVertex[1][3] +
+                             neighborWeight[2] * neighborVertex[2][3] +
+                             neighborWeight[3] * neighborVertex[3][3];
+  vertices[vertexIndex][4] = neighborWeight[0] * neighborVertex[0][4] +   // green
+                             neighborWeight[1] * neighborVertex[1][4] +
+                             neighborWeight[2] * neighborVertex[2][4] +
+                             neighborWeight[3] * neighborVertex[3][4];
+  vertices[vertexIndex][5] = neighborWeight[0] * neighborVertex[0][5] +   // blue
+                             neighborWeight[1] * neighborVertex[1][5] +
+                             neighborWeight[2] * neighborVertex[2][5] +
+                             neighborWeight[3] * neighborVertex[3][5];
 
-   vertex[0] = coords[0];
-   vertex[1] = coords[1];
-   vertex[2] = coords[2];
-   for (i = 3; i < 6; i++)
-      vertex[i] = weight[0] * vertex_data[0][i]
-                  + weight[1] * vertex_data[1][i]
-                  + weight[2] * vertex_data[2][i]
-                  + weight[3] * vertex_data[3][i];
-   *dataOut = vertex;
+
+  // return output data (vertex coords and others)
+  *outData = vertices[vertexIndex];   // assign the address of new intersect vertex
+
+  ++vertexIndex;  // increase index for next vertex
 }
 
-void testdrawing(void)
+void tessErrorCB(GLenum errorCode)
 {
-   GLUtesselator *tobj;
-   GLdouble rect[4][3] = {{50.0, 50.0, 0.0},
-                          {200.0, 50.0, 0.0},
-                          {200.0, 200.0, 0.0},
-                          {50.0, 200.0, 0.0}};
-   GLdouble tri[3][3] = {{75.0, 75.0, 0.0},
-                         {125.0, 175.0, 0.0},
-                         {175.0, 75.0, 0.0}};
-   GLdouble star[5][6] = {{250.0, 50.0, 0.0, 1.0, 0.0, 1.0},
-                          {325.0, 200.0, 0.0, 1.0, 1.0, 0.0},
-                          {400.0, 50.0, 0.0, 0.0, 1.0, 1.0},
-                          {250.0, 150.0, 0.0, 1.0, 0.0, 0.0},
-                          {400.0, 150.0, 0.0, 0.0, 1.0, 0.0}};
+  const GLubyte *errorStr;
 
-   glClearColor(0.0, 0.0, 0.0, 0.0);
+  errorStr = gluErrorString(errorCode);
+  printf("[ERROR]: %s", errorStr);
+}
+
+void tessCallback(GLUtesselator *tess)
+{
+  // register callback functions
+  gluTessCallback(tess, GLU_TESS_BEGIN, (GLvoid (*) ( ))&tessBeginCB);
+  gluTessCallback(tess, GLU_TESS_END, (GLvoid (*) ( ))&tessEndCB);
+  gluTessCallback(tess, GLU_TESS_ERROR, (GLvoid (*) ( ))&tessErrorCB);
+  gluTessCallback(tess, GLU_TESS_VERTEX, (GLvoid (*) ( ))&tessVertexCB);
+}
 
 
-   tobj = gluNewTess();
-   gluTessCallback(tobj, GLU_TESS_VERTEX,
-                   (GLvoid (CALLBACK*) ()) &glVertex3dv);
-   gluTessCallback(tobj, GLU_TESS_BEGIN,
-                   (GLvoid (CALLBACK*) ()) &beginCallback);
-   gluTessCallback(tobj, GLU_TESS_END,
-                   (GLvoid (CALLBACK*) ()) &endCallback);
-   gluTessCallback(tobj, GLU_TESS_ERROR,
-                   (GLvoid (CALLBACK*) ()) &errorCallback);
 
-   /*  rectangle with triangular hole inside  */
-   glShadeModel(GL_FLAT);
-   gluTessBeginPolygon(tobj, NULL);
-      gluTessBeginContour(tobj);
-         gluTessVertex(tobj, rect[0], rect[0]);
-         gluTessVertex(tobj, rect[1], rect[1]);
-         gluTessVertex(tobj, rect[2], rect[2]);
-         gluTessVertex(tobj, rect[3], rect[3]);
-      gluTessEndContour(tobj);
-      gluTessBeginContour(tobj);
-         gluTessVertex(tobj, tri[0], tri[0]);
-         gluTessVertex(tobj, tri[1], tri[1]);
-         gluTessVertex(tobj, tri[2], tri[2]);
-      gluTessEndContour(tobj);
-   gluTessEndPolygon(tobj);
-   glEndList();
 
-   gluTessCallback(tobj, GLU_TESS_VERTEX,
-                   (GLvoid (CALLBACK*) ()) &vertexCallback);
-   gluTessCallback(tobj, GLU_TESS_BEGIN,
-                   (GLvoid (CALLBACK*) ()) &beginCallback);
-   gluTessCallback(tobj, GLU_TESS_END,
-                   (GLvoid (CALLBACK*) ()) &endCallback);
-   gluTessCallback(tobj, GLU_TESS_ERROR,
-                   (GLvoid (CALLBACK*) ()) &errorCallback);
-   gluTessCallback(tobj, GLU_TESS_COMBINE,
-                   (GLvoid (CALLBACK*) ()) &combineCallback);
 
-   /*  smooth shaded, self-intersecting star  */
-   glShadeModel(GL_SMOOTH);
-   gluTessProperty(tobj, GLU_TESS_WINDING_RULE,
-                   GLU_TESS_WINDING_POSITIVE);
-   gluTessBeginPolygon(tobj, NULL);
-      gluTessBeginContour(tobj);
-         gluTessVertex(tobj, star[0], star[0]);
-         gluTessVertex(tobj, star[1], star[1]);
-         gluTessVertex(tobj, star[2], star[2]);
-         gluTessVertex(tobj, star[3], star[3]);
-         gluTessVertex(tobj, star[4], star[4]);
-      gluTessEndContour(tobj);
-   gluTessEndPolygon(tobj);
-   glEndList();
-   gluDeleteTess(tobj);
+GLuint Tess_Obj(int c, GLdouble **points)
+{
+  GLuint id = glGenLists(1);
+  if(!id)
+  {
+    fprintf(stderr, "failed to create a list, return 0\n");
+    return id;
+  }
+
+  GLUtesselator *tess = gluNewTess();
+  if(!tess)
+  {
+    fprintf(stderr, "failed to create tessellation object, return 0\n");
+    return 0;
+  };
+
+  tessCallback(tess);
+
+  // tessellate and compile a concave quad into display list
+  // gluTessVertex() takes 3 params: tess object, pointer to vertex coords,
+  // and pointer to vertex data to be passed to vertex callback.
+  // The second param is used only to perform tessellation, and the third
+  // param is the actual vertex data to draw. It is usually same as the second
+  // param, but It can be more than vertex coord, for example, color, normal
+  // and UV coords which are needed for actual drawing.
+  // Here, we are looking at only vertex coods, so the 2nd and 3rd params are
+  // pointing same address.
+
+  glNewList(id, GL_COMPILE);
+
+  int i;
+  gluTessBeginPolygon(tess, 0);
+    gluTessBeginContour(tess);
+      for (i = 0; i < c; i++)
+        gluTessVertex(tess, points[i], points[i]);
+    gluTessEndContour(tess);
+  gluTessEndPolygon(tess);
+  glEndList();
+
+  gluDeleteTess(tess);
+
+  printf("creating Tess_Obj: %d\n", id);
+
+  return id;
 }

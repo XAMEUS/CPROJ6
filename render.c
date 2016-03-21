@@ -1,7 +1,5 @@
 #include "render.h"
 #include "draw.h"
-#include <GL/glu.h>
-#include "tessellation.h"
 
 int showFrame = 0;
 int projection = 1;
@@ -42,10 +40,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.highway!=0){
-      Render_Highway(w);
-    }else if(w.building!=0){
-      Render_Building(w);
-      Render_Default(w);
+      Render_Highway_test(w);
     }else{
       Render_Default(w);
     }
@@ -79,7 +74,7 @@ void Render_Default(way w){
       glVertex2f(current->x,current->y);
   glEnd();
 }
-/*
+
 void Render_Highway(way w){
   GLfloat size = 1.0f;
   switch(w.highway){
@@ -130,9 +125,9 @@ void Render_Highway(way w){
       current = next;
       list = list->next;
     }
-}*/
+}
 
-void Render_Highway(way w){
+void Render_Highway_test(way w){
   GLfloat size = 1.0f;
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
@@ -183,51 +178,4 @@ void Render_Highway(way w){
     free(nodes);
     free(points);
 
-}
-
-void Render_Building(way w){
-
-  listref *list = w.nodesref;
-  node **nodes = malloc(w.size*sizeof(node*));
-  GLdouble **points = malloc(w.size*sizeof(GLdouble*));
-  int i=0;
-  while(i<w.size){
-    nodes[i]=getNode(list->ref);
-    points[i] = malloc(3*sizeof(GLdouble));
-    points[i][0]=nodes[i]->x;
-    points[i][1]=nodes[i]->y;
-    points[i][2]=0;
-    list = list->next;
-    i = i+1;
-  }
-
-
-  glClearColor(0.0, 0.0, 0.0, 0.0);
-  glColor3f(0.5f,0.5f,0.5f);
-
-
-  GLUtesselator *tesselator;
-  tesselator = gluNewTess();
-  gluTessCallback(tesselator, GLU_TESS_VERTEX,(GLvoid (CALLBACK*) ()) &glVertex3dv);
-  gluTessCallback(tesselator, GLU_TESS_BEGIN,(GLvoid (CALLBACK*) ()) &beginCallback);
-  gluTessCallback(tesselator, GLU_TESS_END,(GLvoid (CALLBACK*) ()) &endCallback);
-  gluTessCallback(tesselator, GLU_TESS_ERROR,(GLvoid (CALLBACK*) ()) &errorCallback);
-
-  glShadeModel(GL_FLAT);
-  gluTessBeginPolygon(tesselator, NULL);
-     gluTessBeginContour(tesselator);
-      for(i=0;i<w.size;i++){
-        gluTessVertex(tesselator, points[i],points[i]);
-      }
-     gluTessEndContour(tesselator);
-  gluTessEndPolygon(tesselator);
-  glEndList();
-
-  gluDeleteTess(tesselator);
-
-  free(nodes);
-  for(i=0;i<w.size;i++){
-    free(points[i]);
-  }
-  free(points);
 }

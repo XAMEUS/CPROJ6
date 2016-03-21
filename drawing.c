@@ -1,11 +1,9 @@
 #include "draw.h"
-#include "tessellation.h"
+#include <GL/glu.h>
 
 int width = 640;
 int height = 480;
 
-int status = 2;
-int size = 19;
 
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom);
 
@@ -16,89 +14,21 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  GLdouble quad1[4][3] = { {50,400,0}, {150,100,0}, {250,400,0}, {150,300,0} };
+  GLdouble *rows1[4] = { quad1[0], quad1[1], quad1[2], quad1[3] };
+  GLdouble **data1 = rows1;
+  GLuint i1 = Tess_Obj(4, data1);
 
-  glPointSize(7.5f);
-  GLfloat* t = malloc(sizeof(GLfloat) * 100);
-  int j;
-  for (j = 0; j < 100; j++) {
-    t[j] = 0.0;
-  }
-  t[0] = 50.0f;
-  t[1] = 100.0f;
-  t[2] = 80.0f;
-  t[3] = 150.0f;
-  t[4] = 100.0f;
-  t[5] = 200.0f;
-  t[6] = 90.0f;
-  t[7] = 260.0f;
-  t[8] = 80.0f;
-  t[9] = 300.0f;
-  t[10] = 80.0f;
-  t[11] = 350.0f;
-  t[12] = 90.0f;
-  t[13] = 380.0f;
-  t[14] = 100.0f;
-  t[15] = 420.0f;
-  t[16] = 150.0f;
-  t[17] = 440.0f;
-  t[18] = 220.0f;
-  t[19] = 420.0f;
-  t[20] = 230.0f;
-  t[21] = 370.0f;
-  t[22] = 210.0f;
-  t[23] = 320.0f;
-  t[24] = 200.0f;
-  t[25] = 200.0f;
-  t[26] = 240.0f;
-  t[27] = 120.0f;
-  t[28] = 280.0f;
-  t[29] = 102.0f;
-  t[30] = 320.0f;
-  t[31] = 98.0f;
-  t[32] = 350.0f;
-  t[33] = 105.0f;
-  t[34] = 420.0f;
-  t[35] = 180.0f;
-  t[36] = 430.0f;
-  t[37] = 286.0f;
-  /*
-  if ((status % 3 == 2) || (status == 3)) {
-    glLineWidth(3.6f);
-    glColor3f(0.9f, 0.9f, 0.2f);
-    glPolygonMode(GL_FRONT, GL_FILL);
-    Draw_Lines(size, t, 35);
-    glColor3f(0.2f, 0.3f, 0.9f);
-    glPolygonMode(GL_FRONT, GL_LINE);
-    Draw_Lines(size, t, 35);
-    glColor3f(0.9f, 0.2f, 0.2f);
-    glPolygonMode(GL_FRONT, GL_POINT);
-    Draw_Lines(size, t, 35);
-  }
+  glColor3f(0.9, 0.9, 0.2);
+  glEnable(GL_POLYGON_OFFSET_FILL);
+  glPolygonOffset(1.0, 1.0);
+  glCallList(i1);
+  glDisable(GL_POLYGON_OFFSET_FILL);
 
-  int i;
-  if (status % 2 == 1) {
-    glPolygonMode(GL_FRONT, GL_FILL);
-    glColor4f(0.9f, 0.1f, 0.9f, 0.4f);
-    for (i = 0; i <= 2 * size - 4; i += 2) {
-      Draw_Line(t[i], t[i+1], t[i+2], t[i+3], 35);
-    }
-  }
-  glColor3f(0.2f, 0.9f, 0.2f);
-
-  glBegin(GL_POINTS);
-  for (i = 0; i <= 2 * size - 2; i += 2) {
-    glVertex3f(t[i], t[i + 1], 1.0);
-  }
-  glEnd();
-
-  glLineWidth(5.6f);
-  glColor4f(0.2f, 0.9f, 0.2f, 0.6f);
-  glBegin(GL_LINE_STRIP);
-  for (i = 0; i <= 2 * size - 2; i += 2) {
-    glVertex3f(t[i], t[i + 1], 1.0);
-  }
-  glEnd();*/
-  testdrawing();
+  glColor3f (0.9, 0.1, 0.1);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glCallList(i1);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   glPopMatrix();
 
@@ -110,8 +40,8 @@ int main(int argc, char* argv[])
 {
 
   SDL_Window *window; // Declare a pointer, main window
-  GLfloat dx = -60;
-  GLfloat dy =  20;
+  GLfloat dx = 0;
+  GLfloat dy = 0;
   GLfloat zoom = 1.0;
   min_x = 0;
   max_x = width;
@@ -201,21 +131,23 @@ int main(int argc, char* argv[])
             }
           }
           if (event.key.keysym.sym == SDLK_KP_PLUS) {
-            size += 1;
+            if (zoom > 0.1) {
+              dx = dx + 0.1 * pixelsize * (xcursor - width / 2);
+              dy = dy - 0.1 * pixelsize * (ycursor - height / 2);
+            }
+            if (zoom > 0.1)
+              zoom -= 0.1;
           }
           if (event.key.keysym.sym == SDLK_KP_MINUS) {
-            size -= 1;
+            dx = dx - 0.1 * pixelsize * (xcursor - width / 2);
+            dy = dy + 0.1 * pixelsize * (ycursor - height / 2);
+            zoom += 0.1;
           }
           if (event.key.keysym.sym == SDLK_r)
           {
             zoom = 1.0;
             dx = 0.0;
             dy = 0.0;
-          }
-          if (event.key.keysym.sym == SDLK_p)
-          {
-            status += 1;
-            status %= 4;
           }
           break;
         case SDL_WINDOWEVENT:
