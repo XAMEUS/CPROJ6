@@ -42,9 +42,10 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.highway!=0){
-      Render_Highway(w);
+      Render_Glist(w.glist);
     }else if(w.building!=0){
-      //Render_Building(w);
+      printf("BUILDING RENDER %d",w.glist);
+      Render_Glist(w.glist);
       Render_Default(w);
     }else{
       Render_Default(w);
@@ -56,6 +57,10 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 
   // Render
   SDL_RenderPresent(renderer);
+}
+
+void Render_Glist(GLuint i){
+    glCallList(i);
 }
 
 void Render_Default(way w){

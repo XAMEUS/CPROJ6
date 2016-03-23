@@ -1,4 +1,5 @@
 #include "draw.h"
+#include "load.h"
 #include <GL/glu.h>
 
 int width = 640;

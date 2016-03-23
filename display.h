@@ -1,3 +1,7 @@
+#ifndef __DISPLAY_H__
+#define __DISPLAY_H__
+
+
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,3 +17,5 @@ extern float max_y;
 
 void Display_InitGL();
 void Display_SetViewport(int width, int height, float dx, float dy, float zoom);
+
+#endif

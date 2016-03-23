@@ -1,3 +1,7 @@
+#ifndef __RENDER_H__
+#define __RENDER_H__
+
+
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,8 +34,12 @@ extern int projection;
 void Display_Frame();
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom);
 
+void Render_Glist(GLuint i);
+
 void Render_Default(way w);
 
 void Render_Highway(way w);
 
 void Render_Building(way w);
+
+#endif

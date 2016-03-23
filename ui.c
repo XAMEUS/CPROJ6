@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "load.h"
 
 int Display_Application(int argc, char* argv[])
 {
@@ -73,6 +74,12 @@ int Display_Application(int argc, char* argv[])
   time_t t = time(NULL);
   time_t ctime = time(NULL);
   int frames = 0;
+
+  int i;
+  for(i=0;i<sizeWays;i++){
+    ways[i].glist=tessellate(ways[i]);
+  }
+
   while (!quit)
   {
     Display_SetViewport(

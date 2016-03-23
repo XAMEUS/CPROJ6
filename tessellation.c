@@ -112,12 +112,7 @@ void tessCallback(GLUtesselator *tess)
                   (GLvoid (CALLBACK*) ()) &tessVertexCB);
   gluTessCallback(tess, GLU_TESS_COMBINE,
                   (GLvoid (CALLBACK*) ()) &tessCombineCB);
-
 }
-
-
-
-
 
 GLuint Tess_Obj(int c, GLdouble **points)
 {
@@ -157,99 +152,6 @@ GLuint Tess_Obj(int c, GLdouble **points)
     gluTessEndContour(tess);
   gluTessEndPolygon(tess);
   glEndList();
-
-  gluDeleteTess(tess);
-
-  printf("creating Tess_Obj: %d\n", id);
-
-  return id;
-}
-
-GLuint Tess_Obj_Building(int c, GLdouble **points)
-{
-  GLuint id = glGenLists(1);
-  if(!id)
-  {
-    fprintf(stderr, "failed to create a list, return 0\n");
-    return id;
-  }
-
-  GLUtesselator *tess = gluNewTess();
-  if(!tess)
-  {
-    fprintf(stderr, "failed to create tessellation object, return 0\n");
-    return 0;
-  };
-
-  tessCallback(tess);
-
-  // tessellate and compile a concave quad into display list
-  // gluTessVertex() takes 3 params: tess object, pointer to vertex coords,
-  // and pointer to vertex data to be passed to vertex callback.
-  // The second param is used only to perform tessellation, and the third
-  // param is the actual vertex data to draw. It is usually same as the second
-  // param, but It can be more than vertex coord, for example, color, normal
-  // and UV coords which are needed for actual drawing.
-  // Here, we are looking at only vertex coods, so the 2nd and 3rd params are
-  // pointing same address.
-
-  glNewList(id, GL_COMPILE);
-
-  int i;
-  gluTessBeginPolygon(tess, 0);
-    gluTessBeginContour(tess);
-      for (i = 0; i < c; i++)
-        gluTessVertex(tess, points[i], points[i]);
-    gluTessEndContour(tess);
-  gluTessEndPolygon(tess);
-  glEndList();
-
-  gluDeleteTess(tess);
-
-  printf("creating Tess_Obj: %d\n", id);
-
-  return id;
-}
-
-GLuint Tess_Obj_Lines(int c, GLdouble **points,int size)
-{
-  GLuint id = glGenLists(1);
-  if(!id)
-  {
-    fprintf(stderr, "failed to create a list, return 0\n");
-    return id;
-  }
-
-  GLUtesselator *tess = gluNewTess();
-  if(!tess)
-  {
-    fprintf(stderr, "failed to create tessellation object, return 0\n");
-    return 0;
-  };
-
-  tessCallback(tess);
-
-  // tessellate and compile a concave quad into display list
-  // gluTessVertex() takes 3 params: tess object, pointer to vertex coords,
-  // and pointer to vertex data to be passed to vertex callback.
-  // The second param is used only to perform tessellation, and the third
-  // param is the actual vertex data to draw. It is usually same as the second
-  // param, but It can be more than vertex coord, for example, color, normal
-  // and UV coords which are needed for actual drawing.
-  // Here, we are looking at only vertex coods, so the 2nd and 3rd params are
-  // pointing same address.
-
-  glNewList(id, GL_COMPILE);
-
-  GLfloat* tmp = malloc(2*c*sizeof(GLfloat));
-
-  int i;
-  for(i=0;i<c;i++){
-    tmp[i*2]=points[i][0];
-    tmp[(i*2)+1]=points[i][1];
-  }
-
-  Draw_Lines(c,tmp,size);
 
   gluDeleteTess(tess);
 

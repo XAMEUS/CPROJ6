@@ -1,3 +1,7 @@
+#ifndef __PARSE_H__
+#define __PARSE_H__
+
+
 #include <stdio.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -34,3 +38,5 @@ void xmlGetWays(xmlNodePtr cur);
 void initBounds(xmlNodePtr bounds);
 
 int initNodesBounds(char *filename);
+
+#endif

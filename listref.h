@@ -1,3 +1,7 @@
+#ifndef __LISTREF_H__
+#define __LISTREF_H__
+
+
 #include <stdlib.h>
 
 
@@ -11,3 +15,5 @@ struct st_listref{
 listref *listref_create(long ref);
 
 listref *listref_append(listref *list, long ref);
+
+#endif

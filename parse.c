@@ -109,6 +109,7 @@ way xmlGetWay(xmlNodePtr cur){
   w.nodesref = malloc(sizeof(listref));
   w.nodesref = NULL;
   w.highway = 0;
+  w.building = 0;
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
       w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
@@ -135,8 +136,10 @@ way xmlGetWay(xmlNodePtr cur){
         }else if(strcmp(v,"service")==0){
           w.highway=HIGHWAY_SERVICE;
         }
-      }else{
-
+      }else if(strcmp(k, "building")==0){
+        if(strcmp(v,"yes")==0){
+          w.building=1;
+        }
       }
     }
     cur=cur->next;

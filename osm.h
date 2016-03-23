@@ -1,4 +1,8 @@
+#ifndef __OSM_H__
+#define __OSM_H__
+
 #include "listref.h"
+#include <GL/glu.h>
 
 #define HIGHWAY_MOTORWAY 1
 #define HIGHWAY_TRUNK 2
@@ -27,6 +31,9 @@ struct st_way{
   int building;
   long id;
   int size;
+  GLuint glist;
 };
 
 typedef struct st_way way;
+
+#endif

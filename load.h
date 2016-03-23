@@ -1,3 +1,6 @@
+#ifndef __LOAD_H__
+#define __LOAD_H__
+
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -6,4 +9,10 @@
 #include "parse.h"
 #include "display.h"
 
-GLuint tesselate(way w);
+GLuint tessellate(way w);
+
+GLuint Tess_Obj(int c, GLdouble **points);
+GLuint Tess_Obj_Highway(int c, GLdouble **points,way w);
+GLuint Tess_Obj_Building(int c, GLdouble **points);
+
+#endif
