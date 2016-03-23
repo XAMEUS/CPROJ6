@@ -44,7 +44,6 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     if(w.highway!=0){
       Render_Glist(w.glist);
     }else if(w.building!=0){
-      printf("BUILDING RENDER %d",w.glist);
       Render_Glist(w.glist);
       Render_Default(w);
     }else{
