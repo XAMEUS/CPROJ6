@@ -145,7 +145,14 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
       size = HIGHWAY_SERVICE_SIZE;
       break;
   }
+  glEnable(GL_POLYGON_OFFSET_FILL);
+  glPolygonOffset(1.0, 1.0);
   Draw_Lines(c,tmp,size);
+  glDisable(GL_POLYGON_OFFSET_FILL);
+  glColor3f (0.9, 0.1, 0.1);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  Draw_Lines(c,tmp,size);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   glEndList();
 
 
