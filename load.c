@@ -26,6 +26,12 @@ GLuint tessellate(way w){
     r = Tess_Obj_Highway(w.size,points,w);
   }else if(w.building!=0){
     r = Tess_Obj_Building(w.size,points);
+  }else if(w.landuse!=0){
+    r = Tess_Obj_Building(w.size,points);
+  //  }else if(w.area!=0){
+  //  r = Tess_Obj_Building(w.size,points);
+  }else if(w.waterway!=0){
+    r = Tess_Obj_Building(w.size,points);
   }else{
     Render_Default(w);
     //r = Tess_Obj(w.size,points);
@@ -110,6 +116,7 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
 
 
   glNewList(id, GL_COMPILE);
+
   GLfloat size = 1.0f;
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
@@ -144,7 +151,89 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
       HIGHWAY_SERVICE_COLOR;
       size = HIGHWAY_SERVICE_SIZE;
       break;
+    case HIGHWAY_MOTORWAY_LINK:
+      HIGHWAY_MOTORWAY_LINK_COLOR;
+      size = HIGHWAY_MOTORWAY_LINK_SIZE;
+      break;
+    case HIGHWAY_TRUNK_LINK:
+      HIGHWAY_TRUNK_LINK_COLOR;
+      size = HIGHWAY_TRUNK_LINK_SIZE;
+      break;
+    case HIGHWAY_PRIMARY_LINK:
+      HIGHWAY_PRIMARY_LINK_COLOR;
+      size = HIGHWAY_PRIMARY_LINK_SIZE;
+      break;
+    case HIGHWAY_SECONDARY_LINK:
+      HIGHWAY_SECONDARY_LINK_COLOR;
+      size = HIGHWAY_SECONDARY_LINK_SIZE;
+      break;
+    case HIGHWAY_TERTIARY_LINK:
+      HIGHWAY_TERTIARY_LINK_COLOR;
+      size = HIGHWAY_TERTIARY_LINK_SIZE;
+      break;
+    case HIGHWAY_LIVING_STREET:
+      HIGHWAY_LIVING_STREET_COLOR;
+      size = HIGHWAY_LIVING_STREET_SIZE;
+      break;
+    case HIGHWAY_PEDESTRIAN:
+      HIGHWAY_PEDESTRIAN_COLOR;
+      size = HIGHWAY_PEDESTRIAN_SIZE;
+      break;
+    case HIGHWAY_TRACK:
+      HIGHWAY_TRACK_COLOR;
+      size = HIGHWAY_TRACK_SIZE;
+      break;
+      case HIGHWAY_BUS_GUIDEWAY:
+        HIGHWAY_BUS_GUIDEWAY_COLOR;
+        size = HIGHWAY_BUS_GUIDEWAY_SIZE;
+        break;
+      case HIGHWAY_RACEWAY:
+        HIGHWAY_RACEWAY_COLOR;
+        size = HIGHWAY_RACEWAY_SIZE;
+        break;
+      case HIGHWAY_ROAD:
+        HIGHWAY_ROAD_COLOR;
+        size = HIGHWAY_ROAD_SIZE;
+        break;
+      case HIGHWAY_FOOTWAY:
+        HIGHWAY_FOOTWAY_COLOR;
+        size = HIGHWAY_FOOTWAY_SIZE;
+        break;
+      case HIGHWAY_BRIDLEWAY:
+        HIGHWAY_STEPS_COLOR;
+        size = HIGHWAY_PATH_SIZE;
+        break;
+      case HIGHWAY_CYCLEWAY:
+        HIGHWAY_CYCLEWAY_COLOR;
+        size = HIGHWAY_CYCLEWAY_SIZE;
+        break;
+      case HIGHWAY_PROPOSED:
+        HIGHWAY_PROPOSED_COLOR;
+        size = HIGHWAY_PROPOSED_SIZE;
+        break;
+      case HIGHWAY_MINI_ROUNDABOUT:
+        HIGHWAY_MINI_ROUNDABOUT_COLOR;
+        size = HIGHWAY_CONSTRUCTION_SIZE;
+        break;
+      case HIGHWAY_CONSTRUCTION:
+        HIGHWAY_CONSTRUCTION_COLOR;
+        size = HIGHWAY_CONSTRUCTION_SIZE;
+        break;
+      case HIGHWAY_REST_AREA:
+        HIGHWAY_REST_AREA_COLOR;
+        size = HIGHWAY_REST_AREA_SIZE;
+        break;
+      case HIGHWAY_SERVICES:
+        HIGHWAY_SERVICES_COLOR;
+        size = HIGHWAY_SERVICES_SIZE;
+        break;
+      case HIGHWAY_TURNING_CICLE:
+        HIGHWAY_TURNING_CICLE_COLOR;
+        size = HIGHWAY_TURNING_CICLE_SIZE;
+        break;
   }
+
+
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
   Draw_Lines(c,tmp,size);
