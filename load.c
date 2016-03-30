@@ -81,7 +81,6 @@ GLuint Tess_Obj_Building(int c, GLdouble **points)
   glNewList(id, GL_COMPILE);
 
   int i;
-  glColor3f(0.5f,0.5f,0.5f);
   gluTessBeginPolygon(tess, 0);
     gluTessBeginContour(tess);
       for (i = 0; i < c-1; i++)
