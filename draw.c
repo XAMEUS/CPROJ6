@@ -69,9 +69,7 @@ void Draw_Lines(int n, GLfloat* points, GLfloat size)
 
       GLfloat vx = x2 - x1;
       GLfloat vy = y2 - y1;
-      //glColor3f(0.6,0.8,0.6);
-      if ((vx > 0.00000001) || (vy > 0.00000001)) {
-        //glColor3f(0.5, 0.1, 0);
+      /*if (vx < 0) {
         length = sqrt(vx * vx + vy * vy);
         vx = vx / length;
         vy = vy / length;
@@ -81,8 +79,15 @@ void Draw_Lines(int n, GLfloat* points, GLfloat size)
         length = sqrt(wx * wx + wy * wy);
         wx = wx / length;
         wy = wy / length;
-      } else {
-        //glColor3f(0, 0.6, 0);
+        GLdouble teta = acos((ux * vx + uy * vy) / (sqrt(ux*ux+uy*uy)*sqrt(vx*vx+vy*vy)));
+        printf("%lf %lf\n", teta, teta * 180 / PI);
+        if (teta < PI) {
+          //glColor3f(0.5, 0.5, 0.5);
+          wx = -wx;
+          wy = -wy;
+        }
+      } else { */
+        //glColor3f(0, 0.8, 0.5);
         length = sqrt(vx * vx + vy * vy);
         vx = vx / length;
         vy = vy / length;
@@ -91,7 +96,7 @@ void Draw_Lines(int n, GLfloat* points, GLfloat size)
         length = sqrt(wx * wx + wy * wy);
         wx = wx / length;
         wy = wy / length;
-      }
+
 
       glVertex3f(x1 + wx * size * pixelsize, y1 + wy * size * pixelsize, 0);
       glVertex3f(x1 - wx * size * pixelsize, y1 - wy * size * pixelsize, 0);
@@ -115,8 +120,8 @@ void Draw_Lines(int n, GLfloat* points, GLfloat size)
     GLfloat cy0 = y0 + wy + uy;
     GLfloat dx0 = x0 - wx + ux;
     GLfloat dy0 = y0 - wy + uy;
-    glVertex3f(dx0, dy0, 0);
     glVertex3f(cx0, cy0, 0);
+    glVertex3f(dx0, dy0, 0);
   glEnd();
 }
 
