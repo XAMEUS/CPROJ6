@@ -4,6 +4,6 @@
 
 #define PI 3.14159265
 
-void Draw_Line(GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat size);
+void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size);
 
-void Draw_Lines(int n, GLfloat* points, GLfloat size);
+void Draw_Lines(int n, GLdouble* points, GLdouble size);

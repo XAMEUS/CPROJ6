@@ -384,7 +384,7 @@ void color_leisure (int n){
 
 
 void Render_Highway(way w){
-  GLfloat size = 1.0f;
+  GLdouble size = 1.0f;
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
       HIGHWAY_MOTORWAY_COLOR;
@@ -421,7 +421,7 @@ void Render_Highway(way w){
   }
     listref *list = w.nodesref;
     node **nodes = malloc(w.size*sizeof(node*));
-    GLfloat *points = malloc(w.size*2*sizeof(GLfloat));
+    GLdouble *points = malloc(w.size*2*sizeof(GLdouble));
     int i=0;
     while(i<w.size){
       nodes[i]=getNode(list->ref);

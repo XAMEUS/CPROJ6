@@ -105,7 +105,7 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
     return id;
   }
 
-  GLfloat* tmp = malloc(2*c*sizeof(GLfloat));
+  GLdouble* tmp = malloc(2*c*sizeof(GLdouble));
 
   int i;
   for(i=0;i<c;i++){
@@ -116,7 +116,7 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
 
   glNewList(id, GL_COMPILE);
 
-  GLfloat size = 1.0f;
+  GLdouble size = 1.0f;
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
       HIGHWAY_MOTORWAY_COLOR;

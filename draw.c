@@ -1,21 +1,21 @@
 #include "draw.h"
 
-GLfloat dist(GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1);
+GLdouble dist(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1);
 
-GLfloat dist(GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1)
+GLdouble dist(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1)
 {
-  GLfloat vx = x1 - x0;
-  GLfloat vy = y1 - y0;
+  GLdouble vx = x1 - x0;
+  GLdouble vy = y1 - y0;
   return sqrt(vx * vx + vy * vy);
 }
 
-void Draw_Line(GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat size)
+void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size)
 {
-  GLfloat vx = x1 - x0;
-  GLfloat vy = y1 - y0;
-  GLfloat wx = -vy;
-  GLfloat wy = vx;
-  GLfloat length = sqrt(vx * vx + vy * vy);
+  GLdouble vx = x1 - x0;
+  GLdouble vy = y1 - y0;
+  GLdouble wx = -vy;
+  GLdouble wy = vx;
+  GLdouble length = sqrt(vx * vx + vy * vy);
   wx = wx / length * size * pixelsize;
   wy = wy / length * size * pixelsize;
   glBegin(GL_QUADS);
@@ -27,48 +27,48 @@ void Draw_Line(GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat size)
 }
 
 //TODO : Fix points orders
-void Draw_Lines(int n, GLfloat* points, GLfloat size)
+void Draw_Lines(int n, GLdouble* points, GLdouble size)
 {
   int i = 0;
-  GLfloat x0 = *points;
+  GLdouble x0 = *points;
   points++;
-  GLfloat y0 = *points;
+  GLdouble y0 = *points;
   points++;
 
-  GLfloat x1 = *points;
+  GLdouble x1 = *points;
   points++;
-  GLfloat y1 = *points;
+  GLdouble y1 = *points;
   points++;
 
   i++; i++;
 
-  GLfloat ux = x1 - x0;
-  GLfloat uy = y1 - y0;
-  GLfloat length = sqrt(ux * ux + uy * uy);
+  GLdouble ux = x1 - x0;
+  GLdouble uy = y1 - y0;
+  GLdouble length = sqrt(ux * ux + uy * uy);
   ux = ux / length;
   uy = uy / length;
-  GLfloat wx = -uy;
-  GLfloat wy = ux;
+  GLdouble wx = -uy;
+  GLdouble wy = ux;
   length = sqrt(wx * wx + wy * wy);
   wx = wx / length * size * pixelsize;
   wy = wy / length * size * pixelsize;
 
-  GLfloat ax0 = x0 + wx;
-  GLfloat ay0 = y0 + wy;
-  GLfloat bx0 = x0 - wx;
-  GLfloat by0 = y0 - wy;
+  GLdouble ax0 = x0 + wx;
+  GLdouble ay0 = y0 + wy;
+  GLdouble bx0 = x0 - wx;
+  GLdouble by0 = y0 - wy;
   glBegin(GL_TRIANGLE_STRIP);
     glVertex3f(ax0, ay0, 0);
     glVertex3f(bx0, by0, 0);
     while (i < n)
     {
-      GLfloat x2 = *points;
+      GLdouble x2 = *points;
       points++;
-      GLfloat y2 = *points;
+      GLdouble y2 = *points;
       points++;
 
-      GLfloat vx = x2 - x1;
-      GLfloat vy = y2 - y1;
+      GLdouble vx = x2 - x1;
+      GLdouble vy = y2 - y1;
       /*if (vx < 0) {
         length = sqrt(vx * vx + vy * vy);
         vx = vx / length;
@@ -116,46 +116,46 @@ void Draw_Lines(int n, GLfloat* points, GLfloat size)
     length = sqrt(wx * wx + wy * wy);
     wx = wx / length * size * pixelsize;
     wy = wy / length * size * pixelsize;
-    GLfloat cx0 = x0 + wx + ux;
-    GLfloat cy0 = y0 + wy + uy;
-    GLfloat dx0 = x0 - wx + ux;
-    GLfloat dy0 = y0 - wy + uy;
+    GLdouble cx0 = x0 + wx + ux;
+    GLdouble cy0 = y0 + wy + uy;
+    GLdouble dx0 = x0 - wx + ux;
+    GLdouble dy0 = y0 - wy + uy;
     glVertex3f(cx0, cy0, 0);
     glVertex3f(dx0, dy0, 0);
   glEnd();
 }
 
-void Draw_Lines_old(int n, GLfloat* points, GLfloat size)
+void Draw_Lines_old(int n, GLdouble* points, GLdouble size)
 {
   int i = 0;
-  GLfloat x0 = *points;
+  GLdouble x0 = *points;
   points++;
-  GLfloat y0 = *points;
+  GLdouble y0 = *points;
   points++;
 
-  GLfloat x1 = *points;
+  GLdouble x1 = *points;
   points++;
-  GLfloat y1 = *points;
+  GLdouble y1 = *points;
   points++;
 
   i++;
 
-  GLfloat vx = x1 - x0;
-  GLfloat vy = y1 - y0;
-  GLfloat wx = -vy;
-  GLfloat wy = vx;
-  GLfloat length = sqrt(vx * vx + vy * vy);
+  GLdouble vx = x1 - x0;
+  GLdouble vy = y1 - y0;
+  GLdouble wx = -vy;
+  GLdouble wy = vx;
+  GLdouble length = sqrt(vx * vx + vy * vy);
   wx = wx / length * size * pixelsize;
   wy = wy / length * size * pixelsize;
 
-  GLfloat ax0 = x0 + wx;
-  GLfloat ay0 = y0 + wy;
-  GLfloat bx0 = x0 - wx;
-  GLfloat by0 = y0 - wy;
-  GLfloat cx0 = x0 + wx + vx;
-  GLfloat cy0 = y0 + wy + vy;
-  GLfloat dx0 = x0 - wx + vx;
-  GLfloat dy0 = y0 - wy + vy;
+  GLdouble ax0 = x0 + wx;
+  GLdouble ay0 = y0 + wy;
+  GLdouble bx0 = x0 - wx;
+  GLdouble by0 = y0 - wy;
+  GLdouble cx0 = x0 + wx + vx;
+  GLdouble cy0 = y0 + wy + vy;
+  GLdouble dx0 = x0 - wx + vx;
+  GLdouble dy0 = y0 - wy + vy;
 
   glBegin(GL_TRIANGLE_STRIP);
     while (i < n)
@@ -165,9 +165,9 @@ void Draw_Lines_old(int n, GLfloat* points, GLfloat size)
       i++;
       if (i < n)
       {
-        GLfloat x2 = *points;
+        GLdouble x2 = *points;
         points++;
-        GLfloat y2 = *points;
+        GLdouble y2 = *points;
         points++;
 
         vx = x2 - x1;
@@ -178,22 +178,22 @@ void Draw_Lines_old(int n, GLfloat* points, GLfloat size)
         wx = wx / length * size * pixelsize;
         wy = wy / length * size * pixelsize;
 
-        GLfloat ax1 = x1 + wx;
-        GLfloat ay1 = y1 + wy;
-        GLfloat bx1 = x1 - wx;
-        GLfloat by1 = y1 - wy;
-        GLfloat cx1 = x1 + wx + vx;
-        GLfloat cy1 = y1 + wy + vy;
-        GLfloat dx1 = x1 - wx + vx;
-        GLfloat dy1 = y1 - wy + vy;
+        GLdouble ax1 = x1 + wx;
+        GLdouble ay1 = y1 + wy;
+        GLdouble bx1 = x1 - wx;
+        GLdouble by1 = y1 - wy;
+        GLdouble cx1 = x1 + wx + vx;
+        GLdouble cy1 = y1 + wy + vy;
+        GLdouble dx1 = x1 - wx + vx;
+        GLdouble dy1 = y1 - wy + vy;
         if (dist(x0, y0, cx0, cy0) > dist(x0, y0, ax1, ay1))
         {
-          GLfloat tmp = cx0; cx0 = ax1; ax1 = tmp;
+          GLdouble tmp = cx0; cx0 = ax1; ax1 = tmp;
           tmp = cy0; cy0 = ay1; ay1 = tmp;
         }
         else if (dist(x0, y0, dx0, dy0) > dist(x0, y0, bx1, by1))
         {
-          GLfloat tmp = dx0; dx0 = bx1; bx1 = tmp;
+          GLdouble tmp = dx0; dx0 = bx1; bx1 = tmp;
           tmp = dy0; dy0 = by1; by1 = tmp;
         }
         glVertex3f(cx0, cy0, 0);
