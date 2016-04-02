@@ -874,6 +874,8 @@ extern int projection;
 void Display_Frame();
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom);
 
+void Render_Border(way w);
+
 void Render_Glist(GLuint i);
 
 void Render_Default(way w);

@@ -87,11 +87,12 @@ GLuint Tess_Obj_Building(int c, GLdouble **points)
         gluTessVertex(tess, points[i], points[i]);
     gluTessEndContour(tess);
   gluTessEndPolygon(tess);
-  glEndList();
 
   gluDeleteTess(tess);
 
   printf("creating Tess_Obj: %d\n", id);
+
+  glEndList();
 
   return id;
 }

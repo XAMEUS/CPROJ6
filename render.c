@@ -77,10 +77,11 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 
     if(w.highway!=0){
       Render_Glist(w.glist);
+      if (detail == 10) Render_Border(w);
     }else if(w.building!=0){
       BUILDING;
       Render_Glist(w.glist);
-      Render_Default(w);
+      if (detail == 10) Render_Border(w);
   /*  }else if(w.leisure!=0){
       color_leisure(w.leisure);
       Render_Glist(w.glist);
@@ -110,8 +111,31 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   SDL_RenderPresent(renderer);
 }
 
+void Render_Border(way w)
+{
+  glColor3f(0.0f,0.0f,0.0f);
+  glBegin(GL_LINE_STRIP);
+    node *current = NULL;
+    node *next = NULL;
+    listref *list = w.nodesref;
+    if(list){
+      current = getNode(list->ref);
+      list = list->next;
+    }
+    while(list){
+      next = getNode(list->ref);
+      if(current)
+        glVertex2f(current->x,current->y);
+      current = next;
+      list = list->next;
+    }
+    if(current)
+      glVertex2f(current->x,current->y);
+  glEnd();
+}
+
 void Render_Glist(GLuint i){
-    glCallList(i);
+  glCallList(i);
 }
 
 void Render_Default(way w){

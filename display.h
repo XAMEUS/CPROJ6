@@ -1,5 +1,6 @@
 #ifndef __DISPLAY_H__
-#define __DISPLAY_H__
+#define __DISPLAY_H__extern float detail;
+
 
 
 #include <SDL2/SDL.h>
@@ -9,6 +10,8 @@
 #include <SDL2/SDL_opengl.h>
 
 extern float pixelsize;
+
+extern int detail;
 
 extern float min_x;
 extern float max_x;
