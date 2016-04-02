@@ -183,13 +183,13 @@ int Display_Application(int argc, char* argv[])
           break;
         case SDL_MOUSEWHEEL:
           if (zoom > 0.01) {
-            dx = dx + 0.01 * pixelsize * event.wheel.y * (xcursor - width / 2);
-            dy = dy - 0.01 * pixelsize * event.wheel.y * (ycursor - height / 2);
+            dx = dx + 0.02 * pixelsize * event.wheel.y * (xcursor - width / 2);
+            dy = dy - 0.02 * pixelsize * event.wheel.y * (ycursor - height / 2);
           }
           if (event.wheel.y > 0 && zoom > 0.01)
-            zoom -= 0.01;
+            zoom -= 0.02;
           else if (event.wheel.y < 0)
-            zoom += 0.01;
+            zoom += 0.02;
           break;
         default:
           //printf("unknown event");

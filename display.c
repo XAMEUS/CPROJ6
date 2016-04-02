@@ -37,8 +37,7 @@ void Display_SetViewport(int width, int height, GLfloat dx, GLfloat dy, float zo
   GLfloat c = (min_y + max_y) / 2 + dy - zoom * (max_y - min_y) / 2;
   GLfloat d = (min_y + max_y) / 2 + dy + zoom * (max_y - min_y) / 2;
 
-  printf("%f\n", fabs(fabs(b) - fabs(a)));
-  if (fabs(fabs(b) - fabs(a)) < 0.02) detail = 10;
+  if (fabs(fabs(b) - fabs(a)) < 0.04) detail = 10;
   else detail = 0;
 
   glOrtho(a, b, c, d,-1.0, 1.0);

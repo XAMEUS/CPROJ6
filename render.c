@@ -80,7 +80,18 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       if (detail == 10) Render_Border(w);
     }else if(w.building!=0){
       BUILDING;
+      glEnable(GL_POLYGON_OFFSET_FILL);
+      glPolygonOffset(1.0, 1.0);
       Render_Glist(w.glist);
+      glDisable(GL_POLYGON_OFFSET_FILL);
+      if (DEBUG)
+      {
+        glColor4f(0.5f, 0.9f, 0.5f, 0.8f);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        Render_Glist(w.glist);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+      }
+      glEndList();
       if (detail == 10) Render_Border(w);
   /*  }else if(w.leisure!=0){
       color_leisure(w.leisure);
@@ -113,7 +124,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 
 void Render_Border(way w)
 {
-  glColor3f(0.0f,0.0f,0.0f);
+  glColor4f(0.0f,0.0f,0.0f, 0.5f);
   glBegin(GL_LINE_STRIP);
     node *current = NULL;
     node *next = NULL;
@@ -139,7 +150,7 @@ void Render_Glist(GLuint i){
 }
 
 void Render_Default(way w){
-  glColor3f(0.0f,0.0f,0.0f);
+  glColor3f(1.0f,0.0f,1.0f);
   glBegin(GL_LINE_STRIP);
     node *current = NULL;
     node *next = NULL;
