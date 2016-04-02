@@ -105,15 +105,6 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
     return id;
   }
 
-  GLdouble* tmp = malloc(2*c*sizeof(GLdouble));
-
-  int i;
-  for(i=0;i<c;i++){
-    tmp[i*2]=points[i][0];
-    tmp[(i*2)+1]=points[i][1];
-  }
-
-
   glNewList(id, GL_COMPILE);
 
   GLdouble size = 1.0f;
@@ -235,11 +226,11 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
 
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
-  Draw_Lines(c,tmp,size);
+  Draw_Lines(c, points, size);
   glDisable(GL_POLYGON_OFFSET_FILL);
   glColor3f (0.9, 0.1, 0.1);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  Draw_Lines(c,tmp,size);
+  Draw_Lines(c, points, size);
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   glEndList();
 

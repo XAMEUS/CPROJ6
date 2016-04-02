@@ -27,18 +27,14 @@ void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size
 }
 
 //TODO : Fix points orders
-void Draw_Lines(int n, GLdouble* points, GLdouble size)
+void Draw_Lines(int n, GLdouble **points, GLdouble size)
 {
   int i = 0;
-  GLdouble x0 = *points;
-  points++;
-  GLdouble y0 = *points;
-  points++;
+  GLdouble x0 = points[0][0];
+  GLdouble y0 = points[0][1];
 
-  GLdouble x1 = *points;
-  points++;
-  GLdouble y1 = *points;
-  points++;
+  GLdouble x1 = points[1][0];
+  GLdouble y1 = points[1][1];
 
   i++; i++;
 
@@ -62,10 +58,8 @@ void Draw_Lines(int n, GLdouble* points, GLdouble size)
     glVertex3f(bx0, by0, 0);
     while (i < n)
     {
-      GLdouble x2 = *points;
-      points++;
-      GLdouble y2 = *points;
-      points++;
+      GLdouble x2 = points[i][0];
+      GLdouble y2 = points[i][1];
 
       GLdouble vx = x2 - x1;
       GLdouble vy = y2 - y1;

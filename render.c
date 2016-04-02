@@ -421,16 +421,18 @@ void Render_Highway(way w){
   }
     listref *list = w.nodesref;
     node **nodes = malloc(w.size*sizeof(node*));
-    GLdouble *points = malloc(w.size*2*sizeof(GLdouble));
+    GLdouble **points = malloc(w.size*sizeof(GLdouble*));
     int i=0;
     while(i<w.size){
       nodes[i]=getNode(list->ref);
-      points[i*2]=nodes[i]->x;
-      points[(i*2)+1]=nodes[i]->y;
+      points[i] = malloc(3*sizeof(GLdouble));
+      points[i][0]=nodes[i]->x;
+      points[i][1]=nodes[i]->y;
+      points[i][2]=0;
       list = list->next;
       i = i+1;
     }
-    Draw_Lines(w.size,points,size);
+    Draw_Lines(w.size, points, size);
     free(nodes);
     free(points);
 
