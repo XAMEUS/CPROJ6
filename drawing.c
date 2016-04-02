@@ -5,6 +5,7 @@
 int width = 640;
 int height = 480;
 
+#define size 4
 
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom);
 
@@ -15,20 +16,38 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  GLdouble quad1[4][3] = { {50,400,0}, {150,100,0}, {250,400,0}, {150,300,0} };
-  GLdouble *rows1[4] = { quad1[0], quad1[1], quad1[2], quad1[3] };
+  GLdouble quad1[size][2] = { {500,100}, {400,200}, {300,350}, {150,400}};
+  //GLdouble quad1[4][2] = { {500,350}, {350,400}, {200,350}, {150,200} };
+  GLdouble *rows1[size] = { quad1[0], quad1[1], quad1[2], quad1[3]};
   GLdouble **data1 = rows1;
-  GLuint i1 = Tess_Obj(4, data1);
+
+  GLdouble ux = quad1[1][0] - quad1[0][0];
+  GLdouble uy = quad1[1][1] - quad1[0][1];
+  GLdouble vx = quad1[2][0] - quad1[1][0];
+  GLdouble vy = quad1[2][1] - quad1[1][1];
+  GLdouble wx = quad1[3][0] - quad1[2][0];
+  GLdouble wy = quad1[3][1] - quad1[2][1];
+  GLdouble length = sqrt(ux * ux + uy * uy);
+  ux = ux / length;
+  uy = uy / length;
+  length = sqrt(vx * vx + vy * vy);
+  vx = vx / length;
+  vy = vy / length;
+  printf("u: (%lf, %lf)\n", ux, uy);
+  printf("v: (%lf, %lf)\n", vx, vy);
+  printf("w: (%lf, %lf)\n", wx, wy);
+  printf("%lf\n", atan2(-uy, -ux) - atan2(vy, vx));
+  printf("%lf\n", atan2(-vy, -vx) - atan2(wy, wx));
 
   glColor3f(0.9, 0.9, 0.2);
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
-  glCallList(i1);
+  Draw_Lines(size, data1, 20);
   glDisable(GL_POLYGON_OFFSET_FILL);
 
   glColor3f (0.9, 0.1, 0.1);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  glCallList(i1);
+  Draw_Lines(size, data1, 20);
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   glPopMatrix();
@@ -101,6 +120,7 @@ int main(int argc, char* argv[])
   time_t t = time(NULL);
   time_t ctime = time(NULL);
   int frames = 0;
+  Display_Render(displayRenderer, width, height, dx, dy, zoom);
   while (!quit)
   {
     Display_SetViewport(
@@ -109,7 +129,7 @@ int main(int argc, char* argv[])
       dy,
       zoom
     );
-    Display_Render(displayRenderer, width, height, dx, dy, zoom);
+    //Display_Render(displayRenderer, width, height, dx, dy, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
