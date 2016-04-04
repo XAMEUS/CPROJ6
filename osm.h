@@ -115,6 +115,13 @@
 #define LANDUSE_VILLAGE_GREEN 25
 #define LANDUSE_VINEYARD 26
 
+#define RELATION_UNDEFINED 0
+#define RELATION_MULTIPOLYGON 1
+#define RELATION_ROUTE 2
+#define RELATION_BOUNDARY 3
+#define RELATION_RESTRICTION 4
+#define RELATION_ROUTE_MASTER 5
+#define RELATION_WATERWAY 6
 
 struct st_node{
   float lat;
@@ -125,7 +132,6 @@ struct st_node{
 };
 
 typedef struct st_node node;
-
 
 struct st_way{
   listref *nodesref;
@@ -142,5 +148,14 @@ struct st_way{
 };
 
 typedef struct st_way way;
+
+struct st_relation{
+  listref *member;
+  int type;
+  long id;
+  int size;
+};
+
+typedef struct st_relation relation;
 
 #endif

@@ -39,16 +39,15 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glPushMatrix();
 
   int i;
- for(i=0;i<sizeWays;i++){
-    way w = ways[i];
-     if(w.waterway!=0){
-      WATERWAY;
-      Render_Glist(w.glist);
-      Render_Default(w);
-    }
-
-
-  }
+  /*
+   for(i=0;i<sizeWays;i++){
+      way w = ways[i];
+       if(w.waterway!=0){
+        WATERWAY;
+        Render_Glist(w.glist);
+        //Render_Default(w);
+      }
+  }*/
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.landuse!=0){
@@ -61,20 +60,15 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       Render_Glist(w.glist);
       Render_Default(w);
     }
-
     /*else if(w.leisure!=0){
         color_leisure(w.leisure);
         Render_Glist(w.glist);
         Render_Default(w);
       }
 */
-
-
   }
-
-    for(i=0;i<sizeWays;i++){
-      way w = ways[i];
-
+  for(i=0;i<sizeWays;i++){
+    way w = ways[i];
     if(w.highway!=0){
       Render_Glist(w.glist);
       if (detail == 10) Render_Border(w);
@@ -98,8 +92,6 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       Render_Glist(w.glist);
       Render_Default(w);
 */
-
-
   /*  }else if(w.area!=0){
       AREA;
       Render_Glist(w.glist);

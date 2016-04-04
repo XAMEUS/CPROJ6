@@ -1,12 +1,13 @@
 #include <string.h>
 #include "parse.h"
 
-
 GHashTable* nodes_hashtable = NULL;
+GHashTable* ways_hashtable = NULL;
 way* ways = NULL;
-
+relation* relations = NULL;
 
 int sizeWays = 100;
+int sizeRelations = 100;
 
 float minlat = 39.7492900;
 float maxlat = 39.7525610;
@@ -116,7 +117,7 @@ way xmlGetWay(xmlNodePtr cur){
   w.waterway = 0;
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
-      w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
+      w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")),REF_NODE,ROLE_NONE);
       n++;
     }
 
@@ -375,7 +376,7 @@ way xmlGetWay(xmlNodePtr cur){
 
 }
 
-void xmlGetWays(xmlNodePtr cur){
+void xmlGetWays_array(xmlNodePtr cur){
   ways = malloc(sizeof(way)*100);
   cur = cur->xmlChildrenNode;
   int i = 0;
@@ -393,6 +394,109 @@ void xmlGetWays(xmlNodePtr cur){
   sizeWays=i;
 }
 
+void xmlGetWays(xmlNodePtr cur){
+  xmlGetWays_array(cur);
+  ways_hashtable = g_hash_table_new(g_int64_hash,g_int64_equal);
+  cur = cur->xmlChildrenNode;
+  way *w = NULL;
+  while(cur != NULL){
+    w = g_new(way,1);
+    if(xmlStrcmp(cur->name,(const xmlChar *)"way")==0){
+      *w = xmlGetWay(cur);
+      g_hash_table_insert(ways_hashtable, &w->id, w);
+    }
+    cur=cur->next;
+  }
+}
+
+relation xmlGetRelation(xmlNodePtr cur){
+  relation r;
+  int n = 0;
+  r.id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
+  cur = cur->xmlChildrenNode;
+  r.member = malloc(sizeof(listref));
+  r.member = NULL;
+  while(cur!=NULL){
+    if(xmlStrcmp(cur->name,(const xmlChar *)"member")==0){
+      int role = ROLE_NONE;
+      char *str_role = (char*)xmlGetProp(cur,(const xmlChar*)"role");
+      if(strcmp(str_role,"inner")==0){
+        role = ROLE_INNER;
+      }else if(strcmp(str_role,"outer")==0){
+        role = ROLE_OUTER;
+      }else if(strcmp(str_role,"stop")==0){
+        role = ROLE_STOP;
+      }else if(strcmp(str_role,"forward")==0){
+        role = ROLE_FORWARD;
+      }else if(strcmp(str_role,"backward")==0){
+        role = ROLE_BACKWARD;
+      }else if(strcmp(str_role,"device")==0){
+        role = ROLE_DEVICE;
+      }else if(strcmp(str_role,"to")==0){
+        role = ROLE_TO;
+      }else if(strcmp(str_role,"from")==0){
+        role = ROLE_FROM;
+      }else if(strcmp(str_role,"station")==0){
+        role = ROLE_STATION;
+      }else if(strcmp(str_role,"entrance")==0){
+        role = ROLE_ENTRANCE;
+      }else if(strcmp(str_role,"sidestream")==0){
+        role = ROLE_SIDESTREAM;
+      }else if(strcmp(str_role,"TRIBUTARY")==0){
+        role = ROLE_TRIBUTARY;
+      }
+
+      int type = REF_WAY;
+      char *str_type = (char*)xmlGetProp(cur,(const xmlChar*)"type");
+      if(strcmp(str_type,"node")==0){
+        type = REF_NODE;
+      }else if(strcmp(str_type,"relation")==0){
+        type = REF_RELATION;
+      }
+
+      r.member = listref_append(r.member,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")),type,role);
+      n++;
+    }
+
+    if(xmlStrcmp(cur->name,(const xmlChar *)"tag")==0){
+      char *k = (char*)xmlGetProp(cur,(const xmlChar*)"k");
+      char *v = (char*)xmlGetProp(cur,(const xmlChar*)"v");
+      if(strcmp(k,"type")==0){
+        if(strcmp(v,"multipolygon")==0){
+          r.type = RELATION_MULTIPOLYGON;
+        }else if(strcmp(v,"waterway")==0){
+          r.type = RELATION_WATERWAY;
+        }else{
+          r.type = RELATION_UNDEFINED;
+        }
+      }
+
+    }
+
+    cur=cur->next;
+  }
+  r.size=n;
+  return r;
+
+}
+
+void xmlGetRelations(xmlNodePtr cur){
+  relations = malloc(sizeof(relation)*100);
+  cur = cur->xmlChildrenNode;
+  int i = 0;
+  while(cur != NULL){
+    if(i==sizeRelations){
+      sizeRelations*=2;
+      relations = realloc(relations,sizeof(relation)*sizeRelations);
+    }
+    if(xmlStrcmp(cur->name,(const xmlChar *)"relation")==0){
+      relations[i]=xmlGetRelation(cur);
+      i++;
+    }
+    cur=cur->next;
+  }
+  sizeRelations=i;
+}
 
 
 int initNodesBounds(char *filename){
