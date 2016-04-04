@@ -201,7 +201,9 @@ way xmlGetWay(xmlNodePtr cur){
             }
           }*/
       }else if(strcmp(k,"waterway")==0){
+          if(strcmp(v,"riverbank")==0){
             w.waterway=1;
+          }
      }else if(strcmp(k,"landuse")==0){
           if(strcmp(v,"allotments")==0){
             w.landuse=LANDUSE_ALLOTMENTS;

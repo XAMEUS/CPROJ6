@@ -39,7 +39,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glPushMatrix();
 
   int i;
-  /*
+
    for(i=0;i<sizeWays;i++){
       way w = ways[i];
        if(w.waterway!=0){
@@ -47,7 +47,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
         Render_Glist(w.glist);
         //Render_Default(w);
       }
-  }*/
+  }
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.landuse!=0){
