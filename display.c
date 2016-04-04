@@ -40,7 +40,7 @@ void Display_SetViewport(int width, int height, GLfloat dx, GLfloat dy, float zo
   if (fabs(fabs(b) - fabs(a)) < 0.04) detail = 10;
   else detail = 0;
 
-  glOrtho(a, b, c, d,-1.0, 1.0);
+  glOrtho(a, b, c, d,-10.0, 10.0);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();

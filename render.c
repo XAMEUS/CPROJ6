@@ -71,7 +71,6 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     way w = ways[i];
     if(w.highway!=0){
       Render_Glist(w.glist);
-      if (detail == 10) Render_Border(w);
     }else if(w.building!=0){
       BUILDING;
       glEnable(GL_POLYGON_OFFSET_FILL);
@@ -86,7 +85,6 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
       }
       glEndList();
-      if (detail == 10) Render_Border(w);
   /*  }else if(w.leisure!=0){
       color_leisure(w.leisure);
       Render_Glist(w.glist);
@@ -102,6 +100,17 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       Render_Glist(w.glist);
       Render_Default(w);
       */
+    }else{
+      Render_Default(w);
+    }
+  }
+  for(i=0;i<sizeWays;i++){
+    way w = ways[i];
+    if(w.highway!=0){
+      if (detail == 10) Render_Border(w);
+    }else if(w.building!=0){
+      BUILDING;
+      if (detail == 10) Render_Border(w);
     }else{
       Render_Default(w);
     }
@@ -128,12 +137,12 @@ void Render_Border(way w)
     while(list){
       next = getNode(list->ref);
       if(current)
-        glVertex2f(current->x,current->y);
+        glVertex3f(current->x,current->y, 5);
       current = next;
       list = list->next;
     }
     if(current)
-      glVertex2f(current->x,current->y);
+      glVertex3f(current->x,current->y, 5);
   glEnd();
 }
 
@@ -459,7 +468,7 @@ void Render_Highway(way w){
       list = list->next;
       i = i+1;
     }
-    Draw_Lines(w.size, points, size);
+    Draw_Lines(w.size, points, size, 0.3);
     free(nodes);
     free(points);
 
