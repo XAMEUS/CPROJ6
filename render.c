@@ -46,7 +46,15 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
         WATERWAY;
         Render_Glist(w.glist);
         //Render_Default(w);
-      }
+      
+    }else if(w.natural!=0){
+      color_natural(w.natural);
+      Render_Glist(w.glist);
+      Render_Default(w);
+
+    }
+
+
   }
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
@@ -55,17 +63,21 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       Render_Glist(w.glist);
       Render_Default(w);
 
-    }else if(w.natural!=0){
-      color_natural(w.natural);
-      Render_Glist(w.glist);
-      Render_Default(w);
-    }
-    /*else if(w.leisure!=0){
+
+  } else if(w.leisure!=0){
         color_leisure(w.leisure);
         Render_Glist(w.glist);
         Render_Default(w);
-      }
-*/
+      }else if(w.area!=0){
+        AREA;
+        Render_Glist(w.glist);
+        Render_Default(w);
+
+
+    }
+
+
+
   }
   for(i=0;i<sizeWays;i++){
     way w = ways[i];

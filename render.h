@@ -783,10 +783,10 @@
 
 
 
-#define BUILDING Cafeaulait
+#define BUILDING BurnishedBrown
 //#define LANDUSE glColor3f(0.8f,0.8f,0.8f)
-//#define AREA glColor3f(0.0f,1.0f,0.0f)
-#define WATERWAY Airsuperiorityblue
+#define AREA Ashgrey
+#define WATERWAY Aero
 
 #define NATURAL_WOOD_COLOR Budgreen
 #define NATURAL_TREE_ROW_COLOR Budgreen
@@ -800,15 +800,15 @@
 #define NATURAL_SHINGLE_COLOR Champagnepink
 #define NATURAL_SAND_COLOR Buff
 #define NATURAL_MUD_COLOR Bazaar
-#define NATURAL_WATER_COLOR Airsuperiorityblue
-#define NATURAL_WETLAND_COLOR Airsuperiorityblue
+#define NATURAL_WATER_COLOR Aero
+#define NATURAL_WETLAND_COLOR Aero
 #define NATURAL_GLACIER_COLOR Beaublue
-#define NATURAL_BAY_COLOR Airsuperiorityblue
+#define NATURAL_BAY_COLOR Aero
 #define NATURAL_BEACH_COLOR Arylideyellow
-#define NATURAL_COASTLINE_COLOR Airsuperiorityblue
-#define NATURAL_SPRING_COLOR Airsuperiorityblue
-#define NATURAL_HOT_SPRING_COLOR Airsuperiorityblue
-#define NATURAL_GEYSER_COLOR Airsuperiorityblue
+#define NATURAL_COASTLINE_COLOR Bone
+#define NATURAL_SPRING_COLOR Aero
+#define NATURAL_HOT_SPRING_COLOR Aero
+#define NATURAL_GEYSER_COLOR Aero
 #define NATURAL_LAND_COLOR Ashgrey
 
 #define LANDUSE_ALLOTMENTS_COLOR Antiquebrass
@@ -889,5 +889,7 @@ void color_landuse(int n);
 void color_natural(int n);
 
 void color_leisure(int n);
+
+
 
 #endif

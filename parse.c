@@ -115,6 +115,7 @@ way xmlGetWay(xmlNodePtr cur){
   w.natural =0;
   w.area = 0;
   w.waterway = 0;
+  w.leisure = 0;
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
       w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")),REF_NODE,ROLE_NONE);
@@ -308,61 +309,61 @@ way xmlGetWay(xmlNodePtr cur){
 
                   }else if(strcmp(k,"leisure")==0){
                       if(strcmp(v,"adult_gaming_center")==0){
-                        w.natural=LEISURE_ADULT_GAMING_CENTRE;
+                        w.leisure=LEISURE_ADULT_GAMING_CENTRE;
                       }else if(strcmp(v,"amusement_arcade")==0){
-                        w.natural=LEISURE_AMUSEMENT_ARCADE;
+                        w.leisure=LEISURE_AMUSEMENT_ARCADE;
                       }else if(strcmp(v,"beach_resort")==0){
-                        w.natural=LEISURE_BEACH_RESORT;
+                        w.leisure=LEISURE_BEACH_RESORT;
                       }else if(strcmp(v,"bandstand")==0){
-                        w.natural=LEISURE_BANDSTAND;
+                        w.leisure=LEISURE_BANDSTAND;
                       }else if(strcmp(v,"bird_hide")==0){
-                        w.natural=LEISURE_BIRD_HIDE;
+                        w.leisure=LEISURE_BIRD_HIDE;
                       }else if(strcmp(v,"dance")==0){
-                        w.natural=LEISURE_DANCE;
+                        w.leisure=LEISURE_DANCE;
                       }else if(strcmp(v,"dog_park")==0){
-                        w.natural=LEISURE_DOG_PARK;
+                        w.leisure=LEISURE_DOG_PARK;
                       }else if(strcmp(v,"firepit")==0){
-                        w.natural=LEISURE_FIREPIT;
+                        w.leisure=LEISURE_FIREPIT;
                       }else if(strcmp(v,"fishing")==0){
-                        w.natural=LEISURE_FISHING;
+                        w.leisure=LEISURE_FISHING;
                       }else if(strcmp(v,"garden")==0){
-                        w.natural=LEISURE_GARDEN;
+                        w.leisure=LEISURE_GARDEN;
                       }else if(strcmp(v,"golf_course")==0){
-                        w.natural=LEISURE_GOLF_COURSE;
+                        w.leisure=LEISURE_GOLF_COURSE;
                       }else if(strcmp(v,"hackerspace")==0){
-                        w.natural=LEISURE_HACKERSPACE;
+                        w.leisure=LEISURE_HACKERSPACE;
                       }else if(strcmp(v,"ice_rink")==0){
-                        w.natural=LEISURE_ICE_RINK;
+                        w.leisure=LEISURE_ICE_RINK;
                       }else if(strcmp(v,"marina")==0){
-                        w.natural=LEISURE_MARINA;
+                        w.leisure=LEISURE_MARINA;
                       }else if(strcmp(v,"miniature_golf")==0){
-                        w.natural=LEISURE_MINIATURE_GOLF;
+                        w.leisure=LEISURE_MINIATURE_GOLF;
                       }else if(strcmp(v,"nature_reserve")==0){
-                        w.natural=LEISURE_NATURE_RESERVE;
+                        w.leisure=LEISURE_NATURE_RESERVE;
                       }else if(strcmp(v,"park")==0){
-                        w.natural=LEISURE_PARK;
+                        w.leisure=LEISURE_PARK;
                       }else if(strcmp(v,"pitch")==0){
-                        w.natural=LEISURE_PITCH;
+                        w.leisure=LEISURE_PITCH;
                       }else if(strcmp(v,"playground")==0){
-                        w.natural=LEISURE_PLAYGROUND;
+                        w.leisure=LEISURE_PLAYGROUND;
                       }else if(strcmp(v,"slipway")==0){
-                        w.natural=LEISURE_SLIPWAY;
+                        w.leisure=LEISURE_SLIPWAY;
                       }else if(strcmp(v,"sports_centre")==0){
-                        w.natural=LEISURE_SPORT_CENTRE;
+                        w.leisure=LEISURE_SPORT_CENTRE;
                       }else if(strcmp(v,"stadium")==0){
-                        w.natural=LEISURE_STADIUM;
+                        w.leisure=LEISURE_STADIUM;
                       }else if(strcmp(v,"summer_camp")==0){
-                        w.natural=LEISURE_SUMMER_CAMP;
+                        w.leisure=LEISURE_SUMMER_CAMP;
                       }else if(strcmp(v,"swimming_area")==0){
-                        w.natural=LEISURE_SWIMMING_AREA;
+                        w.leisure=LEISURE_SWIMMING_AREA;
                       }else if(strcmp(v,"swimming_pool")==0){
-                        w.natural=LEISURE_SWIMMING_POOL;
+                        w.leisure=LEISURE_SWIMMING_POOL;
                       }else if(strcmp(v,"track")==0){
-                        w.natural=LEISURE_TRACK;
+                        w.leisure=LEISURE_TRACK;
                       }else if(strcmp(v,"water_park")==0){
-                        w.natural=LEISURE_WATER_PARK;
+                        w.leisure=LEISURE_WATER_PARK;
                       }else if(strcmp(v,"wildlife_hide")==0){
-                        w.natural=LEISURE_WILDLIFE_HIDE;
+                        w.leisure=LEISURE_WILDLIFE_HIDE;
                     }
 
 

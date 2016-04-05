@@ -28,8 +28,12 @@ GLuint tessellate(way w){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.landuse!=0){
     r = Tess_Obj_Building(w.size,points);
-  //  }else if(w.area!=0){
-  //  r = Tess_Obj_Building(w.size,points);
+   }else if(w.area!=0){
+   r = Tess_Obj_Building(w.size,points);
+ }else if(w.leisure!=0){
+   r = Tess_Obj_Building(w.size,points);
+ }else if(w.natural!=0){
+   r = Tess_Obj_Building(w.size,points);
   }else if(w.waterway!=0){
     r = Tess_Obj_Building(w.size,points);
   }else{
