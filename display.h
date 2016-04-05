@@ -9,7 +9,7 @@
 #include <time.h>
 #include <SDL2/SDL_opengl.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 extern float pixelsize;
 

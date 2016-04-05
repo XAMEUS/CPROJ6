@@ -26,7 +26,7 @@ void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size
   glEnd();
 }
 
-void Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble z)
+void Draw_Lines(int n, GLdouble **points, GLdouble size)
 {
   int i = 0;
   GLdouble x0 = points[0][0];
