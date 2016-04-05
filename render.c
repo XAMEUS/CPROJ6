@@ -28,7 +28,7 @@ void Display_Frame()
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom)
 {
   // Set the background
-  glClearColor(0.9f, 0.9f, 0.9f, 0.0f);
+  glClearColor(0.80f, 0.85f, 0.81f, 0.0f);
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -46,7 +46,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
         WATERWAY;
         Render_Glist(w.glist);
         //Render_Default(w);
-      
+
     }else if(w.natural!=0){
       color_natural(w.natural);
       Render_Glist(w.glist);

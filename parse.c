@@ -192,15 +192,13 @@ way xmlGetWay(xmlNodePtr cur){
           w.highway=HIGHWAY_TURNING_CICLE;
         }
      }else if(strcmp(k, "building")==0){
-        if(strcmp(v,"yes")==0){
           w.building=1;
-        }
-  /*   }else if(strcmp(k,"area")==0){
+      }else if(strcmp(k,"area")==0){
           if(strcmp(v,"yes")==0){
             if(strcmp(k,"highway")!=0){
             w.area=1;
             }
-          }*/
+          }
       }else if(strcmp(k,"waterway")==0){
           if(strcmp(v,"riverbank")==0){
             w.waterway=1;

@@ -152,6 +152,7 @@
 #define Britishracinggreen	glColor3f(0.0,0.26,0.15)
 #define Bronze	glColor3f(0.80,0.50,0.20)
 #define BronzeYellow	glColor3f(0.45,0.44,0.0)
+#define BronzeYell	glColor3f(0.55,0.54,0.10)
 #define Browntraditional	glColor3f(0.59,0.29,0.0)
 #define Brownweb	glColor3f(0.65,0.16,0.16)
 #define BrownSugar	glColor3f(0.69,0.43,0.30)
@@ -247,6 +248,7 @@
 #define Citrine	glColor3f(0.89,0.82,0.4)
 
 #define Citron	glColor3f(0.62,0.66,0.12)
+#define DarkCitron	glColor3f(0.42,0.46,0.0)
 
 #define Claret	glColor3f(0.50,0.9,0.20)
 
@@ -714,6 +716,7 @@
 #define FuzzyWuzzy	glColor3f(0.80,0.40,0.40)
 
 #define white glColor3f(1.0f,1.0f,1.0f)
+#define lightgrey glColor3f(0.80f, 0.85f, 0.81f)
 
 #define HIGHWAY_MOTORWAY_COLOR Cyclamen
 #define HIGHWAY_TRUNK_COLOR Atomictangerine
@@ -785,7 +788,7 @@
 
 #define BUILDING BurnishedBrown
 //#define LANDUSE glColor3f(0.8f,0.8f,0.8f)
-#define AREA Ashgrey
+#define AREA glColor3f(0.80f, 0.85f, 0.81f)
 #define WATERWAY Aero
 
 #define NATURAL_WOOD_COLOR Budgreen
@@ -809,14 +812,14 @@
 #define NATURAL_SPRING_COLOR Aero
 #define NATURAL_HOT_SPRING_COLOR Aero
 #define NATURAL_GEYSER_COLOR Aero
-#define NATURAL_LAND_COLOR Ashgrey
+#define NATURAL_LAND_COLOR lightgrey
 
 #define LANDUSE_ALLOTMENTS_COLOR Antiquebrass
 #define LANDUSE_BASIN_COLOR Airsuperiorityblue
 #define LANDUSE_BROWNFIELD_COLOR Artichoke
 #define LANDUSE_CEMTERY_COLOR Budgreen
 #define LANDUSE_COMMERCIAL_COLOR Bubblegum
-#define LANDUSE_CONSTRUCTION_COLOR Darkseagreen
+#define LANDUSE_CONSTRUCTION_COLOR Citron
 #define LANDUSE_FARMLAND_COLOR Artichoke
 #define LANDUSE_FARMYARD_COLOR Apricot
 #define LANDUSE_FOREST_COLOR BrownYellow
@@ -833,7 +836,7 @@
 #define LANDUSE_RAILWWAY_COLOR Brightube
 #define LANDUSE_RECREATION_GROUND_COLOR Darkseagreen
 #define LANDUSE_RESERVOIR_COLOR Airsuperiorityblue
-#define LANDUSE_RESIDENTIAL_COLOR Ashgrey
+#define LANDUSE_RESIDENTIAL_COLOR lightgrey
 #define LANDUSE_RETAIL_COLOR Flamingopink
 #define LANDUSE_VILLAGE_GREEN_COLOR Darkseagreen
 #define LANDUSE_VINEYARD_COLOR Budgreen
@@ -854,7 +857,7 @@
 #define LEISURE_MARINA_COLOR Airsuperiorityblue
 #define LEISURE_MINIATURE_GOLF_COLOR Budgreen
 #define LEISURE_NATURE_RESERVE_COLOR Budgreen
-#define LEISURE_PARK_COLOR Darkseagreen
+#define LEISURE_PARK_COLOR Celadon
 #define LEISURE_PITCH_COLOR Deepgreencyanturquoise
 #define LEISURE_PLAYGROUND_COLOR Darkseagreen
 #define LEISURE_SLIPWAY_COLOR Airsuperiorityblue
