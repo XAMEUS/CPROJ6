@@ -116,8 +116,11 @@ way xmlGetWay(xmlNodePtr cur){
   w.area = 0;
   w.waterway = 0;
   w.leisure = 0;
+  //printf("way %ld\n", w.id);
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
+      //if (w.id == 63645087 || w.id == 63643868 || w.id == 78144300 || w.id == 41494697 || w.id == 41494698)
+      //  printf("%ld\n", atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
       w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")),REF_NODE,ROLE_NONE);
       n++;
     }
@@ -373,6 +376,8 @@ way xmlGetWay(xmlNodePtr cur){
     cur=cur->next;
   }
   w.size=n;
+  //printf("size : %d\n", w.size);
+  //printf("----------\n\n");
   return w;
 
 }

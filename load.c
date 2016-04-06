@@ -4,7 +4,7 @@
 #include "tessellation.h"
 #include "render.h"
 
-
+//way *aze = NULL;
 
 GLuint tessellate(way w){
   listref *list = w.nodesref;
@@ -17,10 +17,12 @@ GLuint tessellate(way w){
     points[i][0]=nodes[i]->x;
     points[i][1]=nodes[i]->y;
     points[i][2]=0;
+    //if (w.id == 63645087 || w.id == 63643868 || w.id == 78144300 || w.id == 41494697 || w.id == 41494698)
+    //  printf("%d %lf %lf %lf\n", i, points[i][0], points[i][1], points[i][2]);
     list = list->next;
     i = i+1;
   }
-
+  //aze = &w;
   GLuint r;
   if(w.highway!=0){
     r = Tess_Obj_Highway(w.size,points,w);
@@ -87,14 +89,17 @@ GLuint Tess_Obj_Building(int c, GLdouble **points)
   int i;
   gluTessBeginPolygon(tess, 0);
     gluTessBeginContour(tess);
-      for (i = 0; i < c-1; i++)
+      for (i = 0; i < c-1; i++) {
+        //if (id == 16 || id == 288 || id == 304 || id == 318 || id == 338)
+        //  printf("%ld, %lf %lf %lf\n", aze->id, points[i][0], points[i][1], points[i][2]);
         gluTessVertex(tess, points[i], points[i]);
+      }
     gluTessEndContour(tess);
   gluTessEndPolygon(tess);
 
   gluDeleteTess(tess);
 
-  printf("creating Tess_Obj: %d\n", id);
+  // printf("creating Tess_Obj: %d\n", id);
 
   glEndList();
 
@@ -241,7 +246,7 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
   }
   glEndList();
 
-  printf("creating Tess_Obj: %d\n", id);
+  // printf("creating Tess_Obj: %d\n", id);
 
   return id;
 }

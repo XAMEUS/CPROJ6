@@ -124,10 +124,10 @@
 #define RELATION_WATERWAY 6
 
 struct st_node{
-  float lat;
-  float lon;
-  float x;
-  float y;
+  double lat;
+  double lon;
+  double x;
+  double y;
   long id;
 };
 
