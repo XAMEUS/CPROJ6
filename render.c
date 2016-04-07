@@ -27,8 +27,18 @@ void Display_Frame()
 
 void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom)
 {
+  int i;
   // Set the background
-  glClearColor(0.80f, 0.85f, 0.81f, 0.0f);
+  for(i=0;i<sizeWays;i++){
+     way w = ways[i];
+      if(w.natural==NATURAL_COASTLINE){
+       glClearColor(0.49,0.73,0.91,0.0f);
+       i=sizeWays+1;
+     }
+     }
+     if (i==sizeWays)
+    glClearColor(0.80f, 0.85f, 0.81f, 0.0f);
+
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -38,7 +48,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glColor3f(0.0, 0.0, 0.0);
   glPushMatrix();
 
-  int i;
+  
 
    for(i=0;i<sizeWays;i++){
       way w = ways[i];
