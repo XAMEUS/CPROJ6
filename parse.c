@@ -91,8 +91,8 @@ void xmlGetNodes(xmlNodePtr cur){
   while(cur != NULL){
     n = g_new(node,1);
     if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
-      n->lat = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lat"));
-      n->lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
+      n->lat = strtold((const char*)xmlGetProp(cur,(const xmlChar*)"lat"), NULL);
+      n->lon = strtold((const char*)xmlGetProp(cur,(const xmlChar*)"lon"), NULL);
       n->x = n->lon;
       n->y = (((log(tan(M_PI/4+((((n->lat)/2)*M_PI)/180))))*180)/M_PI);
       n->id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
