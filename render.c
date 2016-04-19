@@ -48,7 +48,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glColor3f(0.0, 0.0, 0.0);
   glPushMatrix();
 
-  
+
 
    for(i=0;i<sizeWays;i++){
       way w = ways[i];
@@ -61,11 +61,29 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       color_natural(w.natural);
       Render_Glist(w.glist);
       Render_Default(w);
+    }else if(w.amenity!=0){
+           color_amenity(w.amenity);
+           Render_Glist(w.glist);
+         Render_Default(w);
 
-    }
-
+   }
 
   }
+
+
+
+
+/*  for(i=0;i<sizeWays;i++){
+     way w = ways[i];
+   if(w.amenity!=0){
+         color_amenity(w.amenity);
+         Render_Glist(w.glist);
+       Render_Default(w);
+
+ }
+
+    }*/
+
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.landuse!=0){
@@ -73,29 +91,141 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       Render_Glist(w.glist);
       Render_Default(w);
 
-
-  } else if(w.leisure!=0){
+    }else if(w.leisure!=0){
         color_leisure(w.leisure);
         Render_Glist(w.glist);
         Render_Default(w);
-      }else if(w.area!=0){
-        AREA;
+
+
+}else if(w.aerialway!=0){
+        AERIALWAY_COLOR;
         Render_Glist(w.glist);
         Render_Default(w);
 
 
-    }
+  } else if(w.aeroway!=0){
+        AEROWAY_COLOR;
+        Render_Glist(w.glist);
+        Render_Default(w);
+
+
+/*
+}else if(w.boundary!=0){
+        color_boundary(w.boundary);
+        Render_Glist(w.glist);
+        Render_Default(w);
+*/
+/*
+ } else if(w.craft!=0){
+        CRAFT_COLOR;
+        Render_Glist(w.glist);
+        Render_Default(w);
+
+
+
+  }else if(w.emergency!=0){
+        EMERGENCY_COLOR;
+        Render_Glist(w.glist);
+        Render_Default(w);
+
+  } else if(w.geological!=0){
+        color_geological(w.geological);
+        Render_Glist(w.glist);
+        Render_Default(w);
+
+
+  }else if(w.cycleway!=0){
+        CYCLEWAY_COLOR;
+        Render_Glist(w.glist);
+        Render_Default(w);
+}
+
+
+  } else if(w.busway!=0){
+        BUSWAY_COLOR;
+        Render_Glist(w.glist);
+        Render_Default(w);
+*/
+
+  } else if(w.historic!=0){
+        HISTORIC_COLOR;
+        Render_Glist(w.glist);
+        Render_Default(w);
+
+
+  /*    }else if(w.man_made!=0){
+            MAN_MADE_COLOR;
+            Render_Glist(w.glist);
+            Render_Default(w);
+*/
+      } else if(w.military!=0){
+            MILITARY_COLOR;
+            Render_Glist(w.glist);
+            Render_Default(w);
+
+      }else if(w.office!=0){
+            OFFICE_COLOR;
+            Render_Glist(w.glist);
+            Render_Default(w);
+
+      } else if(w.place!=0){
+            PLACE_COLOR;
+            Render_Glist(w.glist);
+            Render_Default(w);
+
+          } else if(w.power!=0){
+                POWER_COLOR;
+                Render_Glist(w.glist);
+                Render_Default(w);
+/*
+            }else if(w.railway!=0){
+                  RAILWAY_COLOR;
+                    Render_Glist(w.glist);
+                    Render_Default(w);
+*/
+              } else if(w.brige!=0){
+                    BRIGE_COLOR;
+                    Render_Glist(w.glist);
+                    Render_Default(w);
+/*
+            }else if(w.route!=0){
+                    ROUTE_COLOR;
+                    Render_Glist(w.glist);
+                    Render_Default(w);
+*/
+              } else if(w.shop!=0){
+                    SHOP_COLOR;
+                    Render_Glist(w.glist);
+                    Render_Default(w);
+
+              }else if(w.sport!=0){
+                    SPORT_COLOR;
+                    Render_Glist(w.glist);
+                    Render_Default(w);
+
+             } else if(w.tourism!=0){
+                    TOURISM_COLOR;
+                    Render_Glist(w.glist);
+                    Render_Default(w);
+
+                  } else if(w.area!=0){
+                        AREA_COLOR;
+                        Render_Glist(w.glist);
+                        Render_Default(w);
+
+                  }
 
 
 
   }
   for(i=0;i<sizeWays;i++){
     way w = ways[i];
-    if(w.highway!=0){
+
+ if(w.highway!=0){
       Render_Glist(w.glist);
       if (detail == 10) Render_Border(w);
     }else if(w.building!=0){
-      BUILDING;
+      BUILDING_COLOR;
       glEnable(GL_POLYGON_OFFSET_FILL);
       glPolygonOffset(1.0, 1.0);
       Render_Glist(w.glist);
@@ -184,6 +314,81 @@ void Render_Default(way w){
       glVertex2f(current->x,current->y);
   glEnd();
 }
+
+void color_amenity (int n){
+  switch(n){
+    case AMENITY_CONSOMMATION :
+      AMENITY_CONSOMMATION_COLOR;
+      break;
+    case AMENITY_EDUCATION :
+      AMENITY_EDUCATION_COLOR;
+      break;
+    case AMENITY_TRANSPORTS :
+      AMENITY_TRANSPORTS_COLOR;
+      break;
+    case AMENITY_ARGENTS :
+      AMENITY_ARGENTS_COLOR;
+      break;
+    case AMENITY_SANTE :
+      AMENITY_SANTE_COLOR;
+      break;
+    case AMENITY_LOISIRS :
+      AMENITY_LOISIRS_COLOR;
+      break;
+    case AMENITY_AUTRES :
+      AMENITY_AUTRES_COLOR;
+        break;
+      }
+}
+
+void color_boundary (int n){
+  switch(n){
+
+    case BOUNDARY_ADMINISTRATIVE:
+      BOUNDARY_ADMINISTRATIVE_COLOR;
+      break;
+    case BOUNDARY_HISTORIC:
+      BOUNDARY_HISTORIC_COLOR;
+      break;
+    case BOUNDARY_MARITIME:
+      BOUNDARY_MARITIME_COLOR;
+      break;
+    case BOUNDARY_NATIONAL_PARK:
+      BOUNDARY_NATIONAL_PARK_COLOR;
+      break;
+    case BOUNDARY_POLITICAL:
+      BOUNDARY_POLITICAL_COLOR;
+      break;
+    case BOUNDARY_POSTAL_CODE:
+      BOUNDARY_POSTAL_CODE_COLOR;
+      break;
+    case BOUNDARY_RELIGIOUS_ADMISTRATION:
+        BOUNDARY_RELIGIOUS_ADMISTRATION_COLOR;
+        break;
+    case BOUNDARY_PROTECCTED_AREA:
+        BOUNDARY_PROTECCTED_AREA_COLOR;
+        break;
+      }
+  }
+
+
+void color_geological(int n){
+  switch(n){
+    case GEOLOGICAL_MORAINE:
+      GEOLOGICAL_MORAINE_COLOR;
+      break;
+    case GEOLOGICAL_OUTCROP:
+      GEOLOGICAL_OUTCROP_COLOR;
+      break;
+    case GEOLOGICAL_PALAEONTOLOGICAL_SITE:
+      GEOLOGICAL_PALAEONTOLOGICAL_SITE_COLOR;
+      break;
+    }
+
+  }
+
+
+
 
 void color_natural(int n){
   switch(n){

@@ -4,6 +4,32 @@
 #include "listref.h"
 #include <GL/glu.h>
 
+
+#define AMENITY_CONSOMMATION 1
+#define AMENITY_EDUCATION 2
+#define AMENITY_TRANSPORTS 3
+#define AMENITY_ARGENTS 4
+#define AMENITY_SANTE 5
+#define AMENITY_LOISIRS 6
+#define AMENITY_AUTRES 7
+
+
+#define BOUNDARY_ADMINISTRATIVE 1
+#define BOUNDARY_HISTORIC 2
+#define BOUNDARY_MARITIME 3
+#define BOUNDARY_NATIONAL_PARK 4
+#define BOUNDARY_POLITICAL 5
+#define BOUNDARY_POSTAL_CODE 6
+#define BOUNDARY_RELIGIOUS_ADMISTRATION 7
+#define BOUNDARY_PROTECCTED_AREA 8
+
+#define GEOLOGICAL_MORAINE 1
+#define GEOLOGICAL_OUTCROP 2
+#define GEOLOGICAL_PALAEONTOLOGICAL_SITE 3
+
+
+
+
 #define HIGHWAY_MOTORWAY 1
 #define HIGHWAY_TRUNK 2
 #define HIGHWAY_PRIMARY 3
@@ -135,13 +161,38 @@ typedef struct st_node node;
 
 struct st_way{
   listref *nodesref;
-  int highway;
+
+  int aerialway;
+  int aeroway;
+  int amenity;
+  int barrier;
+  int boundary;
   int building;
+  int craft;
+  int emergency;
+  int geological;
+  int highway;
+  int cycleway;
+  int busway;
+  int historic;
   int landuse;
-  int area;
-  int waterway;
-  int natural;
   int leisure;
+  int man_made;
+  int military;
+  int natural;
+  int office;
+  int place;
+  int power;
+  int railway;
+  int brige;
+  int route;
+  int shop;
+  int sport;
+  int tourism;
+  int waterway;
+  int area;
+
+
   long id;
   int size;
   GLuint glist;

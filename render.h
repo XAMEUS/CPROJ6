@@ -718,6 +718,42 @@
 #define white glColor3f(1.0f,1.0f,1.0f)
 #define lightgrey glColor3f(0.80f, 0.85f, 0.81f)
 
+
+
+
+#define AERIALWAY_COLOR Black
+
+#define AEROWAY_COLOR Brightlilac
+
+#define AMENITY_CONSOMMATION_COLOR Brass
+#define AMENITY_EDUCATION_COLOR  BoogerBuster
+#define AMENITY_TRANSPORTS_COLOR Battleshipgrey
+#define AMENITY_ARGENTS_COLOR Darkgoldenrod
+#define AMENITY_SANTE_COLOR Almond
+#define AMENITY_LOISIRS_COLOR Crimson
+#define AMENITY_AUTRES_COLOR Copperrose
+
+#define BARRIER_COLOR Black
+
+#define BOUNDARY_ADMINISTRATIVE_COLOR Candyapplered
+#define BOUNDARY_HISTORIC_COLOR Acajou
+#define BOUNDARY_MARITIME_COLOR AirForceblueUSAF
+#define BOUNDARY_NATIONAL_PARK_COLOR AlienArmpit
+#define BOUNDARY_POLITICAL_COLOR Amazon
+#define BOUNDARY_POSTAL_CODE_COLOR Azure
+#define BOUNDARY_RELIGIOUS_ADMISTRATION_COLOR Bazaar
+#define BOUNDARY_PROTECCTED_AREA_COLOR Beaver
+
+#define BUILDING_COLOR BurnishedBrown
+
+#define CRAFT_COLOR Blackleatherjacket
+
+#define EMERGENCY_COLOR BostonUniversityRed
+
+#define GEOLOGICAL_MORAINE_COLOR Bubbles
+#define GEOLOGICAL_OUTCROP_COLOR Buff
+#define GEOLOGICAL_PALAEONTOLOGICAL_SITE_COLOR Budgreen
+
 #define HIGHWAY_MOTORWAY_COLOR Cyclamen
 #define HIGHWAY_TRUNK_COLOR Atomictangerine
 #define HIGHWAY_PRIMARY_COLOR Deeppeach
@@ -784,61 +820,37 @@
 #define HIGHWAY_SERVICES_SIZE 0.5f
 #define HIGHWAY_TURNING_CICLE_SIZE 1.0f
 
+#define CYCLEWAY_COLOR Candypink
 
+#define BUSWAY_COLOR Candypink
 
-#define BUILDING BurnishedBrown
-//#define LANDUSE glColor3f(0.8f,0.8f,0.8f)
-#define AREA glColor3f(0.80f, 0.85f, 0.81f)
-#define WATERWAY Aero
-
-#define NATURAL_WOOD_COLOR Budgreen
-#define NATURAL_TREE_ROW_COLOR Budgreen
-#define NATURAL_TREE_COLOR Budgreen
-#define NATURAL_SCRUB_COLOR Darkseagreen
-#define NATURAL_HEATH_COLOR Darkkhaki
-#define NATURAL_GRASSLAND_COLOR Darkseagreen
-#define NATURAL_FELL_COLOR Darkkhaki
-#define NATURAL_BARE_ROCK_COLOR Darkmediumgray
-#define NATURAL_SCREE_COLOR Champagnepink
-#define NATURAL_SHINGLE_COLOR Champagnepink
-#define NATURAL_SAND_COLOR Buff
-#define NATURAL_MUD_COLOR Bazaar
-#define NATURAL_WATER_COLOR Aero
-#define NATURAL_WETLAND_COLOR Aero
-#define NATURAL_GLACIER_COLOR Beaublue
-#define NATURAL_BAY_COLOR Aero
-#define NATURAL_BEACH_COLOR Arylideyellow
-#define NATURAL_COASTLINE_COLOR Bone
-#define NATURAL_SPRING_COLOR Aero
-#define NATURAL_HOT_SPRING_COLOR Aero
-#define NATURAL_GEYSER_COLOR Aero
-#define NATURAL_LAND_COLOR lightgrey
+#define HISTORIC_COLOR Coolgrey
 
 #define LANDUSE_ALLOTMENTS_COLOR Antiquebrass
 #define LANDUSE_BASIN_COLOR Airsuperiorityblue
-#define LANDUSE_BROWNFIELD_COLOR Artichoke
+#define LANDUSE_BROWNFIELD_COLOR Asparagus
 #define LANDUSE_CEMTERY_COLOR Budgreen
 #define LANDUSE_COMMERCIAL_COLOR Bubblegum
-#define LANDUSE_CONSTRUCTION_COLOR Citron
+#define LANDUSE_CONSTRUCTION_COLOR Asparagus
 #define LANDUSE_FARMLAND_COLOR Artichoke
 #define LANDUSE_FARMYARD_COLOR Apricot
 #define LANDUSE_FOREST_COLOR BrownYellow
 #define LANDUSE_GARAGES_COLOR Budgreen
-#define LANDUSE_GRASS_COLOR Ashgrey
+#define LANDUSE_GRASS_COLOR Celadon
 #define LANDUSE_GREENFIELD_COLOR Darkseagreen
 #define LANDUSE_GREENHOUSE_HORTICULTURE_COLOR Antiflashwhite
 #define LANDUSE_INDUSTRIAL_COLOR Deepchampagne
-#define LANDUSE_LANDFILL_COLOR Brightube
-#define LANDUSE_MEADOW_COLOR Artichoke
+#define LANDUSE_LANDFILL_COLOR Asparagus
+#define LANDUSE_MEADOW_COLOR Celadon
 #define LANDUSE_MILITARY_COLOR Fuchsiapink
-#define LANDUSE_ORCHARD_COLOR Budgreen
+#define LANDUSE_ORCHARD_COLOR Darkpastelgreen
 #define LANDUSE_QUARRY_COLOR DarkgrayX11
 #define LANDUSE_RAILWWAY_COLOR Brightube
-#define LANDUSE_RECREATION_GROUND_COLOR Darkseagreen
+#define LANDUSE_RECREATION_GROUND_COLOR Celadon
 #define LANDUSE_RESERVOIR_COLOR Airsuperiorityblue
 #define LANDUSE_RESIDENTIAL_COLOR lightgrey
 #define LANDUSE_RETAIL_COLOR Flamingopink
-#define LANDUSE_VILLAGE_GREEN_COLOR Darkseagreen
+#define LANDUSE_VILLAGE_GREEN_COLOR Celadon
 #define LANDUSE_VINEYARD_COLOR Budgreen
 
 #define LEISURE_ADULT_GAMING_CENTRE_COLOR Cyclamen
@@ -871,6 +883,58 @@
 #define LEISURE_WILDLIFE_HIDE_COLOR Englishred
 
 
+#define MAN_MADE_COLOR Champagne
+
+#define MILITARY_COLOR Classicrose
+
+
+
+#define NATURAL_WOOD_COLOR Budgreen
+#define NATURAL_TREE_ROW_COLOR Budgreen
+#define NATURAL_TREE_COLOR Budgreen
+#define NATURAL_SCRUB_COLOR Darkseagreen
+#define NATURAL_HEATH_COLOR Darkkhaki
+#define NATURAL_GRASSLAND_COLOR Darkseagreen
+#define NATURAL_FELL_COLOR Darkkhaki
+#define NATURAL_BARE_ROCK_COLOR Darkmediumgray
+#define NATURAL_SCREE_COLOR Champagnepink
+#define NATURAL_SHINGLE_COLOR Champagnepink
+#define NATURAL_SAND_COLOR Buff
+#define NATURAL_MUD_COLOR Bazaar
+#define NATURAL_WATER_COLOR Aero
+#define NATURAL_WETLAND_COLOR Aero
+#define NATURAL_GLACIER_COLOR Beaublue
+#define NATURAL_BAY_COLOR Aero
+#define NATURAL_BEACH_COLOR Arylideyellow
+#define NATURAL_COASTLINE_COLOR Bone
+#define NATURAL_SPRING_COLOR Aero
+#define NATURAL_HOT_SPRING_COLOR Aero
+#define NATURAL_GEYSER_COLOR Aero
+#define NATURAL_LAND_COLOR lightgrey
+
+#define OFFICE_COLOR Copperpenny
+
+#define POWER_COLOR Black
+
+#define RAILWAY_COLOR Blackolive
+
+#define BRIGE_COLOR Black
+
+#define ROUTE_COLOR Coolgrey
+
+
+#define SHOP_COLOR Boysenberry
+
+#define PLACE_COLOR glColor3f(0.80f, 0.85f, 0.81f)
+
+#define SPORT_COLOR Catalinablue
+
+#define TOURISM_COLOR Darksalmon
+
+#define AREA_COLOR glColor3f(0.80f, 0.85f, 0.81f)
+
+#define WATERWAY Aero
+
 extern int showFrame;
 extern int projection;
 
@@ -886,6 +950,12 @@ void Render_Default(way w);
 void Render_Highway(way w);
 
 void Render_Building(way w);
+
+void color_amenity(int n);
+
+void color_boundary(int n);
+
+void color_geological(int n);
 
 void color_landuse(int n);
 
