@@ -1,6 +1,6 @@
 #include "display.h"
 
-GLfloat pixelsize = 1;
+GLdouble pixelsize = 1;
 
 GLfloat min_x = -1;
 GLfloat max_x = 1;

@@ -16,8 +16,8 @@ void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size
   GLdouble wx = -vy;
   GLdouble wy = vx;
   GLdouble length = sqrt(vx * vx + vy * vy);
-  wx = wx / length * size * pixelsize;
-  wy = wy / length * size * pixelsize;
+  wx = wx / length * size * 0.00001;
+  wy = wy / length * size * 0.00001;
   glBegin(GL_QUADS);
     glVertex3f(x0 + wx, y0 + wy, 0);
     glVertex3f(x0 - wx, y0 - wy, 0);
@@ -45,8 +45,8 @@ void Draw_Lines(int n, GLdouble **points, GLdouble size)
   GLdouble wx = -uy;
   GLdouble wy = ux;
   length = sqrt(wx * wx + wy * wy);
-  wx = wx / length * size * pixelsize;
-  wy = wy / length * size * pixelsize;
+  wx = wx / length * size * 0.00001;
+  wy = wy / length * size * 0.00001;
 
   GLdouble ax0 = x0 + wx;
   GLdouble ay0 = y0 + wy;
@@ -85,8 +85,8 @@ void Draw_Lines(int n, GLdouble **points, GLdouble size)
         wy = wy / length;
       }
 
-      glVertex3f(x1 + wx * size * pixelsize, y1 + wy * size * pixelsize, 0);
-      glVertex3f(x1 - wx * size * pixelsize, y1 - wy * size * pixelsize, 0);
+      glVertex3f(x1 + wx * size * 0.00001, y1 + wy * size * 0.00001, 0);
+      glVertex3f(x1 - wx * size * 0.00001, y1 - wy * size * 0.00001, 0);
 
       ux = vx;
       uy = vy;
@@ -101,8 +101,8 @@ void Draw_Lines(int n, GLdouble **points, GLdouble size)
     wx = -uy;
     wy = ux;
     length = sqrt(wx * wx + wy * wy);
-    wx = wx / length * size * pixelsize;
-    wy = wy / length * size * pixelsize;
+    wx = wx / length * size * 0.00001;
+    wy = wy / length * size * 0.00001;
     GLdouble cx0 = x0 + wx + ux;
     GLdouble cy0 = y0 + wy + uy;
     GLdouble dx0 = x0 - wx + ux;

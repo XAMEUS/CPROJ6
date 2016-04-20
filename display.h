@@ -11,7 +11,7 @@
 
 #define DEBUG 0
 
-extern float pixelsize;
+extern double pixelsize;
 
 extern int detail;
 
