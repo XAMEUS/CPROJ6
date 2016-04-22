@@ -31,12 +31,12 @@ GLuint tessellate(way w){
   }else if(w.amenity!=0){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.barrier!=0){
+   r = Tess_Obj_Highway(w.size,points,w);
+  }else if(w.boundary!=0){
+   r = Tess_Obj_Highway(w.size,points,w);
+  }else if(w.building!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.boundary!=0){
-   r = Tess_Obj_Building(w.size,points);
- }else if(w.building!=0){
-   r = Tess_Obj_Building(w.size,points);
- }else if(w.craft!=0){
+  }else if(w.craft!=0){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.emergency!=0){
     r = Tess_Obj_Building(w.size,points);
@@ -44,11 +44,11 @@ GLuint tessellate(way w){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.highway!=0){
    r = Tess_Obj_Highway(w.size,points,w);
- }else if(w.cycleway!=0){
-   r = Tess_Obj_Building(w.size,points);
- }else if(w.busway!=0){
-   r = Tess_Obj_Building(w.size,points);
- }else if(w.historic!=0){
+  }else if(w.cycleway!=0){
+   r = Tess_Obj_Highway(w.size,points,w);
+  }else if(w.busway!=0){
+   r = Tess_Obj_Highway(w.size,points,w);
+  }else if(w.historic!=0){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.landuse!=0){
     r = Tess_Obj_Building(w.size,points);
@@ -56,25 +56,25 @@ GLuint tessellate(way w){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.man_made!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.military!=0){
+  }else if(w.military!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.natural!=0){
+  }else if(w.natural!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.office!=0){
+  }else if(w.office!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.place!=0){
+  }else if(w.place!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.power!=0){
+  }else if(w.power!=0){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.railway!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Highway(w.size,points,w);
   }else if(w.brige!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.route!=0){
+  }else if(w.route!=0){
+   r = Tess_Obj_Highway(w.size,points,w);
+  }else if(w.shop!=0){
    r = Tess_Obj_Building(w.size,points);
- }else if(w.shop!=0){
-   r = Tess_Obj_Building(w.size,points);
- }else if(w.sport!=0){
+  }else if(w.sport!=0){
     r = Tess_Obj_Building(w.size,points);
   }else if(w.tourism!=0){
     r = Tess_Obj_Building(w.size,points);
@@ -162,6 +162,73 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
   glNewList(id, GL_COMPILE);
 
   GLdouble size = 1.0f;
+
+  if(w.barrier!=0){
+    BARRIER_COLOR;
+    size=BARRIER_SIZE;
+
+  }else if (w.boundary!=0){
+    switch(w.boundary){
+      case BOUNDARY_ADMINISTRATIVE:
+        BOUNDARY_ADMINISTRATIVE_COLOR;
+        size = BOUNDARY_ADMINISTRATIVE_SIZE;
+        break;
+
+        case BOUNDARY_HISTORIC:
+          BOUNDARY_HISTORIC_COLOR;
+          size = BOUNDARY_HISTORIC_SIZE;
+          break;
+
+          case BOUNDARY_MARITIME:
+            BOUNDARY_MARITIME_COLOR;
+            size = BOUNDARY_MARITIME_SIZE;
+            break;
+
+            case BOUNDARY_NATIONAL_PARK:
+              BOUNDARY_NATIONAL_PARK_COLOR;
+              size = BOUNDARY_NATIONAL_PARK_SIZE;
+              break;
+
+              case BOUNDARY_POLITICAL:
+                BOUNDARY_POLITICAL_COLOR;
+                size = BOUNDARY_POLITICAL_SIZE;
+                break;
+
+                case BOUNDARY_POSTAL_CODE:
+                  BOUNDARY_POSTAL_CODE_COLOR;
+                  size = BOUNDARY_POSTAL_CODE_SIZE;
+                    break;
+
+                case BOUNDARY_RELIGIOUS_ADMISTRATION:
+                    BOUNDARY_RELIGIOUS_ADMISTRATION_COLOR;
+                    size = BOUNDARY_RELIGIOUS_ADMISTRATION_SIZE;
+                    break;
+
+                case BOUNDARY_PROTECCTED_AREA:
+                    BOUNDARY_PROTECCTED_AREA_COLOR;
+                    size = BOUNDARY_PROTECCTED_AREA_SIZE;
+                    break;
+                  }
+
+
+    }else if (w.cycleway!=0){
+      CYCLEWAY_COLOR;
+      size=CYCLEWAY_SIZE;
+
+    }else if (w.busway!=0){
+        CYCLEWAY_COLOR;
+        size=CYCLEWAY_SIZE;
+
+
+      }else if (w.route!=0){
+        ROUTE_COLOR;
+        size=ROUTE_SIZE;
+
+      }else if (w.railway!=0){
+        RAILWAY_COLOR;
+        size=RAILWAY_SIZE;
+
+      }else if (w.highway!=0){
   switch(w.highway){
     case HIGHWAY_MOTORWAY:
       HIGHWAY_MOTORWAY_COLOR;
@@ -276,6 +343,7 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
         size = HIGHWAY_TURNING_CICLE_SIZE;
         break;
   }
+}
 
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
