@@ -27,6 +27,8 @@ extern float minx;
 extern float maxx;
 extern float miny;
 extern float maxy;
+extern float midx;
+extern float midy;
 
 node *getNode(long ref);
 

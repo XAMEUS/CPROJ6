@@ -17,7 +17,7 @@ int Display_Application(int argc, char* argv[])
   max_x = maxx;
   min_y = miny;
   max_y = maxy;
-
+  
   // Initialize SDL2
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
   {

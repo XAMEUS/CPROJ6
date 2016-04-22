@@ -19,6 +19,8 @@ float minx = -1;
 float maxx = 1;
 float miny = -1;
 float maxy = 1;
+float midx = 0;
+float midy = 0;
 
 /*
 node *getNode(long ref){
@@ -54,10 +56,16 @@ void initBounds(xmlNodePtr bounds){
     minlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"minlon"));
     maxlon = atof((const char*)xmlGetProp(bounds,(const xmlChar*)"maxlon"));
     midlon = ((maxlon-minlon)/2)+minlon;
-    minx = minlon;
-    maxx = maxlon;
-    miny = (((log(tan(M_PI/4+((((minlat)/2)*M_PI)/180))))*180)/M_PI);
-    maxy = (((log(tan(M_PI/4+((((maxlat)/2)*M_PI)/180))))*180)/M_PI);
+    minx = minlon*100000;
+    maxx = maxlon*100000;
+    miny = (((log(tan(M_PI/4+((((minlat)/2)*M_PI)/180))))*180)/M_PI)*100000;
+    maxy = (((log(tan(M_PI/4+((((maxlat)/2)*M_PI)/180))))*180)/M_PI)*100000;
+    midx = (minx+maxx)/2;
+    midy = (miny+maxy)/2;
+    minx = minx-midx;
+    maxx = maxx-midx;
+    miny = miny-midy;
+    maxy = maxy-midy;
 }
 /*
 void xmlGetNodes(xmlNodePtr cur){
@@ -93,8 +101,8 @@ void xmlGetNodes(xmlNodePtr cur){
     if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
       n->lat = strtold((const char*)xmlGetProp(cur,(const xmlChar*)"lat"), NULL);
       n->lon = strtold((const char*)xmlGetProp(cur,(const xmlChar*)"lon"), NULL);
-      n->x = n->lon;
-      n->y = (((log(tan(M_PI/4+((((n->lat)/2)*M_PI)/180))))*180)/M_PI);
+      n->x = (n->lon*100000)-midx;
+      n->y = ((((log(tan(M_PI/4+((((n->lat)/2)*M_PI)/180))))*180)/M_PI)*100000)-midy;
       n->id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
       g_hash_table_insert(nodes_hashtable, &n->id, n);
     }
