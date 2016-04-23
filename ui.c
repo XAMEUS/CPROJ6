@@ -17,7 +17,7 @@ int Display_Application(int argc, char* argv[])
   max_x = maxx;
   min_y = miny;
   max_y = maxy;
-  
+
   // Initialize SDL2
   if (SDL_Init(SDL_INIT_VIDEO) != 0 )
   {
@@ -75,10 +75,19 @@ int Display_Application(int argc, char* argv[])
   time_t ctime = time(NULL);
   int frames = 0;
 
+  GList *l;
+
+  for (l = g_hash_table_get_values(ways_hashtable); l != NULL; l = l->next)
+  {
+    way *w=l->data;
+    w->glist=tessellate(*w);
+  }
+
   int i;
+  /*
   for(i=0;i<sizeWays;i++){
     ways[i].glist=tessellate(ways[i]);
-  }
+  }*/
 
   while (!quit)
   {

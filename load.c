@@ -19,6 +19,21 @@ GLuint tessellate(way w){
     i = i+1;
   }
   GLuint r;
+  if(w.highway!=0){
+    r = Tess_Obj_Way(w.size,points,w);
+  }else if(w.building!=0){
+    r = Tess_Obj_Area(w.size,points,w);
+  }else if(w.natural!=0 && w.natural<100){
+    r = Tess_Obj_Area(w.size,points,w);
+  }else if(w.natural!=0 && w.natural>100 && w.natural<200){
+    r = Tess_Obj_Way(w.size,points,w);
+  }else if(w.waterway!=0){
+    r = Tess_Obj_Area(w.size,points,w);
+  }else if(w.inner!=0){
+    printf("inner\n");
+    r = Tess_Obj_Area(w.size,points,w);
+  }
+  /*
   if(w.aerialway!=0){
     r = Tess_Obj_Area(w.size,points,w);
   }else if(w.aeroway!=0){
@@ -63,7 +78,7 @@ GLuint tessellate(way w){
     r = Tess_Obj_Area(w.size,points,w);
   }else if(w.railway!=0){
     r = Tess_Obj_Way(w.size,points,w);
-  }else if(w.brige!=0){
+  }else if(w.bridge!=0){
     r = Tess_Obj_Area(w.size,points,w);
   }else if(w.route!=0){
     r = Tess_Obj_Way(w.size,points,w);
@@ -82,6 +97,7 @@ GLuint tessellate(way w){
     //r = Tess_Obj(w.size,points,w);
     r = 0;
   }
+  */
 
   free(nodes);
   for(i=0;i<w.size;i++){
@@ -114,17 +130,24 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
   tessCallback(tess);
 
   GLdouble pos;
+  int border = 0;
   glNewList(id, GL_COMPILE);
 
   if(w.building!=0){
     BUILDING_COLOR;
     pos = BUILDING_DEPTH;
+    border = 1;
   }else if(w.natural!=0 && w.natural < 100){
     color_natural(w.natural);
     pos = NATURAL_DEPTH;
+    border = 1;
   }else if(w.waterway!=0){
     WATERWAY_COLOR;
     pos=WATERWAY_DEPTH;
+  }else if(w.inner!=0){
+    border=1;
+    glColor3f(0.80f, 0.85f, 0.81f);
+    pos=BUILDING_DEPTH+0.1f;
   }
 
   int i;
@@ -139,9 +162,11 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
 
   gluDeleteTess(tess);
 
-  glColor4f(0.0f,0.0f,0.0f, 0.5f);
 
-  Draw_Lines(c, points,1.0f,pos);
+  if(border){
+    glColor3f(0.3f,0.2f,0.2f);
+    Draw_Lines(c, points,1.0f,pos);
+  }
 
   glEndList();
 
@@ -305,6 +330,9 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
       pos = HIGHWAY_PEDESTRIAN_DEPTH;
       break;
     }
+    if(w.bridge!=0){
+      pos=BRIDGE_DEPTH;
+    }
   }else if(w.natural!=0 && w.natural>=100 && w.natural<=200){
       color_natural(w.natural);
       size = 5.0f;
@@ -314,6 +342,8 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
   Draw_Lines(c, points, size, pos);
+  glColor3f(0.0f,0.0f,0.0f);
+  Draw_Lines(c,points, size+0.75f, pos-1.0f);
   glDisable(GL_POLYGON_OFFSET_FILL);
   if (DEBUG)
   {

@@ -117,7 +117,8 @@ way xmlGetWay(xmlNodePtr cur){
   cur = cur->xmlChildrenNode;
   w.nodesref = malloc(sizeof(listref));
   w.nodesref = NULL;
-  w.hidden=0;
+  w.hidden=1;
+  w.inner=0;
   w.aerialway=0;
   w.aeroway=0;
   w.amenity=0;
@@ -140,7 +141,7 @@ way xmlGetWay(xmlNodePtr cur){
   w.office=0;
   w.power=0;
   w.railway=0;
-  w.brige=0;
+  w.bridge=0;
   w.route=0;
   w.shop=0;
   w.tourism=0;
@@ -198,6 +199,7 @@ way xmlGetWay(xmlNodePtr cur){
         w.boundary=1;
 
       }else */if(strcmp(k, "building")==0){
+        w.hidden=0;
         w.building=1;
 
       }/*else  if(strcmp(k,"craft")==0){
@@ -218,7 +220,9 @@ way xmlGetWay(xmlNodePtr cur){
           w.geological=GEOLOGICAL_PALAEONTOLOGICAL_SITE;
         }
 
-      }else  */if(strcmp(k,"highway")==0){
+      }else  */
+      if(strcmp(k,"highway")==0){
+        w.hidden=0;
         if(strcmp(v,"motorway")==0){
           w.highway=HIGHWAY_MOTORWAY;
         }else if(strcmp(v,"trunk")==0){
@@ -420,7 +424,9 @@ way xmlGetWay(xmlNodePtr cur){
         w.hidden=1;
         w.military=1;
 
-      }else */if(strcmp(k,"natural")==0){
+      }else */
+      if(strcmp(k,"natural")==0){
+        w.hidden=0;
         if(strcmp(v,"wood")==0){
           w.natural=NATURAL_WOOD;
         }else if(strcmp(v,"tree_row")==0){
@@ -483,8 +489,10 @@ way xmlGetWay(xmlNodePtr cur){
         w.hidden=1;
         w.railway=1;
 
-      }else */if(strcmp(k,"brige")==0){
-        w.brige=1;
+      }else */
+      if(strcmp(k,"bridge")==0){
+        w.hidden=0;
+        w.bridge=1;
 
       }/*else if(strcmp(k,"route")==0){
         w.hidden=1;
@@ -502,7 +510,9 @@ way xmlGetWay(xmlNodePtr cur){
         w.hidden=1;
         w.tourism=1;
 
-      }else*/ if(strcmp(k,"waterway")==0){
+      }else*/
+      if(strcmp(k,"waterway")==0){
+        w.hidden=0;
         if(strcmp(v,"riverbank")==0){
           w.waterway=1;
         }
@@ -520,8 +530,6 @@ way xmlGetWay(xmlNodePtr cur){
     cur=cur->next;
   }
   w.size=n;
-  //printf("size : %d\n", w.size);
-  //printf("----------\n\n");
   return w;
 
 }
@@ -546,6 +554,7 @@ void xmlGetWays_array(xmlNodePtr cur){
 
 void xmlGetWays(xmlNodePtr cur){
   xmlGetWays_array(cur);
+
   ways_hashtable = g_hash_table_new(g_int64_hash,g_int64_equal);
   cur = cur->xmlChildrenNode;
   way *w = NULL;
@@ -604,7 +613,18 @@ relation xmlGetRelation(xmlNodePtr cur){
         type = REF_RELATION;
       }
 
-      r.member = listref_append(r.member,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")),type,role);
+      long ref =atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref"));
+
+
+      if(role == ROLE_INNER && type == REF_WAY){
+        way *w = g_hash_table_lookup(ways_hashtable,&ref);
+        if(w != NULL){
+          w->inner=1;
+          g_hash_table_insert(ways_hashtable, &w->id, w);
+        }
+      }
+
+      r.member = listref_append(r.member,ref,type,role);
       n++;
     }
 
@@ -677,6 +697,8 @@ int initNodesBounds(char *filename){
   xmlGetNodes(cur);
 
   xmlGetWays(cur);
+
+  xmlGetRelations(cur);
 
   return 0;
 }

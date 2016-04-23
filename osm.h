@@ -163,6 +163,7 @@ struct st_way{
   listref *nodesref;
 
   int hidden;
+  int inner;
   int aerialway;
   int aeroway;
   int amenity;
@@ -185,7 +186,7 @@ struct st_way{
   int place;
   int power;
   int railway;
-  int brige;
+  int bridge;
   int route;
   int shop;
   int sport;

@@ -15,6 +15,7 @@ void Display_InitGL()
   glEnable(GL_LINE_SMOOTH);
   glEnable(GL_BLEND);
   glEnable(GL_POLYGON_SMOOTH);
+  glEnable(GL_DEPTH_TEST);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
   glLineWidth(1.6f);
@@ -44,5 +45,4 @@ void Display_SetViewport(int width, int height, GLfloat dx, GLfloat dy, float zo
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glEnable(GL_DEPTH_TEST);
 }
