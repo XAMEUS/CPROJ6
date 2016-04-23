@@ -12,7 +12,7 @@
 GLuint tessellate(way w);
 
 
-GLuint Tess_Obj_Highway(int c, GLdouble **points,way w);
-GLuint Tess_Obj_Building(int c, GLdouble **points);
+GLuint Tess_Obj_Way(int c, GLdouble **points,way w);
+GLuint Tess_Obj_Area(int c, GLdouble **points,way w);
 
 #endif

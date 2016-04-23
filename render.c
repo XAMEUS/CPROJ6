@@ -30,14 +30,14 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   int i;
   // Set the background
   for(i=0;i<sizeWays;i++){
-     way w = ways[i];
-      if(w.natural==NATURAL_COASTLINE){
-       glClearColor(0.49,0.73,0.91,0.0f);
-       i=sizeWays+1;
-     }
-     }
-     if (i==sizeWays)
-    glClearColor(0.80f, 0.85f, 0.81f, 0.0f);
+    way w = ways[i];
+    if(w.natural==NATURAL_COASTLINE){
+      glClearColor(0.49,0.73,0.91,0.0f);
+      i=sizeWays+1;
+    }
+  }
+  if (i==sizeWays)
+  glClearColor(0.80f, 0.85f, 0.81f, 0.0f);
 
   // Clear The Screen And The Depth Buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -50,177 +50,176 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 
 
 
-   for(i=0;i<sizeWays;i++){
-      way w = ways[i];
-       if(w.waterway!=0){
-        WATERWAY;
-        Render_Glist(w.glist);
-        //Render_Default(w);
+  for(i=0;i<sizeWays;i++){
+    way w = ways[i];
+    if(w.waterway!=0){
+      WATERWAY_COLOR;
+      Render_Glist(w.glist);
+      //Render_Default(w);
 
     }else if(w.natural!=0){
       color_natural(w.natural);
       Render_Glist(w.glist);
       Render_Default(w);
     }else if(w.amenity!=0){
-           color_amenity(w.amenity);
-           Render_Glist(w.glist);
-         Render_Default(w);
+      color_amenity(w.amenity);
+      Render_Glist(w.glist);
+      Render_Default(w);
 
-   }
+    }
 
   }
 
 
-
-/*
+  /*
   for(i=0;i<sizeWays;i++){
-     way w = ways[i];
-   if(w.amenity!=0){
-         color_amenity(w.amenity);
-         Render_Glist(w.glist);
-       Render_Default(w);
+  way w = ways[i];
+  if(w.amenity!=0){
+  color_amenity(w.amenity);
+  Render_Glist(w.glist);
+  Render_Default(w);
 
- }
+}
 
-    }*/
+}*/
 
-  for(i=0;i<sizeWays;i++){
-    way w = ways[i];
-    if(w.landuse!=0){
-      color_landuse(w.landuse);
-      Render_Glist(w.glist);
-      Render_Default(w);
+for(i=0;i<sizeWays;i++){
+  way w = ways[i];
+  if(w.landuse!=0){
+    color_landuse(w.landuse);
+    Render_Glist(w.glist);
+    Render_Default(w);
 
-    }else if(w.leisure!=0){
-        color_leisure(w.leisure);
-        Render_Glist(w.glist);
-        Render_Default(w);
+  }else if(w.leisure!=0){
+    color_leisure(w.leisure);
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
-}else if(w.aerialway!=0){
-        AERIALWAY_COLOR;
-        Render_Glist(w.glist);
-        Render_Default(w);
+  }else if(w.aerialway!=0){
+    AERIALWAY_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
   } else if(w.aeroway!=0){
-        AEROWAY_COLOR;
-        Render_Glist(w.glist);
-        Render_Default(w);
+    AEROWAY_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
- } else if(w.craft!=0){
-        CRAFT_COLOR;
-        Render_Glist(w.glist);
-        Render_Default(w);
+  } else if(w.craft!=0){
+    CRAFT_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
 
   }else if(w.emergency!=0){
-        EMERGENCY_COLOR;
-        Render_Glist(w.glist);
-        Render_Default(w);
+    EMERGENCY_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
   } else if(w.geological!=0){
-        color_geological(w.geological);
-        Render_Glist(w.glist);
-        Render_Default(w);
+    color_geological(w.geological);
+    Render_Glist(w.glist);
+    Render_Default(w);
 
   }else if(w.cycleway!=0){
-        CYCLEWAY_COLOR;
-        Render_Glist(w.glist);
-        Render_Default(w);
+    CYCLEWAY_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
   } else if(w.historic!=0){
-        HISTORIC_COLOR;
-        Render_Glist(w.glist);
-        Render_Default(w);
+    HISTORIC_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
-      }else if(w.man_made!=0){
-            MAN_MADE_COLOR;
-            Render_Glist(w.glist);
-            Render_Default(w);
+  }else if(w.man_made!=0){
+    MAN_MADE_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
-      } else if(w.military!=0){
-            MILITARY_COLOR;
-            Render_Glist(w.glist);
-            Render_Default(w);
+  } else if(w.military!=0){
+    MILITARY_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
-      }else if(w.office!=0){
-            OFFICE_COLOR;
-            Render_Glist(w.glist);
-            Render_Default(w);
+  }else if(w.office!=0){
+    OFFICE_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
-      } else if(w.place!=0){
-            PLACE_COLOR;
-            Render_Glist(w.glist);
-            Render_Default(w);
+  } else if(w.place!=0){
+    PLACE_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
-          } else if(w.power!=0){
-                POWER_COLOR;
-                Render_Glist(w.glist);
-                Render_Default(w);
-
-
-              } else if(w.brige!=0){
-                    BRIGE_COLOR;
-                    Render_Glist(w.glist);
-                    Render_Default(w);
+  } else if(w.power!=0){
+    POWER_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
-              } else if(w.shop!=0){
-                    SHOP_COLOR;
-                    Render_Glist(w.glist);
-                    Render_Default(w);
-
-              }else if(w.sport!=0){
-                    SPORT_COLOR;
-                    Render_Glist(w.glist);
-                    Render_Default(w);
-
-             } else if(w.tourism!=0){
-                    TOURISM_COLOR;
-                    Render_Glist(w.glist);
-                    Render_Default(w);
-
-                  } else if(w.area!=0){
-                        AREA_COLOR;
-                        Render_Glist(w.glist);
-                        Render_Default(w);
-
-                  }
+  } else if(w.brige!=0){
+    BRIGE_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
 
+  } else if(w.shop!=0){
+    SHOP_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
+
+  }else if(w.sport!=0){
+    SPORT_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
+
+  } else if(w.tourism!=0){
+    TOURISM_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
+
+  } else if(w.area!=0){
+    AREA_COLOR;
+    Render_Glist(w.glist);
+    Render_Default(w);
 
   }
-  for(i=0;i<sizeWays;i++){
-    way w = ways[i];
 
- if(w.highway!=0){
-      Render_Glist(w.glist);
-      if (detail == 10) Render_Border(w);
+
+
+}
+for(i=0;i<sizeWays;i++){
+  way w = ways[i];
+
+  if(w.highway!=0){
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
   }else if(w.route!=0){
-      Render_Glist(w.glist);
-       if (detail == 10) Render_Border(w);
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
   }else if(w.railway!=0){
-      Render_Glist(w.glist);
-      if (detail == 10) Render_Border(w);
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
   }else if(w.cycleway!=0){
-          Render_Glist(w.glist);
-           if (detail == 10) Render_Border(w);
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
   }else if(w.boundary!=0){
-          Render_Glist(w.glist);
-          if (detail == 10) Render_Border(w);
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
   }else if(w.busway!=0){
-              Render_Glist(w.glist);
-               if (detail == 10) Render_Border(w);
-   }else if(w.barrier!=0){
-              Render_Glist(w.glist);
-              if (detail == 10) Render_Border(w);
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
+  }else if(w.barrier!=0){
+    Render_Glist(w.glist);
+    //if (detail == 10) Render_Border(w);
   }else if(w.building!=0){
-    BUILDING_COLOR;
+    //BUILDING_COLOR;
     glEnable(GL_POLYGON_OFFSET_FILL);
     glPolygonOffset(1.0, 1.0);
     Render_Glist(w.glist);
@@ -233,7 +232,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
     glEndList();
-    Render_Border(w);
+    //Render_Border(w);
     /*  }else if(w.leisure!=0){
     color_leisure(w.leisure);
     Render_Glist(w.glist);
@@ -681,7 +680,7 @@ void Render_Highway(way w){
     list = list->next;
     i = i+1;
   }
-  Draw_Lines(w.size, points, size);
+  Draw_Lines(w.size, points, size, 2.0f);
   free(nodes);
   free(points);
 

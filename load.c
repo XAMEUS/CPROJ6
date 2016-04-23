@@ -4,8 +4,6 @@
 #include "tessellation.h"
 #include "render.h"
 
-//way *aze = NULL;
-
 GLuint tessellate(way w){
   listref *list = w.nodesref;
   node **nodes = malloc(w.size*sizeof(node*));
@@ -17,74 +15,71 @@ GLuint tessellate(way w){
     points[i][0]=nodes[i]->x;
     points[i][1]=nodes[i]->y;
     points[i][2]=0;
-    //if (w.id == 63645087 || w.id == 63643868 || w.id == 78144300 || w.id == 41494697 || w.id == 41494698)
-    //  printf("%d %lf %lf %lf\n", i, points[i][0], points[i][1], points[i][2]);
     list = list->next;
     i = i+1;
   }
-  //aze = &w;
   GLuint r;
   if(w.aerialway!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.aeroway!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.amenity!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.barrier!=0){
-   r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.boundary!=0){
-   r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.building!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.craft!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.emergency!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.geological!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.highway!=0){
-   r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.cycleway!=0){
-   r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.busway!=0){
-   r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.historic!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.landuse!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.leisure!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.man_made!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.military!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.natural!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.office!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.place!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.power!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.railway!=0){
-    r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.brige!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.route!=0){
-   r = Tess_Obj_Highway(w.size,points,w);
+    r = Tess_Obj_Way(w.size,points,w);
   }else if(w.shop!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.sport!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.tourism!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.waterway!=0){
-    r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.area!=0){
-   r = Tess_Obj_Building(w.size,points);
+    r = Tess_Obj_Area(w.size,points,w);
   }else{
     Render_Default(w);
-    //r = Tess_Obj(w.size,points);
+    //r = Tess_Obj(w.size,points,w);
     r = 0;
   }
 
@@ -100,7 +95,7 @@ GLuint tessellate(way w){
 
 
 
-GLuint Tess_Obj_Building(int c, GLdouble **points)
+GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
 {
   GLuint id = glGenLists(1);
   if(!id)
@@ -118,39 +113,42 @@ GLuint Tess_Obj_Building(int c, GLdouble **points)
 
   tessCallback(tess);
 
-  // tessellate and compile a concave quad into display list
-  // gluTessVertex() takes 3 params: tess object, pointer to vertex coords,
-  // and pointer to vertex data to be passed to vertex callback.
-  // The second param is used only to perform tessellation, and the third
-  // param is the actual vertex data to draw. It is usually same as the second
-  // param, but It can be more than vertex coord, for example, color, normal
-  // and UV coords which are needed for actual drawing.
-  // Here, we are looking at only vertex coods, so the 2nd and 3rd params are
-  // pointing same address.
-
+  GLdouble pos;
   glNewList(id, GL_COMPILE);
+
+  if(w.building!=0){
+    BUILDING_COLOR;
+    pos = BUILDING_DEPTH;
+  }else if(w.natural!=0 && w.natural < 100){
+    color_natural(w.natural);
+    pos = NATURAL_DEPTH;
+  }else if(w.waterway!=0){
+    WATERWAY_COLOR;
+    pos=WATERWAY_DEPTH;
+  }
 
   int i;
   gluTessBeginPolygon(tess, 0);
-    gluTessBeginContour(tess);
-      for (i = 0; i < c-1; i++) {
-        //if (id == 16 || id == 288 || id == 304 || id == 318 || id == 338)
-        //  printf("%ld, %lf %lf %lf\n", aze->id, points[i][0], points[i][1], points[i][2]);
-        gluTessVertex(tess, points[i], points[i]);
-      }
-    gluTessEndContour(tess);
+  gluTessBeginContour(tess);
+  for (i = 0; i < c-1; i++) {
+    points[i][2]=pos;
+    gluTessVertex(tess, points[i], points[i]);
+  }
+  gluTessEndContour(tess);
   gluTessEndPolygon(tess);
 
   gluDeleteTess(tess);
 
-  // printf("creating Tess_Obj: %d\n", id);
+  glColor4f(0.0f,0.0f,0.0f, 0.5f);
+
+  Draw_Lines(c, points,1.0f,pos);
 
   glEndList();
 
   return id;
 }
 
-GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
+GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
 {
   GLuint id = glGenLists(1);
   if(!id)
@@ -158,11 +156,11 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
     fprintf(stderr, "failed to create a list, return 0\n");
     return id;
   }
-
+  GLdouble size = 1.0f;
+  GLdouble pos = 1.0f;
   glNewList(id, GL_COMPILE);
 
-  GLdouble size = 1.0f;
-
+  /*
   if(w.barrier!=0){
     BARRIER_COLOR;
     size=BARRIER_SIZE;
@@ -170,190 +168,158 @@ GLuint Tess_Obj_Highway(int c, GLdouble **points,way w)
   }else if (w.boundary!=0){
     switch(w.boundary){
       case BOUNDARY_ADMINISTRATIVE:
-        BOUNDARY_ADMINISTRATIVE_COLOR;
-        size = BOUNDARY_ADMINISTRATIVE_SIZE;
-        break;
+      BOUNDARY_ADMINISTRATIVE_COLOR;
+      size = BOUNDARY_ADMINISTRATIVE_SIZE;
+      break;
 
-        case BOUNDARY_HISTORIC:
-          BOUNDARY_HISTORIC_COLOR;
-          size = BOUNDARY_HISTORIC_SIZE;
-          break;
+      case BOUNDARY_HISTORIC:
+      BOUNDARY_HISTORIC_COLOR;
+      size = BOUNDARY_HISTORIC_SIZE;
+      break;
 
-          case BOUNDARY_MARITIME:
-            BOUNDARY_MARITIME_COLOR;
-            size = BOUNDARY_MARITIME_SIZE;
-            break;
+      case BOUNDARY_MARITIME:
+      BOUNDARY_MARITIME_COLOR;
+      size = BOUNDARY_MARITIME_SIZE;
+      break;
 
-            case BOUNDARY_NATIONAL_PARK:
-              BOUNDARY_NATIONAL_PARK_COLOR;
-              size = BOUNDARY_NATIONAL_PARK_SIZE;
-              break;
+      case BOUNDARY_NATIONAL_PARK:
+      BOUNDARY_NATIONAL_PARK_COLOR;
+      size = BOUNDARY_NATIONAL_PARK_SIZE;
+      break;
 
-              case BOUNDARY_POLITICAL:
-                BOUNDARY_POLITICAL_COLOR;
-                size = BOUNDARY_POLITICAL_SIZE;
-                break;
+      case BOUNDARY_POLITICAL:
+      BOUNDARY_POLITICAL_COLOR;
+      size = BOUNDARY_POLITICAL_SIZE;
+      break;
 
-                case BOUNDARY_POSTAL_CODE:
-                  BOUNDARY_POSTAL_CODE_COLOR;
-                  size = BOUNDARY_POSTAL_CODE_SIZE;
-                    break;
+      case BOUNDARY_POSTAL_CODE:
+      BOUNDARY_POSTAL_CODE_COLOR;
+      size = BOUNDARY_POSTAL_CODE_SIZE;
+      break;
 
-                case BOUNDARY_RELIGIOUS_ADMISTRATION:
-                    BOUNDARY_RELIGIOUS_ADMISTRATION_COLOR;
-                    size = BOUNDARY_RELIGIOUS_ADMISTRATION_SIZE;
-                    break;
+      case BOUNDARY_RELIGIOUS_ADMISTRATION:
+      BOUNDARY_RELIGIOUS_ADMISTRATION_COLOR;
+      size = BOUNDARY_RELIGIOUS_ADMISTRATION_SIZE;
+      break;
 
-                case BOUNDARY_PROTECCTED_AREA:
-                    BOUNDARY_PROTECCTED_AREA_COLOR;
-                    size = BOUNDARY_PROTECCTED_AREA_SIZE;
-                    break;
-                  }
-
-
-    }else if (w.cycleway!=0){
-      CYCLEWAY_COLOR;
-      size=CYCLEWAY_SIZE;
-
-    }else if (w.busway!=0){
-        CYCLEWAY_COLOR;
-        size=CYCLEWAY_SIZE;
+      case BOUNDARY_PROTECCTED_AREA:
+      BOUNDARY_PROTECCTED_AREA_COLOR;
+      size = BOUNDARY_PROTECCTED_AREA_SIZE;
+      break;
+    }
 
 
-      }else if (w.route!=0){
-        ROUTE_COLOR;
-        size=ROUTE_SIZE;
+  }else if (w.cycleway!=0){
+    CYCLEWAY_COLOR;
+    size=CYCLEWAY_SIZE;
 
-      }else if (w.railway!=0){
-        RAILWAY_COLOR;
-        size=RAILWAY_SIZE;
+  }else if (w.busway!=0){
+    CYCLEWAY_COLOR;
+    size=CYCLEWAY_SIZE;
 
-      }else if (w.highway!=0){
-  switch(w.highway){
-    case HIGHWAY_MOTORWAY:
+
+  }else if (w.route!=0){
+    ROUTE_COLOR;
+    size=ROUTE_SIZE;
+
+  }else if (w.railway!=0){
+    RAILWAY_COLOR;
+    size=RAILWAY_SIZE;
+
+  }else */
+  if (w.highway!=0){
+    switch(w.highway){
+      case HIGHWAY_MOTORWAY:
       HIGHWAY_MOTORWAY_COLOR;
       size = HIGHWAY_MOTORWAY_SIZE;
+      pos = HIGHWAY_MOTORWAY_DEPTH;
       break;
-    case HIGHWAY_TRUNK:
+      case HIGHWAY_TRUNK:
       HIGHWAY_TRUNK_COLOR;
       size = HIGHWAY_TRUNK_SIZE;
+      pos = HIGHWAY_TRUNK_DEPTH;
       break;
-    case HIGHWAY_PRIMARY:
+      case HIGHWAY_PRIMARY:
       HIGHWAY_PRIMARY_COLOR;
       size = HIGHWAY_PRIMARY_SIZE;
+      pos = HIGHWAY_PRIMARY_DEPTH;
       break;
-    case HIGHWAY_SECONDARY:
+      case HIGHWAY_SECONDARY:
       HIGHWAY_SECONDARY_COLOR;
       size = HIGHWAY_SECONDARY_SIZE;
+      pos = HIGHWAY_SECONDARY_DEPTH;
       break;
-    case HIGHWAY_TERTIARY:
+      case HIGHWAY_TERTIARY:
       HIGHWAY_TERTIARY_COLOR;
       size = HIGHWAY_TERTIARY_SIZE;
+      pos = HIGHWAY_TERTIARY_DEPTH;
       break;
-    case HIGHWAY_UNCLASSIFIED:
+      case HIGHWAY_UNCLASSIFIED:
       HIGHWAY_UNCLASSIFIED_COLOR;
       size = HIGHWAY_UNCLASSIFIED_SIZE;
+      pos = HIGHWAY_UNCLASSIFIED_DEPTH;
       break;
-    case HIGHWAY_RESIDENTIAL:
+      case HIGHWAY_RESIDENTIAL:
       HIGHWAY_RESIDENTIAL_COLOR;
       size = HIGHWAY_RESIDENTIAL_SIZE;
+      pos = HIGHWAY_RESIDENTIAL_DEPTH;
       break;
-    case HIGHWAY_SERVICE:
+      case HIGHWAY_SERVICE:
       HIGHWAY_SERVICE_COLOR;
       size = HIGHWAY_SERVICE_SIZE;
+      pos = HIGHWAY_SERVICE_DEPTH;
       break;
-    case HIGHWAY_MOTORWAY_LINK:
+      case HIGHWAY_MOTORWAY_LINK:
       HIGHWAY_MOTORWAY_LINK_COLOR;
       size = HIGHWAY_MOTORWAY_LINK_SIZE;
+      pos = HIGHWAY_MOTORWAY_LINK_DEPTH;
       break;
-    case HIGHWAY_TRUNK_LINK:
+      case HIGHWAY_TRUNK_LINK:
       HIGHWAY_TRUNK_LINK_COLOR;
       size = HIGHWAY_TRUNK_LINK_SIZE;
+      pos = HIGHWAY_DEPTH;
       break;
-    case HIGHWAY_PRIMARY_LINK:
+      case HIGHWAY_PRIMARY_LINK:
       HIGHWAY_PRIMARY_LINK_COLOR;
       size = HIGHWAY_PRIMARY_LINK_SIZE;
+      pos = HIGHWAY_PRIMARY_LINK_DEPTH;
       break;
-    case HIGHWAY_SECONDARY_LINK:
+      case HIGHWAY_SECONDARY_LINK:
       HIGHWAY_SECONDARY_LINK_COLOR;
       size = HIGHWAY_SECONDARY_LINK_SIZE;
+      pos = HIGHWAY_SECONDARY_LINK_DEPTH;
       break;
-    case HIGHWAY_TERTIARY_LINK:
+      case HIGHWAY_TERTIARY_LINK:
       HIGHWAY_TERTIARY_LINK_COLOR;
       size = HIGHWAY_TERTIARY_LINK_SIZE;
+      pos = HIGHWAY_TERTIARY_LINK_DEPTH;
       break;
-    case HIGHWAY_LIVING_STREET:
+      case HIGHWAY_LIVING_STREET:
       HIGHWAY_LIVING_STREET_COLOR;
       size = HIGHWAY_LIVING_STREET_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
       break;
-    case HIGHWAY_PEDESTRIAN:
+      case HIGHWAY_PEDESTRIAN:
       HIGHWAY_PEDESTRIAN_COLOR;
       size = HIGHWAY_PEDESTRIAN_SIZE;
+      pos = HIGHWAY_PEDESTRIAN_DEPTH;
       break;
-    case HIGHWAY_TRACK:
-      HIGHWAY_TRACK_COLOR;
-      size = HIGHWAY_TRACK_SIZE;
-      break;
-      case HIGHWAY_BUS_GUIDEWAY:
-        HIGHWAY_BUS_GUIDEWAY_COLOR;
-        size = HIGHWAY_BUS_GUIDEWAY_SIZE;
-        break;
-      case HIGHWAY_RACEWAY:
-        HIGHWAY_RACEWAY_COLOR;
-        size = HIGHWAY_RACEWAY_SIZE;
-        break;
-      case HIGHWAY_ROAD:
-        HIGHWAY_ROAD_COLOR;
-        size = HIGHWAY_ROAD_SIZE;
-        break;
-      case HIGHWAY_FOOTWAY:
-        HIGHWAY_FOOTWAY_COLOR;
-        size = HIGHWAY_FOOTWAY_SIZE;
-        break;
-      case HIGHWAY_BRIDLEWAY:
-        HIGHWAY_STEPS_COLOR;
-        size = HIGHWAY_PATH_SIZE;
-        break;
-      case HIGHWAY_CYCLEWAY:
-        HIGHWAY_CYCLEWAY_COLOR;
-        size = HIGHWAY_CYCLEWAY_SIZE;
-        break;
-      case HIGHWAY_PROPOSED:
-        HIGHWAY_PROPOSED_COLOR;
-        size = HIGHWAY_PROPOSED_SIZE;
-        break;
-      case HIGHWAY_MINI_ROUNDABOUT:
-        HIGHWAY_MINI_ROUNDABOUT_COLOR;
-        size = HIGHWAY_CONSTRUCTION_SIZE;
-        break;
-      case HIGHWAY_CONSTRUCTION:
-        HIGHWAY_CONSTRUCTION_COLOR;
-        size = HIGHWAY_CONSTRUCTION_SIZE;
-        break;
-      case HIGHWAY_REST_AREA:
-        HIGHWAY_REST_AREA_COLOR;
-        size = HIGHWAY_REST_AREA_SIZE;
-        break;
-      case HIGHWAY_SERVICES:
-        HIGHWAY_SERVICES_COLOR;
-        size = HIGHWAY_SERVICES_SIZE;
-        break;
-      case HIGHWAY_TURNING_CICLE:
-        HIGHWAY_TURNING_CICLE_COLOR;
-        size = HIGHWAY_TURNING_CICLE_SIZE;
-        break;
+    }
+  }else if(w.natural!=0 && w.natural>=100 && w.natural<=200){
+      color_natural(w.natural);
+      size = 5.0f;
+      pos = WATERWAY_DEPTH;
   }
-}
 
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
-  Draw_Lines(c, points, size);
+  Draw_Lines(c, points, size, pos);
   glDisable(GL_POLYGON_OFFSET_FILL);
   if (DEBUG)
   {
     glColor4f(0.5f, 0.9f, 0.5f, 0.8f);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    Draw_Lines(c, points, size);
+    Draw_Lines(c, points, size, pos);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   }
   glEndList();

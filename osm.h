@@ -92,8 +92,8 @@
 #define LEISURE_WILDLIFE_HIDE 28
 
 #define NATURAL_WOOD 1
-#define NATURAL_TREE_ROW 2
-#define NATURAL_TREE 3
+#define NATURAL_TREE_ROW 102
+#define NATURAL_TREE 203
 #define NATURAL_SCRUB 4
 #define NATURAL_HEATH 5
 #define NATURAL_GRASSLAND 6
@@ -108,11 +108,11 @@
 #define NATURAL_GLACIER 15
 #define NATURAL_BAY 16
 #define NATURAL_BEACH 17
-#define NATURAL_COASTLINE 18
-#define NATURAL_SPRING 19
-#define NATURAL_HOT_SPRING 20
-#define NATURAL_GEYSER 21
-#define NATURAL_LAND 22
+#define NATURAL_COASTLINE 118
+#define NATURAL_SPRING 219
+#define NATURAL_HOT_SPRING 220
+#define NATURAL_GEYSER 221
+#define NATURAL_LAND 222
 
 #define LANDUSE_ALLOTMENTS 1
 #define LANDUSE_BASIN 2
@@ -162,6 +162,7 @@ typedef struct st_node node;
 struct st_way{
   listref *nodesref;
 
+  int hidden;
   int aerialway;
   int aeroway;
   int amenity;

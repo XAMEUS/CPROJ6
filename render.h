@@ -930,31 +930,47 @@
 #define NATURAL_HOT_SPRING_COLOR Aero
 #define NATURAL_GEYSER_COLOR Aero
 #define NATURAL_LAND_COLOR lightgrey
-
 #define OFFICE_COLOR Copperpenny
-
 #define POWER_COLOR Black
-
 #define RAILWAY_COLOR Blackolive
+
 #define RAILWAY_SIZE 0.5f
 
-
 #define BRIGE_COLOR Black
-
 #define ROUTE_COLOR Coolgrey
+
 #define ROUTE_SIZE 0.5f
 
 #define SHOP_COLOR Boysenberry
-
 #define PLACE_COLOR glColor3f(0.80f, 0.85f, 0.81f)
-
 #define SPORT_COLOR Catalinablue
-
 #define TOURISM_COLOR Darksalmon
-
 #define AREA_COLOR glColor3f(0.80f, 0.85f, 0.81f)
 
-#define WATERWAY Aero
+#define WATERWAY_COLOR Aero
+
+#define BACKGROUND_DEPTH -10.0f
+#define BUILDING_DEPTH -2.0f
+#define HIGHWAY_DEPTH -2.0f
+#define HIGHWAY_MOTORWAY_DEPTH -2.1f
+#define HIGHWAY_TRUNK_DEPTH -2.2f
+#define HIGHWAY_PRIMARY_DEPTH -2.3f
+#define HIGHWAY_SECONDARY_DEPTH -2.4f
+#define HIGHWAY_TERTIARY_DEPTH -2.5f
+#define HIGHWAY_UNCLASSIFIED_DEPTH -2.6f
+#define HIGHWAY_RESIDENTIAL_DEPTH -2.6f
+#define HIGHWAY_SERVICE_DEPTH -2.7f
+#define HIGHWAY_MOTORWAY_LINK_DEPTH -2.15f
+#define HIGHWAY_TRUNK_LINK_DEPTH -2.25f
+#define HIGHWAY_PRIMARY_LINK_DEPTH -2.35f
+#define HIGHWAY_SECONDARY_LINK_DEPTH -2.45f
+#define HIGHWAY_TERTIARY_LINK_DEPTH -2.55f
+#define HIGHWAY_LIVING_STREET_DEPTH -2.8f
+#define HIGHWAY_PEDESTRIAN_DEPTH -2.9f
+#define NATURAL_DEPTH -2.0f
+#define BRIDGE_DEPTH -2.0f
+#define WATERWAY_DEPTH -3.0f
+
 
 extern int showFrame;
 extern int projection;

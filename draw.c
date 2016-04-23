@@ -9,20 +9,19 @@ GLdouble dist(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1)
   return sqrt(vx * vx + vy * vy);
 }
 
-void Draw_Circle(GLdouble x, GLdouble y, GLdouble size){
+void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth){
   int i;
 	int triangleAmount = 20;
 	GLfloat twicePi = 2.0f * PI;
 	glBegin(GL_TRIANGLE_FAN);
-		glVertex2f(x, y);
+		glVertex3f(x, y, depth);
 		for(i = 0; i <= triangleAmount;i++) {
-			glVertex2f( x + (size * cos(i *  twicePi / triangleAmount)), y + (size * sin(i * twicePi / triangleAmount))
-			);
+			glVertex3f( x + (size * cos(i *  twicePi / triangleAmount)), y + (size * sin(i * twicePi / triangleAmount)), depth);
 		}
 	glEnd();
 }
 
-void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size)
+void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size, GLdouble depth)
 {
   GLdouble vx = x1 - x0;
   GLdouble vy = y1 - y0;
@@ -32,14 +31,14 @@ void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size
   wx = wx / length * size;
   wy = wy / length * size;
   glBegin(GL_QUADS);
-    glVertex3f(x0 + wx, y0 + wy, 0);
-    glVertex3f(x0 - wx, y0 - wy, 0);
-    glVertex3f(x0 - wx + vx, y0 - wy + vy, 0);
-    glVertex3f(x0 + wx + vx, y0 + wy + vy, 0);
+    glVertex3f(x0 + wx, y0 + wy, depth);
+    glVertex3f(x0 - wx, y0 - wy, depth);
+    glVertex3f(x0 - wx + vx, y0 - wy + vy, depth);
+    glVertex3f(x0 + wx + vx, y0 + wy + vy, depth);
   glEnd();
 }
 
-void Draw_Lines(int n, GLdouble **points, GLdouble size)
+void Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble depth)
 {
   int i;
   GLdouble x0 = points[0][0];
@@ -52,10 +51,10 @@ void Draw_Lines(int n, GLdouble **points, GLdouble size)
     y0 = points[i][1];
     x1 = points[i+1][0];
     y1 = points[i+1][1];
-    Draw_Line(x0,y0,x1,y1,size);
-    Draw_Circle(x0,y0,size);
+    Draw_Line(x0,y0,x1,y1,size,depth);
+    Draw_Circle(x0,y0,size,depth);
   }
-  Draw_Circle(x1,y1,size);
+  Draw_Circle(x1,y1,size,depth);
 
 }
 
