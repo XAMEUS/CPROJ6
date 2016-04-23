@@ -969,7 +969,7 @@
 #define HIGHWAY_PEDESTRIAN_DEPTH -2.9f
 #define NATURAL_DEPTH -2.0f
 #define BRIDGE_DEPTH -2.0f
-#define WATERWAY_DEPTH -3.0f
+#define WATERWAY_DEPTH -4.0f
 
 
 extern int showFrame;
