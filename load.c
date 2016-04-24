@@ -34,7 +34,6 @@ GLuint tessellate(way w){
   }else if(w.leisure!=0 && w.leisure>100 && w.leisure<200){
     r = Tess_Obj_Way(w.size,points,w);
   }else if(w.waterway!=0 && w.waterway<100){
-    printf("river %d\n",w.waterway);
     r = Tess_Obj_Area(w.size,points,w);
   }else if(w.waterway!=0 && w.waterway>100 && w.waterway<200){
     r = Tess_Obj_Way(w.size,points,w);
@@ -146,7 +145,6 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
   }else if(w.natural!=0){
     color_natural(w.natural);
     pos = NATURAL_DEPTH;
-    border = 1;
   }else if(w.waterway!=0){
     WATERWAY_COLOR;
     pos=WATERWAY_DEPTH;
@@ -346,6 +344,9 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
   }else if(w.natural!=0){
       color_natural(w.natural);
       size = 1.0f;
+      if(w.natural==NATURAL_COASTLINE){
+        size = 10.0f;
+      }
       border = 0;
       pos = NATURAL_DEPTH;
   }else if(w.leisure!=0){

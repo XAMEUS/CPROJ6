@@ -29,14 +29,14 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
 {
   int i;
   // Set the background
-  for(i=0;i<sizeWays;i++){
+  /*for(i=0;i<sizeWays;i++){
     way w = ways[i];
     if(w.natural==NATURAL_COASTLINE){
       glClearColor(0.49,0.73,0.91,0.0f);
       i=sizeWays+1;
     }
   }
-  if (i==sizeWays)
+  if (i==sizeWays)*/
   glClearColor(0.80f, 0.85f, 0.81f, 0.0f);
 
   // Clear The Screen And The Depth Buffer
