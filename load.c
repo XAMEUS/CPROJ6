@@ -27,10 +27,17 @@ GLuint tessellate(way w){
     r = Tess_Obj_Area(w.size,points,w);
   }else if(w.natural!=0 && w.natural>100 && w.natural<200){
     r = Tess_Obj_Way(w.size,points,w);
-  }else if(w.waterway!=0){
-    r = Tess_Obj_Area(w.size,points,w);
   }else if(w.inner!=0){
     r = Tess_Obj_Area(w.size,points,w);
+  }else if(w.leisure!=0 && w.leisure<100){
+    r = Tess_Obj_Area(w.size,points,w);
+  }else if(w.leisure!=0 && w.leisure>100 && w.leisure<200){
+    r = Tess_Obj_Way(w.size,points,w);
+  }else if(w.waterway!=0 && w.waterway<100){
+    printf("river %d\n",w.waterway);
+    r = Tess_Obj_Area(w.size,points,w);
+  }else if(w.waterway!=0 && w.waterway>100 && w.waterway<200){
+    r = Tess_Obj_Way(w.size,points,w);
   }
   /*
   if(w.aerialway!=0){
@@ -136,7 +143,7 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
     BUILDING_COLOR;
     pos = BUILDING_DEPTH;
     border = 1;
-  }else if(w.natural!=0 && w.natural < 100){
+  }else if(w.natural!=0){
     color_natural(w.natural);
     pos = NATURAL_DEPTH;
     border = 1;
@@ -147,6 +154,9 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
     border=1;
     glColor3f(0.80f, 0.85f, 0.81f);
     pos=BUILDING_DEPTH+0.1f;
+  }else if(w.leisure!=0){
+    color_leisure(w.leisure);
+    pos=LEISURE_DEPTH;
   }
 
   int i;
@@ -333,11 +343,37 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
     if(w.bridge!=0){
       pos=BRIDGE_DEPTH;
     }
-  }else if(w.natural!=0 && w.natural>=100 && w.natural<=200){
+  }else if(w.natural!=0){
       color_natural(w.natural);
       size = 1.0f;
       border = 0;
       pos = NATURAL_DEPTH;
+  }else if(w.leisure!=0){
+      color_leisure(w.leisure);
+      size = 1.0f;
+      border = 0;
+      pos = LEISURE_DEPTH;
+  }else if(w.waterway!=0){
+      WATERWAY_COLOR;
+      pos=WATERWAY_DEPTH;
+      border=0;
+      switch(w.highway){
+          case WATERWAY_RIVER:
+          size = WATERWAY_RIVER_SIZE;
+          break;
+          case WATERWAY_STREAM:
+          size = WATERWAY_STREAM_SIZE;
+          break;
+          case WATERWAY_CANAL:
+          size = WATERWAY_CANAL_SIZE;
+          break;
+          case WATERWAY_DRAIN:
+          size = WATERWAY_DRAIN_SIZE;
+          break;
+          case WATERWAY_DITCH:
+          size = WATERWAY_DITCH_SIZE;
+          break;
+      }
   }
 
   glEnable(GL_POLYGON_OFFSET_FILL);

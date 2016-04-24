@@ -357,8 +357,8 @@ way xmlGetWay(xmlNodePtr cur){
         }
 
 
-      }else if(strcmp(k,"leisure")==0){
-        w.hidden=1;
+      }else*/ if(strcmp(k,"leisure")==0){
+        w.hidden=0;
         if(strcmp(v,"adult_gaming_center")==0){
           w.leisure=LEISURE_ADULT_GAMING_CENTRE;
         }else if(strcmp(v,"amusement_arcade")==0){
@@ -416,7 +416,7 @@ way xmlGetWay(xmlNodePtr cur){
         }else if(strcmp(v,"wildlife_hide")==0){
           w.leisure=LEISURE_WILDLIFE_HIDE;
         }
-      }else if(strcmp(k,"man_made")==0){
+      }/*else if(strcmp(k,"man_made")==0){
         w.hidden=1;
         w.man_made=1;
 
@@ -424,8 +424,7 @@ way xmlGetWay(xmlNodePtr cur){
         w.hidden=1;
         w.military=1;
 
-      }else */
-      if(strcmp(k,"natural")==0){
+      } else */if(strcmp(k,"natural")==0){
         w.hidden=0;
         if(strcmp(v,"wood")==0){
           w.natural=NATURAL_WOOD;
@@ -514,7 +513,21 @@ way xmlGetWay(xmlNodePtr cur){
       if(strcmp(k,"waterway")==0){
         w.hidden=0;
         if(strcmp(v,"riverbank")==0){
-          w.waterway=1;
+          w.waterway=WATERWAY_RIVERBANK;
+        }else if(strcmp(v,"river")==0){
+          w.waterway=WATERWAY_RIVER;
+        }else if(strcmp(v,"stream")==0){
+          w.waterway=WATERWAY_STREAM;
+        }else if(strcmp(v,"canal")==0){
+          w.waterway=WATERWAY_CANAL;
+        }else if(strcmp(v,"drain")==0){
+          w.waterway=WATERWAY_DRAIN;
+        }else if(strcmp(v,"ditch")==0){
+          w.waterway=WATERWAY_DITCH;
+        }else if(strcmp(v,"dock")==0){
+          w.waterway=WATERWAY_DOCK;
+        }else{
+          w.hidden=1;
         }
 
       }/*else if(strcmp(k,"area")==0){
