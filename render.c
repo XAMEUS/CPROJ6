@@ -57,7 +57,7 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     if(w.hidden!=1){
       Render_Glist(w.glist);
     }else{
-      //Render_Default(w);
+      Render_Default(w);
     }
   }
   /*

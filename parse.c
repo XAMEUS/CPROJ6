@@ -620,6 +620,7 @@ relation xmlGetRelation(xmlNodePtr cur){
         way *w = g_hash_table_lookup(ways_hashtable,&ref);
         if(w != NULL){
           w->inner=1;
+          w->hidden=0;
           g_hash_table_insert(ways_hashtable, &w->id, w);
         }
       }

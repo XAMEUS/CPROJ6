@@ -30,7 +30,6 @@ GLuint tessellate(way w){
   }else if(w.waterway!=0){
     r = Tess_Obj_Area(w.size,points,w);
   }else if(w.inner!=0){
-    printf("inner\n");
     r = Tess_Obj_Area(w.size,points,w);
   }
   /*
@@ -252,6 +251,7 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
     size=RAILWAY_SIZE;
 
   }else */
+  int border=1;
   if (w.highway!=0){
     switch(w.highway){
       case HIGHWAY_MOTORWAY:
@@ -335,15 +335,18 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
     }
   }else if(w.natural!=0 && w.natural>=100 && w.natural<=200){
       color_natural(w.natural);
-      size = 5.0f;
-      pos = WATERWAY_DEPTH;
+      size = 1.0f;
+      border = 0;
+      pos = NATURAL_DEPTH;
   }
 
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
   Draw_Lines(c, points, size, pos);
-  glColor3f(0.0f,0.0f,0.0f);
-  Draw_Lines(c,points, size+0.75f, pos-1.0f);
+  if(border){
+    glColor3f(0.0f,0.0f,0.0f);
+    Draw_Lines(c,points, size+0.75f, pos-1.0f);
+  }
   glDisable(GL_POLYGON_OFFSET_FILL);
   if (DEBUG)
   {
