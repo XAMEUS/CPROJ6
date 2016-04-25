@@ -989,7 +989,7 @@
 #define LEISURE_DEPTH -4.0f
 #define BRIDGE_DEPTH -4.5f
 #define WATERWAY_DEPTH -5.0f
-#define RAILWAY_DEPTH -2.0f
+#define RAILWAY_DEPTH -4.9f
 
 
 extern int showFrame;

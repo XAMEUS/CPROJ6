@@ -487,10 +487,11 @@ way xmlGetWay(xmlNodePtr cur){
         w.hidden=1;
         w.power=1;
 
-      }else */if(strcmp(k,"railway")==0 && strcmp(v,"subway")!=0){
-        w.hidden=0;
-        w.railway=1;
-
+      }else */if(strcmp(k,"railway")==0){
+        if(strcmp(v,"funicular")==0 || strcmp(v,"light_rail")==0 || strcmp(v,"monorail")==0 || strcmp(v,"narrow_gauge")==0 || strcmp(v,"rail")==0 || strcmp(v,"tram")==0 ){
+          w.hidden=0;
+          w.railway=1;
+        }
       }
       if(strcmp(k,"bridge")==0){
         w.hidden=0;
