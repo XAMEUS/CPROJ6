@@ -487,11 +487,11 @@ way xmlGetWay(xmlNodePtr cur){
         w.hidden=1;
         w.power=1;
 
-      }else if(strcmp(k,"railway")==0){
-        w.hidden=1;
+      }else */if(strcmp(k,"railway")==0 && strcmp(v,"subway")!=0){
+        w.hidden=0;
         w.railway=1;
 
-      }else */
+      }
       if(strcmp(k,"bridge")==0){
         w.hidden=0;
         w.bridge=1;

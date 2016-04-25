@@ -24,6 +24,8 @@ GLuint tessellate(way w){
       r = Tess_Obj_Area(w.size,points,w);
     }else if(w.highway!=0){
       r = Tess_Obj_Way(w.size,points,w);
+    }else if(w.railway!=0){
+      r = Tess_Obj_Way(w.size,points,w);
     }else if(w.building!=0){
       r = Tess_Obj_Area(w.size,points,w);
     }else if(w.natural!=0 && w.natural<100){
@@ -422,7 +424,11 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
           size = WATERWAY_DITCH_SIZE;
           break;
       }
-  }else if(w.bridge){
+  }else if(w.railway!=0){
+    RAILWAY_COLOR;
+    size = RAILWAY_SIZE;
+    pos=RAILWAY_DEPTH;
+  }else if(w.bridge!=0){
     BRIDGE_COLOR;
     pos=BRIDGE_DEPTH;
   }
