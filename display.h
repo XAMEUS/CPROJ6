@@ -25,37 +25,37 @@
 extern double pixelsize;
 
 /**
-* \brief niveau de détail
+* \brief Niveau de détail
 */
 extern int detail;
 
 /**
-* \brief valeur correspondant au minlon
+* \brief Valeur correspondant au minlon
 */
 extern float min_x;
 /**
-* \brief valeur correspondant au maxlon
+* \brief Valeur correspondant au maxlon
 */
 extern float max_x;
 /**
-* \brief valeur correspondant au minlat
+* \brief Valeur correspondant au minlat
 */
 extern float min_y;
 /**
-* \brief valeur correspondant au maxlat
+* \brief Valeur correspondant au maxlat
 */
 extern float max_y;
 
 /**
 * \fn void Display_InitGL()
-* \brief initialise OpenGL et active certains modes de rendu.
+* \brief Initialise OpenGL et active certains modes de rendu.
 * \return void
 */
 void Display_InitGL();
 
 /**
 * \fn void Display_SetViewport(int width, int height, float dx, float dy, float zoom);
-* \brief place la caméra (proportions, position, zoom).
+* \brief Place la caméra (proportions, position, zoom).
 * \param width la largeur de la fenêtre accessible pour le dessin.
 * \param height la hauteur de la fenêtre accessible pour le dessin.
 * \param dx le décalage en x de la caméra.
