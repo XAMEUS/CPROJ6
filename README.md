@@ -27,8 +27,8 @@ Pour la compilation du code source :
 - Glib
 
 Autres :
-- indent : pour formater le code (make indent).
-- doxygen : pour générer la documentation (make doc).
+- indent : pour formater le code.
+- doxygen : pour générer la documentation.
 
 ## 2. Makefile
 
@@ -38,7 +38,7 @@ make
 ~~~~~~~~~~~~~~~
 Pour générer la documentation :
 ~~~~~~~~~~~~~~~{shell}
-make doc
+doxygen doc/doxygen.cfg
 ~~~~~~~~~~~~~~~
 
 Pour formater le code source :
