@@ -11,7 +11,7 @@ all: $(EXEC)
 	$(CC) -c $< $(CFLAGS)
 
 main: display.o listref.o parse.o draw.o render.o ui.o main.o tessellation.o load.o
-	$(CC) $^ -lGLU -lGL $(LDFLAGS)
+	$(CC) $^ -o osm -lGLU -lGL $(LDFLAGS)
 
 drawing: display.o draw.o drawing.o tessellation.o
 	$(CC) -o drawing $^ -lGLU -lGL $(LDFLAGS)
