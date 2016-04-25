@@ -12,7 +12,6 @@
 #ifndef __TESSELLATION_H__
 #define __TESSELLATION_H__
 
-
 #include "display.h"
 #include <GL/glu.h>
 
@@ -27,10 +26,10 @@
 * \param **points liste des points.
 * \return GLuint la liste à afficher avec gluTessCallback.
 */
-GLuint Tess_Obj(int c, GLdouble **points);
+GLuint Tess_Obj(int c, GLdouble ** points);
 
-void tessCallback(GLUtesselator *tess);
+void tessCallback(GLUtesselator * tess);
 
-GLuint Tess_InOut(int inc, GLdouble** in, int outc, GLdouble** out);
+GLuint Tess_InOut(int inc, GLdouble ** in, int outc, GLdouble ** out);
 
 #endif

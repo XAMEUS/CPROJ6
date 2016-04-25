@@ -9,10 +9,8 @@
 *
 */
 
-
 #ifndef __UI_H__
 #define __UI_H__
-
 
 #include "display.h"
 #include "render.h"
@@ -24,6 +22,6 @@
 * \param *argv[] argurments list.
 * \return int exit code
 */
-int Display_Application(int argc, char* argv[]);
+int Display_Application(int argc, char *argv[]);
 
 #endif

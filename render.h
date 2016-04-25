@@ -9,10 +9,8 @@
 *
 */
 
-
 #ifndef __RENDER_H__
 #define __RENDER_H__
-
 
 #include <SDL2/SDL.h>
 #include <stdlib.h>
@@ -347,7 +345,6 @@
 #define Cyberyellow	glColor3f(0.100,0.83,0.0)
 
 #define Cyclamen	glColor3f(0.96,0.44,0.63)
-
 
 #define Dandelion	glColor3f(0.94,0.88,0.19)
 
@@ -730,9 +727,6 @@
 #define white glColor3f(1.0f,1.0f,1.0f)
 #define lightgrey glColor3f(0.80f, 0.85f, 0.81f)
 
-
-
-
 #define AERIALWAY_COLOR Black
 
 #define AEROWAY_COLOR Brightlilac
@@ -771,7 +765,6 @@
 
 #define BOUNDARY_PROTECCTED_AREA_COLOR Beaver
 #define BOUNDARY_PROTECCTED_AREA_SIZE 0.3f
-
 
 #define BUILDING_COLOR BurnishedBrown
 
@@ -814,8 +807,6 @@
 #define HIGHWAY_REST_AREA_COLOR Ceruleanblue
 #define HIGHWAY_SERVICES_COLOR Ceruleanblue
 #define HIGHWAY_TURNING_CICLE_COLOR white
-
-
 
 #define HIGHWAY_MOTORWAY_SIZE 9.0f
 #define HIGHWAY_TRUNK_SIZE 8.0f
@@ -913,12 +904,9 @@
 #define LEISURE_WATER_PARK_COLOR Airsuperiorityblue
 #define LEISURE_WILDLIFE_HIDE_COLOR Englishred
 
-
 #define MAN_MADE_COLOR Champagne
 
 #define MILITARY_COLOR Classicrose
-
-
 
 #define NATURAL_WOOD_COLOR Budgreen
 #define NATURAL_TREE_ROW_COLOR Budgreen
@@ -991,12 +979,12 @@
 #define WATERWAY_DEPTH -5.0f
 #define RAILWAY_DEPTH -4.9f
 
-
 extern int showFrame;
 extern int projection;
 
 void Display_Frame();
-void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, float dy, float zoom);
+void Display_Render(SDL_Renderer * renderer, int width, int height, float dx,
+		    float dy, float zoom);
 
 void Render_Border(way w);
 
@@ -1019,7 +1007,5 @@ void color_landuse(int n);
 void color_natural(int n);
 
 void color_leisure(int n);
-
-
 
 #endif

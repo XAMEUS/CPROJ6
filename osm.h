@@ -9,13 +9,11 @@
 *
 */
 
-
 #ifndef __OSM_H__
 #define __OSM_H__
 
 #include "listref.h"
 #include <GL/glu.h>
-
 
 #define AMENITY_CONSOMMATION 1
 #define AMENITY_EDUCATION 2
@@ -24,7 +22,6 @@
 #define AMENITY_SANTE 5
 #define AMENITY_LOISIRS 6
 #define AMENITY_AUTRES 7
-
 
 #define BOUNDARY_ADMINISTRATIVE 1
 #define BOUNDARY_HISTORIC 2
@@ -38,9 +35,6 @@
 #define GEOLOGICAL_MORAINE 1
 #define GEOLOGICAL_OUTCROP 2
 #define GEOLOGICAL_PALAEONTOLOGICAL_SITE 3
-
-
-
 
 #define HIGHWAY_MOTORWAY 1
 #define HIGHWAY_TRUNK 2
@@ -169,64 +163,63 @@
 #define RELATION_ROUTE_MASTER 5
 #define RELATION_WATERWAY 6
 
-struct st_node{
-  long double lat;
-  long double lon;
-  double x;
-  double y;
-  long id;
+struct st_node {
+	long double lat;
+	long double lon;
+	double x;
+	double y;
+	long id;
 };
 
 typedef struct st_node node;
 
-struct st_way{
-  listref *nodesref;
+struct st_way {
+	listref *nodesref;
 
-  int hidden;
-  int inner;
-  int aerialway;
-  int aeroway;
-  int amenity;
-  int barrier;
-  int boundary;
-  int building;
-  int craft;
-  int emergency;
-  int geological;
-  int highway;
-  int cycleway;
-  int busway;
-  int historic;
-  int landuse;
-  int leisure;
-  int man_made;
-  int military;
-  int natural;
-  int office;
-  int place;
-  int power;
-  int railway;
-  int bridge;
-  int route;
-  int shop;
-  int sport;
-  int tourism;
-  int waterway;
-  int area;
+	int hidden;
+	int inner;
+	int aerialway;
+	int aeroway;
+	int amenity;
+	int barrier;
+	int boundary;
+	int building;
+	int craft;
+	int emergency;
+	int geological;
+	int highway;
+	int cycleway;
+	int busway;
+	int historic;
+	int landuse;
+	int leisure;
+	int man_made;
+	int military;
+	int natural;
+	int office;
+	int place;
+	int power;
+	int railway;
+	int bridge;
+	int route;
+	int shop;
+	int sport;
+	int tourism;
+	int waterway;
+	int area;
 
-
-  long id;
-  int size;
-  GLuint glist;
+	long id;
+	int size;
+	GLuint glist;
 };
 
 typedef struct st_way way;
 
-struct st_relation{
-  listref *member;
-  int type;
-  long id;
-  int size;
+struct st_relation {
+	listref *member;
+	int type;
+	long id;
+	int size;
 };
 
 typedef struct st_relation relation;

@@ -9,10 +9,8 @@
 *
 */
 
-
 #ifndef __PARSE_H__
 #define __PARSE_H__
-
 
 #include <stdio.h>
 #include <libxml/parser.h>
@@ -21,13 +19,13 @@
 #include <glib.h>
 #include "osm.h"
 
-extern GHashTable* nodes_hashtable;
+extern GHashTable *nodes_hashtable;
 
-extern way* ways;
-extern GHashTable* ways_hashtable;
+extern way *ways;
+extern GHashTable *ways_hashtable;
 extern int sizeWays;
 
-extern relation* relations;
+extern relation *relations;
 extern int sizeRelations;
 
 extern float minlat;
@@ -44,7 +42,7 @@ extern float midy;
 
 node *getNode(long ref);
 
-xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name);
+xmlNodePtr xmlGetNode(xmlNodePtr cur, char *name);
 
 void xmlGetNodes(xmlNodePtr cur);
 

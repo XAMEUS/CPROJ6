@@ -38,11 +38,11 @@ typedef struct st_listref listref;
 * \struct st_listref
 * \brief LinkedList.
 */
-struct st_listref{
-  int type;
-  listref *next;
-  long ref;
-  int role;
+struct st_listref {
+	int type;
+	listref *next;
+	long ref;
+	int role;
 };
 
 /**
@@ -55,6 +55,6 @@ listref *listref_create(long ref, int type, int role);
 * \fn listref *listref_append(listref *list, long ref, int type, int role)
 * \brief Add a element to a list.
 */
-listref *listref_append(listref *list, long ref, int type, int role);
+listref *listref_append(listref * list, long ref, int type, int role);
 
 #endif

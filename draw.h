@@ -29,8 +29,8 @@
 * \param depth z.
 * \return void
 */
-void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size, GLdouble depth);
-
+void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1,
+	       GLdouble size, GLdouble depth);
 
 /**
 * \fn void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth)
@@ -43,7 +43,6 @@ void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size
 */
 void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth);
 
-
 /**
 * \fn Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble depth)
 * \brief Draw lines.
@@ -53,7 +52,7 @@ void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth);
 * \param depth z.
 * \return void
 */
-void Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble depth);
+void Draw_Lines(int n, GLdouble ** points, GLdouble size, GLdouble depth);
 
 /**
 * \fn void Draw_Lines_old(int n, GLdouble **points, GLdouble size)
@@ -64,4 +63,4 @@ void Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble depth);
 * \param size width.
 * \return void
 */
-void Draw_Lines_old(int n, GLdouble **points, GLdouble size);
+void Draw_Lines_old(int n, GLdouble ** points, GLdouble size);

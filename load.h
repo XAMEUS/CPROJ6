@@ -9,7 +9,6 @@
 *
 */
 
-
 #ifndef __LOAD_H__
 #define __LOAD_H__
 
@@ -23,8 +22,7 @@
 
 GLuint tessellate(way w);
 
-
-GLuint Tess_Obj_Way(int c, GLdouble **points,way w);
-GLuint Tess_Obj_Area(int c, GLdouble **points,way w);
+GLuint Tess_Obj_Way(int c, GLdouble ** points, way w);
+GLuint Tess_Obj_Area(int c, GLdouble ** points, way w);
 
 #endif

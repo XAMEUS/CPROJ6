@@ -12,15 +12,12 @@
 #ifndef __DISPLAY_H__
 #define __DISPLAY_H__extern GLdouble detail;
 
-
-
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <SDL2/SDL_opengl.h>
 #include <png.h>
-
 
 #define DEBUG 0
 
@@ -67,12 +64,15 @@ void Display_InitGL();
 * \param zoom zoom factor.
 * \return void
 */
-void Display_SetViewport(int width, int height, GLdouble dx, GLdouble dy, float zoom);
+void Display_SetViewport(int width, int height, GLdouble dx, GLdouble dy,
+			 float zoom);
 
 /**
 * \fn void screenshot_png(const char *filename, unsigned int width, unsigned int height, GLubyte **pixels, png_byte **png_bytes, png_byte ***png_rows)
 * \brief Takes a screenshoot (png format).
 */
-void screenshot_png(const char *filename, unsigned int width, unsigned int height, GLubyte **pixels, png_byte **png_bytes, png_byte ***png_rows);
+void screenshot_png(const char *filename, unsigned int width,
+		    unsigned int height, GLubyte ** pixels,
+		    png_byte ** png_bytes, png_byte *** png_rows);
 
 #endif
