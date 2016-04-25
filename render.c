@@ -60,6 +60,7 @@ glPopMatrix();
 SDL_RenderPresent(renderer);
 }
 
+/*
 void Render_Border(way w)
 {
   glColor4f(0.0f,0.0f,0.0f, 0.5f);
@@ -81,7 +82,7 @@ void Render_Border(way w)
   if(current)
   glVertex2f(current->x,current->y);
   glEnd();
-}
+}*/
 
 void Render_Glist(GLuint i){
   glCallList(i);

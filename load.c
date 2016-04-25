@@ -81,7 +81,7 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
 
   if(w.highway==HIGHWAY_PEDESTRIAN){
     HIGHWAY_PEDESTRIAN_COLOR;
-    pos=HIGHWAY_PEDESTRIAN_DEPTH-0.1f;
+    pos=-4.9f;
     border =2;
   }else if(w.building!=0){
     BUILDING_COLOR;
