@@ -357,6 +357,36 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
       size = HIGHWAY_PEDESTRIAN_SIZE;
       pos = HIGHWAY_PEDESTRIAN_DEPTH;
       break;
+      case HIGHWAY_TRACK:
+      HIGHWAY_TRACK_COLOR;
+      size=HIGHWAY_TRACK_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
+      break;
+      case HIGHWAY_ROAD:
+      HIGHWAY_ROAD_COLOR;
+      size=HIGHWAY_ROAD_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
+      break;
+      case HIGHWAY_FOOTWAY:
+      HIGHWAY_FOOTWAY_COLOR;
+      size=HIGHWAY_FOOTWAY_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
+      break;
+      case HIGHWAY_BRIDLEWAY:
+      HIGHWAY_BRIDLEWAY_COLOR;
+      size=HIGHWAY_BRIDLEWAY_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
+      break;
+      case HIGHWAY_STEPS:
+      HIGHWAY_STEPS_COLOR;
+      size=HIGHWAY_STEPS_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
+      break;
+      case HIGHWAY_PATH:
+      HIGHWAY_PATH_COLOR;
+      size=HIGHWAY_PATH_SIZE;
+      pos = HIGHWAY_LIVING_STREET_DEPTH;
+      break;
     }
   }else if(w.natural!=0){
       color_natural(w.natural);

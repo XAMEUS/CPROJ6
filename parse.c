@@ -257,13 +257,13 @@ way xmlGetWay(xmlNodePtr cur){
           w.highway=HIGHWAY_LIVING_STREET;
         }else if(strcmp(v,"pedestrian")==0){
           w.highway=HIGHWAY_PEDESTRIAN;
-        }/*else if(strcmp(v,"track")==0){
+        }else if(strcmp(v,"track")==0){
           w.highway=HIGHWAY_TRACK;
-        }else if(strcmp(v,"bus_guideway")==0){
+        }/*else if(strcmp(v,"bus_guideway")==0){
           w.highway=HIGHWAY_BUS_GUIDEWAY;
         }else if(strcmp(v,"raceway")==0){
           w.highway=HIGHWAY_RACEWAY;
-        }else if(strcmp(v,"road")==0){
+        }*/else if(strcmp(v,"road")==0){
           w.highway=HIGHWAY_ROAD;
         }else if(strcmp(v,"footway")==0){
           w.highway=HIGHWAY_FOOTWAY;
@@ -273,7 +273,7 @@ way xmlGetWay(xmlNodePtr cur){
           w.highway=HIGHWAY_STEPS;
         }else if(strcmp(v,"path")==0){
           w.highway=HIGHWAY_PATH;
-        }else if(strcmp(v,"cycleway")==0){
+        }/*else if(strcmp(v,"cycleway")==0){
           w.highway=HIGHWAY_CYCLEWAY;
         }else if(strcmp(v,"proposed")==0){
           w.highway=HIGHWAY_PROPOSED;
