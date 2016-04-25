@@ -1,11 +1,11 @@
 /**
 * \file display.h
-* \brief Initialise SDL et OpenGL
+* \brief Initializes SDL et OpenGL
 * \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
 * \version 0.9
-* \date 25 avril 2016
+* \date 04 25 2016
 *
-* Permet d'initialiser OpenGL et de définir/placer la caméra pour le rendu.
+* Initializes OpenGL and set up the camer.
 *
 */
 
@@ -25,42 +25,42 @@
 extern double pixelsize;
 
 /**
-* \brief Niveau de détail
+* \brief LoD, Level of details
 */
 extern int detail;
 
 /**
-* \brief Valeur correspondant au minlon
+* \brief minlon value
 */
 extern float min_x;
 /**
-* \brief Valeur correspondant au maxlon
+* \brief maxlon value
 */
 extern float max_x;
 /**
-* \brief Valeur correspondant au minlat
+* \brief minlat value
 */
 extern float min_y;
 /**
-* \brief Valeur correspondant au maxlat
+* \brief maxlat value
 */
 extern float max_y;
 
 /**
 * \fn void Display_InitGL()
-* \brief Initialise OpenGL et active certains modes de rendu.
+* \brief Initializes OpenGL and enable options.
 * \return void
 */
 void Display_InitGL();
 
 /**
 * \fn void Display_SetViewport(int width, int height, float dx, float dy, float zoom);
-* \brief Place la caméra (proportions, position, zoom).
-* \param width la largeur de la fenêtre accessible pour le dessin.
-* \param height la hauteur de la fenêtre accessible pour le dessin.
-* \param dx le décalage en x de la caméra.
-* \param dy le décalage en y de la caméra.
-* \param zoom le facteur de zoom.
+* \brief Sets up the camera (proportion, position, zoom).
+* \param width width of the window available for drawing.
+* \param height height of the window available for drawing.
+* \param dx x camera translation.
+* \param dy y camera translation.
+* \param zoom zoom factor.
 * \return void
 */
 void Display_SetViewport(int width, int height, float dx, float dy, float zoom);

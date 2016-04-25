@@ -1,3 +1,15 @@
+/**
+* \file osm.h
+* \brief OpenStreetMap objects
+* \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
+* \version 0.9
+* \date 04 25 2016
+*
+* Define OpenStreetMap objects.
+*
+*/
+
+
 #ifndef __OSM_H__
 #define __OSM_H__
 

@@ -1,3 +1,15 @@
+/**
+* \file render.h
+* \brief Rendering
+* \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
+* \version 0.9
+* \date 04 25 2016
+*
+* Rendering stuff.
+*
+*/
+
+
 #ifndef __RENDER_H__
 #define __RENDER_H__
 

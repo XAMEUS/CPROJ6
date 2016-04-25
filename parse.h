@@ -1,3 +1,15 @@
+/**
+* \file parse.h
+* \brief Parsing system
+* \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
+* \version 0.9
+* \date 04 25 2016
+*
+* Parsing osm files.
+*
+*/
+
+
 #ifndef __PARSE_H__
 #define __PARSE_H__
 

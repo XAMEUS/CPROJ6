@@ -1,3 +1,15 @@
+/**
+* \file load.h
+* \brief Loading routines
+* \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
+* \version 0.9
+* \date 04 25 2016
+*
+* Loading system, tessellating objects.
+*
+*/
+
+
 #ifndef __LOAD_H__
 #define __LOAD_H__
 

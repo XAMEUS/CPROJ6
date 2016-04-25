@@ -1,11 +1,11 @@
 /**
 * \file listref.h
-* \brief Listes chaînées
+* \brief LinkedList
 * \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
 * \version 0.9
-* \date 25 avril 2016
+* \date 04 25 2016
 *
-* Quelques outils pour utiliser des listes.
+* LinkedList tools
 *
 */
 
@@ -36,7 +36,7 @@ typedef struct st_listref listref;
 
 /**
 * \struct st_listref
-* \brief Liste chaînée.
+* \brief LinkedList.
 */
 struct st_listref{
   int type;
@@ -47,13 +47,13 @@ struct st_listref{
 
 /**
 * \fn listref *listref_create(long ref, int type, int role)
-* \brief Crée une liste.
+* \brief Create a list.
 */
 listref *listref_create(long ref, int type, int role);
 
 /**
 * \fn listref *listref_append(listref *list, long ref, int type, int role)
-* \brief Ajoute un élément à une liste.
+* \brief Add a element to a list.
 */
 listref *listref_append(listref *list, long ref, int type, int role);
 

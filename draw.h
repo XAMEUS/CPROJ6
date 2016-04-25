@@ -1,11 +1,11 @@
 /**
 * \file draw.h
-* \brief Routines de dessin.
+* \brief Drawing functions.
 * \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
 * \version 0.9
-* \date 25 avril 2016
+* \date 04 25 2016
 *
-* Routines permettant de dessiner divers forme élémentaires.
+* Basic drawing.
 *
 */
 
@@ -14,18 +14,18 @@
 #include <math.h>
 
 /**
-* \brief Pi approximation (constante).
+* \brief Pi (constant).
 */
 #define PI 3.14159265
 
 /**
 * \fn void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size, GLdouble depth)
-* \brief Dessine une ligne entre deux points d'une épaisseur donnée.
-* \param x0 la position en x du premier point.
-* \param y0 la position en y du premier point.
-* \param x1 la position en x du deuxième point.
-* \param y1 la position en y du deuxième point.
-* \param size l'epaisseur du trait.
+* \brief Draws a line
+* \param x0 the x position x of the first point.
+* \param y0 the y position en y of the first point.
+* \param x1 the x position en x of the second point.
+* \param y1 the y position en y of the secondpoint.
+* \param size line width.
 * \param depth z.
 * \return void
 */
@@ -34,10 +34,10 @@ void Draw_Line(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1, GLdouble size
 
 /**
 * \fn void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth)
-* \brief Dessine un cercle de centre (x, y) et de rayon size.
-* \param x la position en x du centre du cercle.
-* \param y la position en y du centre du cercle.
-* \param size rayon du cercle.
+* \brief Draws a circle with origin (x, y).
+* \param x0 the x position x of the center.
+* \param y0 the y position en y of the center.
+* \param size radius.
 * \param depth z.
 * \return void
 */
@@ -46,10 +46,10 @@ void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth);
 
 /**
 * \fn Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble depth)
-* \brief Dessine des lignes suivant une liste de points.
-* \param n taille de la liste.
-* \param **points liste de points.
-* \param size l'epaisseur des lignes.
+* \brief Draw lines.
+* \param n number of points.
+* \param **points list of points.
+* \param size width.
 * \param depth z.
 * \return void
 */
@@ -58,10 +58,10 @@ void Draw_Lines(int n, GLdouble **points, GLdouble size, GLdouble depth);
 /**
 * \fn void Draw_Lines_old(int n, GLdouble **points, GLdouble size)
 * \deprecated Fonction dépréciée, ne plus utiliser !
-* \brief Dessine des lignes suivant une liste de points, utilisant l'ancienne méthode.
-* \param n taille de la liste.
-* \param **points liste de points.
-* \param size l'epaisseur des lignes.
+* \brief old
+* \param n number of points.
+* \param **points list of points.
+* \param size width.
 * \return void
 */
 void Draw_Lines_old(int n, GLdouble **points, GLdouble size);

@@ -1,11 +1,11 @@
 /**
 * \file ui.h
-* \brief Gère l'interface graphique
+* \brief Manage the gui
 * \author Perrachon Quentin, Gourgoulhon Maxime, Boufedji Belkacem
 * \version 0.9
-* \date 25 avril 2016
+* \date 04 25 2016
 *
-* Contient la boucle principale d'éxécution.
+* Main running loop.
 *
 */
 
@@ -19,9 +19,9 @@
 
 /**
 * \fn int Display_Application(int argc, char* argv[])
-* \brief Boucle principale, main.
-* \param argc nombre d'argurments.
-* \param *argv[] les argurments.
+* \brief Main loop.
+* \param argc number of argurments.
+* \param *argv[] argurments list.
 * \return int exit code
 */
 int Display_Application(int argc, char* argv[]);
