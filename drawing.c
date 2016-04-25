@@ -42,12 +42,12 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
   glColor3f(0.9, 0.9, 0.2);
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0, 1.0);
-  Draw_Lines(size, data1, 20);
+  Draw_Lines(size, data1, 20, 0);
   glDisable(GL_POLYGON_OFFSET_FILL);
 
   glColor3f (0.9, 0.1, 0.1);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  Draw_Lines(size, data1, 20);
+  Draw_Lines(size, data1, 20, 0);
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   glPopMatrix();
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
       dy,
       zoom
     );
-    //Display_Render(displayRenderer, width, height, dx, dy, zoom);
+    Display_Render(displayRenderer, width, height, dx, dy, zoom);
     while (SDL_PollEvent(&event)) // User's actions
     {
       switch(event.type)
