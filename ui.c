@@ -139,6 +139,10 @@ int Display_Application(int argc, char* argv[])
             if (showFrame) showFrame = 0;
             else showFrame = 1;
           }
+          if (event.key.keysym.sym == SDLK_c)
+          {
+            screenshoot = 1;
+          }
           if (event.key.keysym.sym == SDLK_p)
           {
             projection = !projection;
