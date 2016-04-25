@@ -83,12 +83,6 @@ int Display_Application(int argc, char* argv[])
     w->glist=tessellate(*w);
   }
 
-  int i;
-  /*
-  for(i=0;i<sizeWays;i++){
-    ways[i].glist=tessellate(ways[i]);
-  }*/
-
   while (!quit)
   {
     Display_SetViewport(
