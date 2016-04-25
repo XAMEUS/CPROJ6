@@ -41,7 +41,6 @@ node *getNode(long ref){
 
 xmlNodePtr xmlGetNode(xmlNodePtr cur, char* name){
   while(cur != NULL){
-    printf("%s",cur->name);
     if(xmlStrcmp(cur->name,(const xmlChar *)name)==0){
       return cur;
     }
