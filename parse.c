@@ -547,19 +547,19 @@ int initNodesBounds(char *filename){
   doc = xmlParseFile(filename);
   if(doc==NULL){
     fprintf(stderr,"Erreur parse\n");
-    return 1;
+    exit(1);
   }
 
   cur = xmlDocGetRootElement(doc);
   if(cur == NULL){
     fprintf(stderr,"Erreur tree\n");
-    return 2;
+    exit(2);
   }
 
   xmlNodePtr bounds = xmlGetNode(cur->xmlChildrenNode, "bounds");
   if(bounds == NULL){
     fprintf(stderr,"Erreur bounds\n");
-    return 2;
+    exit(3);
   }
   cur = xmlDocGetRootElement(doc);
 

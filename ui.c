@@ -209,7 +209,7 @@ int Display_Application(int argc, char* argv[])
     ctime = time(NULL);
     if (t != ctime) {
       t = ctime;
-      fprintf(stdout, "%d fps\n", frames);
+      //fprintf(stdout, "%d fps\n", frames);
       frames = 0;
     }
   }
