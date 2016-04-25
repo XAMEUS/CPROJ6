@@ -628,7 +628,7 @@ relation xmlGetRelation(xmlNodePtr cur){
 
       long ref =atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref"));
 
-
+      /*
       if(role == ROLE_INNER && type == REF_WAY){
         way *w = g_hash_table_lookup(ways_hashtable,&ref);
         if(w != NULL){
@@ -636,7 +636,7 @@ relation xmlGetRelation(xmlNodePtr cur){
           w->hidden=0;
           g_hash_table_insert(ways_hashtable, &w->id, w);
         }
-      }
+      }*/
 
       r.member = listref_append(r.member,ref,type,role);
       n++;
@@ -662,6 +662,40 @@ relation xmlGetRelation(xmlNodePtr cur){
   r.size=n;
   return r;
 
+}
+
+void checkRelations(){
+  int i;
+  for(i=0;i<sizeRelations;i++){
+    relation r = relations[i];
+    int outer = 0;
+    listref *list = r.member;
+    int j = 0;
+    while(j<r.size){
+      if(list->role == ROLE_OUTER){
+        way *w = g_hash_table_lookup(ways_hashtable,&list->ref);
+        if(w!=NULL && w->building!=0){
+          outer = 1;
+        }
+      }
+      list = list->next;
+      j=j+1;
+    }
+    list = r.member;
+    j=0;
+    while(j<r.size){
+      if(list->role == ROLE_INNER){
+        way *w = g_hash_table_lookup(ways_hashtable,&list->ref);
+        if(w != NULL){
+          w->inner=1+outer;
+          w->hidden=0;
+          g_hash_table_insert(ways_hashtable, &w->id, w);
+        }
+      }
+      list = list->next;
+      j=j+1;
+    }
+  }
 }
 
 void xmlGetRelations(xmlNodePtr cur){
@@ -713,6 +747,8 @@ int initNodesBounds(char *filename){
   xmlGetWays(cur);
 
   xmlGetRelations(cur);
+
+  checkRelations();
 
   return 0;
 }

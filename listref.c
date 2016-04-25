@@ -5,7 +5,7 @@ listref *listref_create(long ref, int type, int role){
   if(element){
     element->ref=ref;
     element->type=type;
-    element->type=role;
+    element->role=role;
     element->next=NULL;
   }
   return element;

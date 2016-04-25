@@ -151,7 +151,11 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
   }else if(w.inner!=0){
     border=1;
     glColor3f(0.80f, 0.85f, 0.81f);
-    pos=BUILDING_DEPTH+0.1f;
+    if(w.inner>1){
+      pos=BUILDING_DEPTH+0.1f;
+    }else{
+      pos=BACKGROUND_DEPTH;
+    }
   }else if(w.leisure!=0){
     color_leisure(w.leisure);
     pos=LEISURE_DEPTH;
