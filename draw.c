@@ -12,7 +12,7 @@ GLdouble dist(GLdouble x0, GLdouble y0, GLdouble x1, GLdouble y1)
 void Draw_Circle(GLdouble x, GLdouble y, GLdouble size, GLdouble depth){
   int i;
 	int triangleAmount = 20;
-	GLfloat twicePi = 2.0f * PI;
+	GLdouble twicePi = 2.0f * PI;
 	glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(x, y, depth);
 		for(i = 0; i <= triangleAmount;i++) {

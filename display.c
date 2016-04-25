@@ -2,10 +2,10 @@
 
 GLdouble pixelsize = 1;
 
-GLfloat min_x = -1;
-GLfloat max_x = 1;
-GLfloat min_y = -1;
-GLfloat max_y = 1;
+GLdouble min_x = -1;
+GLdouble max_x = 1;
+GLdouble min_y = -1;
+GLdouble max_y = 1;
 
 int detail = 0;
 int screenshoot = 0;
@@ -66,7 +66,7 @@ void screenshot_png(const char *filename, unsigned int width, unsigned int heigh
 }
 
 // function to reset our viewport after a window resize
-void Display_SetViewport(int width, int height, GLfloat dx, GLfloat dy, float zoom)
+void Display_SetViewport(int width, int height, GLdouble dx, GLdouble dy, float zoom)
 {
   glViewport(0, 0, (GLint) width, (GLint) height);
 
@@ -75,10 +75,10 @@ void Display_SetViewport(int width, int height, GLfloat dx, GLfloat dy, float zo
 
   pixelsize = (max_y-min_y)/height;
 
-  GLfloat a = (min_x + max_x) / 2 + dx - zoom * (pixelsize * width / 2);
-  GLfloat b = (min_x + max_x) / 2 + dx + zoom * (pixelsize * width / 2);
-  GLfloat c = (min_y + max_y) / 2 + dy - zoom * (max_y - min_y) / 2;
-  GLfloat d = (min_y + max_y) / 2 + dy + zoom * (max_y - min_y) / 2;
+  GLdouble a = (min_x + max_x) / 2 + dx - zoom * (pixelsize * width / 2);
+  GLdouble b = (min_x + max_x) / 2 + dx + zoom * (pixelsize * width / 2);
+  GLdouble c = (min_y + max_y) / 2 + dy - zoom * (max_y - min_y) / 2;
+  GLdouble d = (min_y + max_y) / 2 + dy + zoom * (max_y - min_y) / 2;
 
   if (fabs(fabs(b) - fabs(a)) < 0.04) detail = 10;
   else detail = 0;

@@ -7,9 +7,9 @@ int Display_Application(int argc, char* argv[])
   SDL_Window *window; // Declare a pointer, main window
   int width = 640;
   int height = 480;
-  GLfloat dx = 0;
-  GLfloat dy = 0;
-  GLfloat zoom = 1.0;
+  GLdouble dx = 0;
+  GLdouble dy = 0;
+  GLdouble zoom = 1.0;
 
   initNodesBounds(argv[1]);
 
