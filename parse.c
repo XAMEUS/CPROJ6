@@ -22,17 +22,6 @@ float maxy = 1;
 float midx = 0;
 float midy = 0;
 
-/*
-node *getNode(long ref){
-int i;
-for(i=0;i<sizeNodes;i++){
-if(nodes[i].id==ref)
-return &nodes[i];
-}
-printf("%ld\n",ref);
-return NULL;
-}*/
-
 node *getNode(long ref){
   node *n = NULL;
   n = g_hash_table_lookup(nodes_hashtable, &ref);
@@ -66,30 +55,6 @@ void initBounds(xmlNodePtr bounds){
   miny = miny-midy;
   maxy = maxy-midy;
 }
-/*
-void xmlGetNodes(xmlNodePtr cur){
-nodes = malloc(sizeof(node)*100);
-cur = cur->xmlChildrenNode;
-int i = 0;
-node n;
-while(cur != NULL){
-if(i==sizeNodes){
-sizeNodes*=2;
-nodes = realloc(nodes,sizeof(node)*sizeNodes);
-}
-if(xmlStrcmp(cur->name,(const xmlChar *)"node")==0){
-n.lat = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lat"));
-n.lon = atof((const char*)xmlGetProp(cur,(const xmlChar*)"lon"));
-n.x = n.lon;
-n.y = (((log(tan(M_PI/4+((((n.lat)/2)*M_PI)/180))))*180)/M_PI);
-n.id = atol((const char*)xmlGetProp(cur,(const xmlChar*)"id"));
-nodes[i]=n;
-i++;
-}
-cur=cur->next;
-}
-sizeNodes=i;
-}*/
 
 void xmlGetNodes(xmlNodePtr cur){
   nodes_hashtable = g_hash_table_new(g_int64_hash,g_int64_equal);
@@ -148,11 +113,9 @@ way xmlGetWay(xmlNodePtr cur){
   w.waterway=0;
   w.area=0;
 
-  //printf("way %ld\n", w.id);
+
   while(cur!=NULL){
     if(xmlStrcmp(cur->name,(const xmlChar *)"nd")==0){
-      //if (w.id == 63645087 || w.id == 63643868 || w.id == 78144300 || w.id == 41494697 || w.id == 41494698)
-      //  printf("%ld\n", atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")));
       w.nodesref = listref_append(w.nodesref,atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref")),REF_NODE,ROLE_NONE);
       n++;
     }
@@ -165,65 +128,11 @@ way xmlGetWay(xmlNodePtr cur){
           w.area = 1;
         }
       }
-      /*
-      if(strcmp(k,"aerialway")==0){
-        w.aerialway=1;
-        w.hidden=1;
-
-      }else  if(strcmp(k,"aeroway")==0){
-        w.aeroway=1;
-        w.hidden=1;
-      }else  if(strcmp(k,"amenity")==0){
-        w.hidden=1;
-        if(strcmp(v,"bar")==0 ||strcmp(v,"bbq")==0 || strcmp(v,"biergarten")==0 || strcmp(v,"cafe")==0 || strcmp(v,"drinking_water")==0 || strcmp(v,"fast_food")==0 || strcmp(v,"food_court")==0 || strcmp(v,"ice_cream")==0 || strcmp(v,"pub")==0 || strcmp(v,"restaurant")==0 ) {
-          w.amenity=AMENITY_CONSOMMATION;
-        } else if(strcmp(v,"college")==0 ||strcmp(v,"kindergarten")==0 || strcmp(v,"library")==0 || strcmp(v,"public_bookcase")==0 || strcmp(v,"school")==0 || strcmp(v,"music_school")==0 || strcmp(v,"driving_school")==0 || strcmp(v,"language_school")==0 || strcmp(v,"university")==0 ) {
-          w.amenity=AMENITY_EDUCATION;
-        } else if(strcmp(v,"bicycle_parking")==0 || strcmp(v,"bicycle_repair_station")==0 || strcmp(v,"bicycle_rental")==0 || strcmp(v,"boat_sharing")==0 || strcmp(v,"bus_station")==0 || strcmp(v,"car_rental")==0 || strcmp(v,"car_sharing")==0 || strcmp(v,"car_wash")==0
-        || strcmp(v,"charging_station")==0 || strcmp(v,"ferry_terminal")==0 || strcmp(v,"fuel")==0 || strcmp(v,"grit_bin")==0 || strcmp(v,"motorcycle_parking")==0 || strcmp(v,"parking")==0 || strcmp(v,"parking_entrance")==0 || strcmp(v,"parking_space")==0 || strcmp(v,"parking_space")==0 ) {
-          w.amenity=AMENITY_TRANSPORTS;
-        } else if(strcmp(v,"atm")==0 ||strcmp(v,"bank")==0 || strcmp(v,"bureau_de_change")==0 ){
-          w.amenity=AMENITY_ARGENTS;
-        } else if(strcmp(v,"baby_hatch")==0 ||strcmp(v,"clinic")==0 || strcmp(v,"dentist")==0 || strcmp(v,"doctors")==0 || strcmp(v,"hospital")==0 || strcmp(v,"nursing_home")==0 || strcmp(v,"pharmacy")==0 || strcmp(v,"social_facility")==0 || strcmp(v,"veterinary")==0 || strcmp(v,"blood_donation")==0 ){
-          w.amenity=AMENITY_SANTE;
-        } else if(strcmp(v,"arts_centre")==0 ||strcmp(v,"brothel")==0 || strcmp(v,"casino")==0 || strcmp(v,"cinema")==0 || strcmp(v,"community_centre")==0 || strcmp(v,"fountain")==0 || strcmp(v,"gambling")==0 || strcmp(v,"nightclub")==0 || strcmp(v,"planetarium")==0 || strcmp(v,"social_centre")==0
-        || strcmp(v,"stripclub")==0 || strcmp(v,"studio")==0 || strcmp(v,"swingerclub")==0 || strcmp(v,"theatre")==0)  {
-          w.amenity=AMENITY_LOISIRS;
-        }else
-        w.amenity=AMENITY_AUTRES;
-
-
-      }else  if(strcmp(k,"barrier")==0){
-        w.hidden=1;
-        w.barrier=1;
-
-      }else  if(strcmp(k,"boundary")==0){
-        w.hidden=1;
-        w.boundary=1;
-
-      }else */if(strcmp(k, "building")==0){
+      if(strcmp(k, "building")==0){
         w.hidden=0;
         w.building=1;
 
-      }/*else  if(strcmp(k,"craft")==0){
-        w.hidden=1;
-        w.craft=1;
-
-      }else  if(strcmp(k,"emergency")==0){
-        w.hidden=1;
-        w.emergency=1;
-
-      }else  if(strcmp(k,"geological")==0){
-        w.hidden=1;
-        if(strcmp(v,"moraine")==0){
-          w.geological=GEOLOGICAL_MORAINE;
-        }else if(strcmp(v,"outcrop")==0){
-          w.geological=GEOLOGICAL_OUTCROP;
-        }else if(strcmp(v,"palaeontological_site")==0){
-          w.geological=GEOLOGICAL_PALAEONTOLOGICAL_SITE;
-        }
-
-      }else  */
+      }
       if(strcmp(k,"highway")==0){
         w.hidden=0;
         if(strcmp(v,"motorway")==0){
@@ -258,11 +167,7 @@ way xmlGetWay(xmlNodePtr cur){
           w.highway=HIGHWAY_PEDESTRIAN;
         }else if(strcmp(v,"track")==0){
           w.highway=HIGHWAY_TRACK;
-        }/*else if(strcmp(v,"bus_guideway")==0){
-          w.highway=HIGHWAY_BUS_GUIDEWAY;
-        }else if(strcmp(v,"raceway")==0){
-          w.highway=HIGHWAY_RACEWAY;
-        }*/else if(strcmp(v,"road")==0){
+        }else if(strcmp(v,"road")==0){
           w.highway=HIGHWAY_ROAD;
         }else if(strcmp(v,"footway")==0){
           w.highway=HIGHWAY_FOOTWAY;
@@ -272,38 +177,8 @@ way xmlGetWay(xmlNodePtr cur){
           w.highway=HIGHWAY_STEPS;
         }else if(strcmp(v,"path")==0){
           w.highway=HIGHWAY_PATH;
-        }/*else if(strcmp(v,"cycleway")==0){
-          w.highway=HIGHWAY_CYCLEWAY;
-        }else if(strcmp(v,"proposed")==0){
-          w.highway=HIGHWAY_PROPOSED;
-        }else if(strcmp(v,"construction")==0){
-          w.highway=HIGHWAY_CONSTRUCTION;
-        }else if(strcmp(v,"mini_roundabout")==0){
-          w.highway=HIGHWAY_MINI_ROUNDABOUT;
-        }else if(strcmp(v,"motorway_junction")==0){
-          w.highway=HIGHWAY_MOTORWAY_JUNCTION;
-        }else if(strcmp(v,"rest_area")==0){
-          w.highway=HIGHWAY_REST_AREA;
-        }else if(strcmp(v,"services")==0){
-          w.highway=HIGHWAY_SERVICES;
-        }else if(strcmp(v,"turning_circle")==0){
-          w.highway=HIGHWAY_TURNING_CICLE;
-        }*/
-
-      }/*else if(strcmp(k,"cycleway")==0){
-        w.hidden=1;
-        w.cycleway=1;
-
-      }else if(strcmp(k,"busway")==0){
-        w.hidden=1;
-        w.busway=1;
-
-      }else if(strcmp(k,"historic")==0){
-        w.hidden=1;
-        w.historic=1;
-
-
-      }else */if(strcmp(k,"landuse")==0){
+        }
+      }if(strcmp(k,"landuse")==0){
         w.hidden=1;
         if(strcmp(v,"allotments")==0){
           w.landuse=LANDUSE_ALLOTMENTS;
@@ -418,15 +293,7 @@ way xmlGetWay(xmlNodePtr cur){
         }else if(strcmp(v,"wildlife_hide")==0){
           w.leisure=LEISURE_WILDLIFE_HIDE;
         }
-      }/*else if(strcmp(k,"man_made")==0){
-        w.hidden=1;
-        w.man_made=1;
-
-      }else if(strcmp(k,"military")==0){
-        w.hidden=1;
-        w.military=1;
-
-      } else */if(strcmp(k,"natural")==0){
+      }if(strcmp(k,"natural")==0){
         w.hidden=0;
         if(strcmp(v,"wood")==0){
           w.natural=NATURAL_WOOD;
@@ -474,46 +341,16 @@ way xmlGetWay(xmlNodePtr cur){
           w.natural=NATURAL_GEYSER; //NODE
         }
 
-      }/*else if(strcmp(k,"office")==0){
-        w.hidden=1;
-        w.office=1;
-
-      }else if(strcmp(k,"place")==0){
-        w.hidden=1;
-        w.place=1;
-
-      }else if(strcmp(k,"power")==0){
-        w.hidden=1;
-        w.power=1;
-
-      }else */if(strcmp(k,"railway")==0){
+      }if(strcmp(k,"railway")==0){
         if(strcmp(v,"funicular")==0 || strcmp(v,"light_rail")==0 || strcmp(v,"monorail")==0 || strcmp(v,"narrow_gauge")==0 || strcmp(v,"rail")==0 || strcmp(v,"tram")==0 ){
           w.hidden=0;
           w.railway=1;
         }
-      }
-      if(strcmp(k,"bridge")==0){
+      }if(strcmp(k,"bridge")==0){
         w.hidden=0;
         w.bridge=1;
 
-      }/*else if(strcmp(k,"route")==0){
-        w.hidden=1;
-        w.route=1;
-
-      }else if(strcmp(k,"shop")==0){
-        w.hidden=1;
-        w.shop=1;
-
-      }else if(strcmp(k,"sport")==0){
-        w.hidden=1;
-        w.sport=1;
-
-      }else if(strcmp(k,"tourism")==0){
-        w.hidden=1;
-        w.tourism=1;
-
-      }else*/
-      if(strcmp(k,"waterway")==0){
+      }if(strcmp(k,"waterway")==0){
         w.hidden=0;
         if(strcmp(v,"riverbank")==0){
           w.waterway=WATERWAY_RIVERBANK;
@@ -533,14 +370,7 @@ way xmlGetWay(xmlNodePtr cur){
           w.hidden=1;
         }
 
-      }/*else if(strcmp(k,"area")==0){
-        w.hidden=1;
-        if(strcmp(v,"yes")==0){
-          if(strcmp(k,"highway")!=0){
-            w.area=1;
-          }
-        }
-      }*/
+      }
     }
 
     cur=cur->next;
@@ -630,16 +460,6 @@ relation xmlGetRelation(xmlNodePtr cur){
       }
 
       long ref =atol((const char*)xmlGetProp(cur,(const xmlChar*)"ref"));
-
-      /*
-      if(role == ROLE_INNER && type == REF_WAY){
-        way *w = g_hash_table_lookup(ways_hashtable,&ref);
-        if(w != NULL){
-          w->inner=1;
-          w->hidden=0;
-          g_hash_table_insert(ways_hashtable, &w->id, w);
-        }
-      }*/
 
       r.member = listref_append(r.member,ref,type,role);
       n++;

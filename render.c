@@ -52,6 +52,8 @@ void Display_Render(SDL_Renderer* renderer, int width, int height, float dx, flo
     }
   }
 
+  g_list_free_full(l,free);
+
 glPopMatrix();
 
 // Render
