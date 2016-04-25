@@ -3,3 +3,4 @@
 *.osm
 *.o
 !Makefile
+!doc
