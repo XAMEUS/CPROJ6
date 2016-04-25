@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags` `pkg-config --cflags glib-2.0` -lm -lGLU
-LDFLAGS= `sdl2-config --libs` `xml2-config --libs` `pkg-config --libs glib-2.0` -lm -lGLU
+CFLAGS = -Wall `sdl2-config --cflags` `xml2-config --cflags` `pkg-config --cflags glib-2.0` `libpng-config --cflags` -lm -lGLU
+LDFLAGS= `sdl2-config --libs` `xml2-config --libs` `pkg-config --libs glib-2.0` `libpng-config  --libs` -lm -lGLU
 EXEC = main
 HEADERS = $(wildcard *.h)
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))

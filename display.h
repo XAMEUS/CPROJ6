@@ -19,10 +19,14 @@
 #include <stdio.h>
 #include <time.h>
 #include <SDL2/SDL_opengl.h>
+#include <png.h>
+
 
 #define DEBUG 0
 
 extern double pixelsize;
+
+extern int screenshoot;
 
 /**
 * \brief LoD, Level of details
@@ -64,5 +68,11 @@ void Display_InitGL();
 * \return void
 */
 void Display_SetViewport(int width, int height, float dx, float dy, float zoom);
+
+/**
+* \fn void screenshot_png(const char *filename, unsigned int width, unsigned int height, GLubyte **pixels, png_byte **png_bytes, png_byte ***png_rows)
+* \brief Takes a screenshoot (png format).
+*/
+void screenshot_png(const char *filename, unsigned int width, unsigned int height, GLubyte **pixels, png_byte **png_bytes, png_byte ***png_rows);
 
 #endif
