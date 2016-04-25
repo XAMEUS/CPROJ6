@@ -27,7 +27,7 @@ int Display_Application(int argc, char* argv[])
 
   // Create an application window with the following settings:
   window = SDL_CreateWindow(
-    "SDL2 - OpenGL",            // window title
+    "OSM Renderer",            // window title
     SDL_WINDOWPOS_UNDEFINED,    // initial x position
     SDL_WINDOWPOS_UNDEFINED,    // initial y position
     width,                      // width, in pixels

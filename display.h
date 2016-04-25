@@ -10,7 +10,7 @@
 */
 
 #ifndef __DISPLAY_H__
-#define __DISPLAY_H__extern float detail;
+#define __DISPLAY_H__extern GLdouble detail;
 
 
 
@@ -36,19 +36,19 @@ extern int detail;
 /**
 * \brief minlon value
 */
-extern float min_x;
+extern GLdouble min_x;
 /**
 * \brief maxlon value
 */
-extern float max_x;
+extern GLdouble max_x;
 /**
 * \brief minlat value
 */
-extern float min_y;
+extern GLdouble min_y;
 /**
 * \brief maxlat value
 */
-extern float max_y;
+extern GLdouble max_y;
 
 /**
 * \fn void Display_InitGL()
@@ -58,7 +58,7 @@ extern float max_y;
 void Display_InitGL();
 
 /**
-* \fn void Display_SetViewport(int width, int height, float dx, float dy, float zoom);
+* \fn void Display_SetViewport(int width, int height, GLdouble dx, GLdouble dy, GLdouble zoom);
 * \brief Sets up the camera (proportion, position, zoom).
 * \param width width of the window available for drawing.
 * \param height height of the window available for drawing.
@@ -67,7 +67,7 @@ void Display_InitGL();
 * \param zoom zoom factor.
 * \return void
 */
-void Display_SetViewport(int width, int height, float dx, float dy, float zoom);
+void Display_SetViewport(int width, int height, GLdouble dx, GLdouble dy, float zoom);
 
 /**
 * \fn void screenshot_png(const char *filename, unsigned int width, unsigned int height, GLubyte **pixels, png_byte **png_bytes, png_byte ***png_rows)
