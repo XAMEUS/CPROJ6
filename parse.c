@@ -304,7 +304,7 @@ way xmlGetWay(xmlNodePtr cur){
         w.historic=1;
 
 
-      }else if(strcmp(k,"landuse")==0){
+      }else */if(strcmp(k,"landuse")==0){
         w.hidden=1;
         if(strcmp(v,"allotments")==0){
           w.landuse=LANDUSE_ALLOTMENTS;
@@ -359,9 +359,8 @@ way xmlGetWay(xmlNodePtr cur){
         }else if(strcmp(v,"vineyard")==0){
           w.landuse=LANDUSE_VINEYARD;
         }
-
-
-      }else*/ if(strcmp(k,"leisure")==0){
+      }
+      if(strcmp(k,"leisure")==0){
         w.hidden=0;
         if(strcmp(v,"adult_gaming_center")==0){
           w.leisure=LEISURE_ADULT_GAMING_CENTRE;

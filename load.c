@@ -144,7 +144,7 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
 
   if(w.highway==HIGHWAY_PEDESTRIAN){
     HIGHWAY_PEDESTRIAN_COLOR;
-    pos=HIGHWAY_PEDESTRIAN_DEPTH;
+    pos=HIGHWAY_PEDESTRIAN_DEPTH-0.1f;
     border =2;
   }else if(w.building!=0){
     BUILDING_COLOR;
@@ -156,6 +156,12 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
   }else if(w.waterway!=0){
     WATERWAY_COLOR;
     pos=WATERWAY_DEPTH;
+  }else if(w.leisure!=0){
+    color_leisure(w.leisure);
+    pos=LEISURE_DEPTH;
+  }else if(w.landuse!=0){
+    color_landuse(w.landuse);
+    pos=LEISURE_DEPTH;
   }else if(w.inner!=0){
     border=1;
     glColor3f(0.80f, 0.85f, 0.81f);
@@ -164,9 +170,6 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
     }else{
       pos=BACKGROUND_DEPTH;
     }
-  }else if(w.leisure!=0){
-    color_leisure(w.leisure);
-    pos=LEISURE_DEPTH;
   }else if(w.bridge){
     BRIDGE_COLOR;
     pos=BRIDGE_DEPTH;
