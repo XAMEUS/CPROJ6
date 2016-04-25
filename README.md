@@ -4,7 +4,7 @@
 OpenStreetMap  (OSM)  est  un  projet  qui  a  pour  but  de
 constituer une base de données géographiques libre du monde
 (permettant  par  exemple  de  créer  des  cartes  sous  licence
-libre), en utilisant le systèe GPS et d'autres données libres.
+libre), en utilisant le système GPS et d'autres données libres.
 
 Le but de ce projet est de réaliser en trinôme un logiciel de rendu (renderer)
 de cartes OpenStreetMap en C. Il est capable de lire un fragment de carte
