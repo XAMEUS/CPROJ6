@@ -19,24 +19,28 @@ GLuint tessellate(way w){
     i = i+1;
   }
   GLuint r;
-  if(w.highway!=0){
-    r = Tess_Obj_Way(w.size,points,w);
-  }else if(w.building!=0){
-    r = Tess_Obj_Area(w.size,points,w);
-  }else if(w.natural!=0 && w.natural<100){
-    r = Tess_Obj_Area(w.size,points,w);
-  }else if(w.natural!=0 && w.natural>100 && w.natural<200){
-    r = Tess_Obj_Way(w.size,points,w);
-  }else if(w.inner!=0){
-    r = Tess_Obj_Area(w.size,points,w);
-  }else if(w.leisure!=0 && w.leisure<100){
-    r = Tess_Obj_Area(w.size,points,w);
-  }else if(w.leisure!=0 && w.leisure>100 && w.leisure<200){
-    r = Tess_Obj_Way(w.size,points,w);
-  }else if(w.waterway!=0 && w.waterway<100){
-    r = Tess_Obj_Area(w.size,points,w);
-  }else if(w.waterway!=0 && w.waterway>100 && w.waterway<200){
-    r = Tess_Obj_Way(w.size,points,w);
+  if(w.hidden==0){
+    if(w.area!=0){
+      r = Tess_Obj_Area(w.size,points,w);
+    }else if(w.highway!=0){
+      r = Tess_Obj_Way(w.size,points,w);
+    }else if(w.building!=0){
+      r = Tess_Obj_Area(w.size,points,w);
+    }else if(w.natural!=0 && w.natural<100){
+      r = Tess_Obj_Area(w.size,points,w);
+    }else if(w.natural!=0 && w.natural>100 && w.natural<200){
+      r = Tess_Obj_Way(w.size,points,w);
+    }else if(w.inner!=0){
+      r = Tess_Obj_Area(w.size,points,w);
+    }else if(w.leisure!=0 && w.leisure<100){
+      r = Tess_Obj_Area(w.size,points,w);
+    }else if(w.leisure!=0 && w.leisure>100 && w.leisure<200){
+      r = Tess_Obj_Way(w.size,points,w);
+    }else if(w.waterway!=0 && w.waterway<100){
+      r = Tess_Obj_Area(w.size,points,w);
+    }else if(w.waterway!=0 && w.waterway>100 && w.waterway<200){
+      r = Tess_Obj_Way(w.size,points,w);
+    }
   }
   /*
   if(w.aerialway!=0){
@@ -138,7 +142,11 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
   int border = 0;
   glNewList(id, GL_COMPILE);
 
-  if(w.building!=0){
+  if(w.highway==HIGHWAY_PEDESTRIAN){
+    HIGHWAY_PEDESTRIAN_COLOR;
+    pos=HIGHWAY_PEDESTRIAN_DEPTH;
+    border =2;
+  }else if(w.building!=0){
     BUILDING_COLOR;
     pos = BUILDING_DEPTH;
     border = 1;
@@ -159,6 +167,9 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
   }else if(w.leisure!=0){
     color_leisure(w.leisure);
     pos=LEISURE_DEPTH;
+  }else if(w.bridge){
+    BRIDGE_COLOR;
+    pos=BRIDGE_DEPTH;
   }
 
   int i;
@@ -173,9 +184,11 @@ GLuint Tess_Obj_Area(int c, GLdouble **points, way w)
 
   gluDeleteTess(tess);
 
-
   if(border){
     glColor3f(0.3f,0.2f,0.2f);
+    if(border == 2){
+      glColor3f(0.0f,0.0f,0.0f);
+    }
     Draw_Lines(c, points,1.0f,pos);
   }
 
@@ -342,9 +355,6 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
       pos = HIGHWAY_PEDESTRIAN_DEPTH;
       break;
     }
-    if(w.bridge!=0){
-      pos=BRIDGE_DEPTH;
-    }
   }else if(w.natural!=0){
       color_natural(w.natural);
       size = 1.0f;
@@ -379,6 +389,9 @@ GLuint Tess_Obj_Way(int c, GLdouble **points,way w)
           size = WATERWAY_DITCH_SIZE;
           break;
       }
+  }else if(w.bridge){
+    BRIDGE_COLOR;
+    pos=BRIDGE_DEPTH;
   }
 
   glEnable(GL_POLYGON_OFFSET_FILL);

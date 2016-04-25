@@ -161,7 +161,11 @@ way xmlGetWay(xmlNodePtr cur){
     if(xmlStrcmp(cur->name,(const xmlChar *)"tag")==0){
       char *k = (char*)xmlGetProp(cur,(const xmlChar*)"k");
       char *v = (char*)xmlGetProp(cur,(const xmlChar*)"v");
-
+      if(strcmp(k,"area")==0){
+        if(strcmp(v,"yes")==0){
+          w.area = 1;
+        }
+      }
       /*
       if(strcmp(k,"aerialway")==0){
         w.aerialway=1;
